@@ -1,0 +1,1 @@
+# eggslist-frontend
