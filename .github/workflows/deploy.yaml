@@ -10,7 +10,7 @@ jobs:
       - name: Build with yarn
         run: |
           yarn install
-          yarn build
+          yarn generate
 
       - name: Upload to Digital Ocean spaces
         uses: BetaHuhn/do-spaces-action@v2
