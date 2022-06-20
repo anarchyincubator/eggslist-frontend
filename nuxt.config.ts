@@ -40,6 +40,9 @@ export default defineNuxtConfig({
   // build
   build: {
     transpile: ['@headlessui/vue'],
+    build: {
+      extractCSS: true
+    }
   },
 
   // build modules
