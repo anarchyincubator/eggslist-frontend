@@ -20,5 +20,5 @@ jobs:
           space_name: ${{ secrets.DO_SPACE_NAME }}
           space_region: ${{ secrets.DO_SPACE_REGION }}
           source: dist
-          out_dir: frontend_build
+          out_dir: /
 
