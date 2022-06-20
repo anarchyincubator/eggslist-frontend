@@ -21,3 +21,4 @@ jobs:
           space_region: ${{ secrets.DO_SPACE_REGION }}
           source: dist
           out_dir: frontend_build
+
