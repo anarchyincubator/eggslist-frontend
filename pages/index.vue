@@ -26,6 +26,12 @@ const leadingsText = computed(() => [
     endColor: '#F9CB28',
     delay: 4,
   },
+  {
+    text: 'CI/CD YOOOOOOOOO',
+    startColor: '#FF4D4D',
+    endColor: '#F9CB28',
+    delay: 5,
+  }
 ])
 </script>
 
