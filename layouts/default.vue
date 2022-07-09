@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <NavBar v-if="!isMobile" />
+    <TheNavbar v-if="!isMobile" />
     <MobileNavbar v-else />
     <section class="default-layout-root">
       <nuxt />
@@ -8,13 +8,13 @@
   </div>
 </template>
 <script>
-import NavBar from "@/components/page/Navbar.vue";
-import MobileNavbar from "@/components/page/MobileNavbar.vue";
+import TheNavbar from "~/components/page/TheNavbar.vue";
+import MobileNavbar from "~/components/page/MobileNavbar.vue";
 
 export default {
   name: "DefaultLayout",
   components: {
-    NavBar,
+    TheNavbar,
     MobileNavbar,
   },
   transition: {

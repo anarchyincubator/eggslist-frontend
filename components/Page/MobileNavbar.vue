@@ -2,7 +2,7 @@
   <div class="navbar-container" :class="{ 'navbar-container--opened': opened }">
     <div class="navbar-container__top">
       <img src="@/assets/images/icons/logo_dark.svg" />
-      <Hamburger v-model="opened" />
+      <TheHamburger v-model="opened" />
     </div>
     <div v-if="opened" class="navbar-container-opened">
       <nuxt-link class="ceil menu-1" to="/market"> Market </nuxt-link>
@@ -21,27 +21,27 @@
         <img src="@/assets/images/avatar_mock.png" alt="" />
         <span class="menu-1"> Anna</span>
       </div>
-      <custom-button theme="primary" class="navbar-container__button button-2">
+      <CustomButton theme="primary" class="navbar-container__button button-2">
         Post A Listing
-      </custom-button>
-      <custom-button
+      </CustomButton>
+      <CustomButton
         v-if="isAuthenticated"
         theme="secondary"
         class="navbar-container__button--bottom button-2"
       >
         Write a Story
-      </custom-button>
+      </CustomButton>
     </div>
   </div>
 </template>
 
 <script>
-import CustomButton from "../common/CustomButton";
-import Hamburger from "../common/Hamburger";
+import CustomButton from "../common/CustomButton.vue";
+import TheHamburger from "../Common/TheHamburger.vue";
 export default {
   name: "MobileNavbar",
   components: {
-    Hamburger,
+    TheHamburger,
     CustomButton,
   },
   data() {

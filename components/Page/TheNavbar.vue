@@ -26,8 +26,8 @@
           <img src="@/assets/images/avatar_mock.png" alt="" />
         </div>
       </div>
-      <custom-button theme="primary" class="button-2">
-        Post A Listing</custom-button
+      <CustomButton theme="primary" class="button-2">
+        Post A Listing</CustomButton
       >
     </div>
   </header>
