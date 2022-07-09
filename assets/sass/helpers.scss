@@ -1,0 +1,136 @@
+// transitions
+@import  './variables.scss';
+@import  './responsive.scss';
+
+body,
+* {
+  font-family: $font-default !important;
+}
+
+h1 {
+  font-size: vw(60px);
+  line-height: vw(64px);
+  font-weight: 600;
+  margin: 0;
+
+  @include layout-mobile() {
+    font-size: mvw(34px);
+    line-height: mvw(40px);
+  }
+
+}
+h2 {
+  font-size: vw(42px);
+  line-height: vw(48px);
+  font-weight: 600;
+  margin: 0;
+
+  @include layout-mobile() {
+    font-size: mvw(24px);
+    line-height: mvw(32px);
+  }
+}
+
+h3 {
+  font-size: vw(26px);
+  line-height: vw(32px);
+  font-weight: 600;
+  margin: 0;
+
+  @include layout-mobile() {
+    font-size: mvw(18px);
+    line-height: mvw(24px);
+  }
+}
+
+.body-1 {
+  font-size: vw(20px);
+  line-height: vw(32px);
+  font-weight: 400;
+  margin: 0;
+
+  @include layout-mobile() {
+    font-size: mvw(16px);
+    line-height: mvw(24px);
+  }
+}
+
+
+.menu-1 {
+  font-weight: 600;
+  font-size: vw(16px);
+  line-height: vw(24px);
+
+  @include layout-mobile() {
+    font-size: mvw(16px);
+    line-height: mvw(24px);
+  }
+}
+
+.button-2 {
+  font-size: vw(16px);
+  font-weight: bold;
+  line-height: vw(32px);
+
+  @include layout-mobile() {
+    font-size: mvw(16px);
+    line-height: mvw(32px);
+  }
+}
+
+.button-2 {
+  font-size: vw(14px);
+  font-weight: bold;
+  line-height: vw(16px);
+
+  @include layout-mobile() {
+    font-size: mvw(14px);
+    line-height: mvw(16px);
+  }
+}
+
+.page-container {
+  padding: 0 vw(195px);
+
+  @include layout-mobile() {
+    padding: 0 mvw(20px);
+  }
+
+}
+
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.page-enter-active {
+  transition: all 0.1s ease-out;
+}
+.page-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.page-enter-from,
+.page-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.layout-enter-active {
+  transition: all 0.1s ease-out;
+}
+.layout-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.layout-enter-from,
+.layout-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}

@@ -1,0 +1,25 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 100%;
+  background: $primary-white;
+  font-family: $font-default, sans-serif !important;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+
+  *, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: inherit;
+    vertical-align: baseline;
+  }
+}
+
+body.desktop .q-focus-helper:before, body.desktop .q-focus-helper:after {
+  transition: none !important;
+}
