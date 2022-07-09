@@ -13,7 +13,7 @@ export default {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
-
+  target: "static",
   css: ["@/assets/sass/main.scss"],
   styleResources: {
     scss: [
