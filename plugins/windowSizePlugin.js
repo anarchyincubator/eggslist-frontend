@@ -5,11 +5,11 @@ export default ({ store }) => {
     windowWidth: window.innerWidth,
   });
 
-  const handleResize = throttle(({ target }) => {
+  const handleResize = ({ target }) => {
     store.commit("changeWindowSize", {
       windowWidth: target.innerWidth,
     });
-  }, 100);
+  };
 
   window.addEventListener("resize", handleResize);
 };

@@ -1,11 +1,14 @@
 <template>
-  <div class="page-container">
-    <TheNavbar v-if="!isMobile" />
-    <MobileNavbar v-else />
-    <section class="default-layout-root">
-      <nuxt />
-    </section>
-  </div>
+  <client-only>
+    <div class="page-container">
+      <TheNavbar v-if="!isMobile" />
+      <MobileNavbar v-else />
+
+      <section class="default-layout-root">
+        <nuxt />
+      </section>
+    </div>
+  </client-only>
 </template>
 <script>
 import TheNavbar from "~/components/Page/TheNavbar.vue";
