@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import TheNavbar from "~/components/page/TheNavbar.vue";
-import MobileNavbar from "~/components/page/MobileNavbar.vue";
+import TheNavbar from "~/components/Page/TheNavbar.vue";
+import MobileNavbar from "~/components/Page/MobileNavbar.vue";
 
 export default {
   name: "DefaultLayout",
