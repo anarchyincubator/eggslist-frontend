@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import CustomButton from "~/components/common/CustomButton.vue";
+import CustomButton from "~/components/Common/CustomButton.vue";
 
 export default {
   name: "NavBar",

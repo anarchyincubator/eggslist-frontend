@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import CustomButton from "../common/CustomButton.vue";
+import CustomButton from "../Common/CustomButton.vue";
 import TheHamburger from "../Common/TheHamburger.vue";
 export default {
   name: "MobileNavbar",
