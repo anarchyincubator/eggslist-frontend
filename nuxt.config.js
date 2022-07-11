@@ -24,7 +24,10 @@ export default {
   },
   loading: { color: "transparent" },
 
-  plugins: [{ src: "~/plugins/windowSizePlugin.js", mode: "client" }],
+  plugins: [
+    { src: "~/plugins/windowSizePlugin.js", mode: "client" },
+    { src: "~/plugins/v-outside.js", mode: "client" },
+  ],
 
   components: true,
 

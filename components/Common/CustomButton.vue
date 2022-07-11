@@ -78,13 +78,10 @@ export default {
   background: none;
   border: none;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: background 0.75s;
-
-  &__content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   &__loader {
     display: inline-block;

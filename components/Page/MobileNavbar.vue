@@ -73,6 +73,7 @@ $padding-bottom: mvw(32px);
 }
 .navbar-container {
   position: fixed;
+  z-index: 50;
   background: $primary-white;
   margin-left: -$padding-left-mobile;
   padding: 0 $padding-left-mobile;

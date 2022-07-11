@@ -55,6 +55,16 @@ h3 {
   }
 }
 
+.subtitle-1 {
+  font-size: vw(16px);
+  font-weight: 400;
+  line-height: vw(24px);
+
+  @include layout-mobile() {
+    font-size: mvw(16px);
+    line-height: mvw(24px);
+  }
+}
 
 .menu-1 {
   font-weight: 600;

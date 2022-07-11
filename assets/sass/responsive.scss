@@ -6,6 +6,11 @@
     @content;
   }
 }
+@mixin layout-not-mob {
+  @media (min-width: $breakpoint-mobile) {
+    @content;
+  }
+}
 
 @function vw($px-vw, $base-vw: 1680px) {
   @return  math.div(($px-vw * 100vw), $base-vw);
