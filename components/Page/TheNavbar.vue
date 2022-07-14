@@ -60,6 +60,7 @@ export default {
   width: calc(100% - #{$padding-left} * 2);
   display: flex;
   position: fixed;
+  z-index: 500;
   align-items: center;
 
   &__logo {
