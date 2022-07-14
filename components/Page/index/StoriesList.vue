@@ -11,6 +11,7 @@
         :title="story.title"
         class="list__item"
         :category="story.category"
+        :background="story.image"
         :author-config="story.author"
       ></BlogItem>
     </div>

@@ -65,6 +65,7 @@ export default {
     height: vw(270px);
     border-radius: vw(30px);
     margin-bottom: vw(24px);
+    background-size: cover;
     background-color: $neutral-70;
     @include layout-mobile() {
       width: mvw(280px);

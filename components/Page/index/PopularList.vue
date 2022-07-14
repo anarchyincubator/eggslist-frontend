@@ -15,6 +15,7 @@
                 :title="product.title"
                 :price="product.price"
                 class="swiper-slide"
+                :background="product.image"
                 :author-config="product.seller"
               ></CardItem>
             </div>
