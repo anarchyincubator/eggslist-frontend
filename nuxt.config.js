@@ -53,7 +53,7 @@ export default {
   proxy: {
     "/api": {
       target: "http://206.189.255.110:8000/api",
-      changeOrigin: false,
+      changeOrigin: true,
       pathRewrite: {
         "^/api": "/",
       },

@@ -4,7 +4,7 @@ export const getters = {};
 export const actions = {
   async getProducts({ commit }) {
     try {
-      const response = await this.$axios.$get("/store/products");
+      const response = await this.$axios.$get("/store/products/popular");
       return { products: response?.results.map(Product) };
     } catch (e) {}
   },
