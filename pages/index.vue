@@ -18,10 +18,6 @@ import PopularList from "../components/Page/index/PopularList";
 import StoriesList from "../components/Page/index/StoriesList";
 export default {
   components: { StoriesList, PopularList, CategoriesList, SearchCity },
-  async asyncData({ store }) {
-    const { products } = await store.dispatch("products/getProducts");
-    return { products };
-  },
   data() {
     return {
       stories: [
@@ -47,6 +43,7 @@ export default {
           },
         },
       ],
+      products: [],
     };
   },
   async fetch() {
@@ -56,6 +53,11 @@ export default {
     categories() {
       return this.$store.getters["categories/categories"];
     },
+  },
+
+  async mounted() {
+    const { products } = await this.$store.dispatch("products/getProducts");
+    this.products.push(...products);
   },
 };
 </script>
