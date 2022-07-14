@@ -45,6 +45,9 @@ export default {
     "@nuxtjs/proxy",
   ],
   axios: {
+    baseURL: "http://206.189.255.110:8000/api",
+  },
+  /* axios: {
     prefix: "/api",
     proxy: true,
     proxyHeaders: false,
@@ -58,7 +61,7 @@ export default {
         "^/api": "/",
       },
     },
-  },
+  },*/
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
