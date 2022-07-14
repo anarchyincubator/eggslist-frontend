@@ -118,6 +118,16 @@ h4 {
   }
 
 }
+.search-clear {
+  .input-container__input {
+    @include layout-not-mob() {
+      border: none !important;
+      display: flex;
+      align-items: center;
+      font-size: vw(20px);
+    }
+  }
+}
 
 a, a:hover, a:focus, a:active {
   text-decoration: none;

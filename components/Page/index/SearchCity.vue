@@ -2,7 +2,7 @@
   <div class="search-city">
     <SearchComponent
       v-model="listing"
-      class="search-city__first"
+      class="search-city__first search-clear"
       :result="resultListing"
       placeholder="Search for listings"
       @changeInput="handleChangeListing"
@@ -17,7 +17,7 @@
     <div class="search-city__line" />
     <SearchComponent
       v-model="city"
-      class="search-city__second"
+      class="search-city__second search-clear"
       :result="resultCity"
       placeholder="Search city"
       @changeInput="handleChangeCity"
@@ -141,18 +141,6 @@ export default {
   @include layout-mobile() {
     width: mvw(18px);
     left: mvw(18px);
-  }
-}
-</style>
-<style lang="scss">
-.search-city {
-  .input-container__input {
-    @include layout-not-mob() {
-      border: none !important;
-      display: flex;
-      align-items: center;
-      font-size: vw(20px);
-    }
   }
 }
 </style>
