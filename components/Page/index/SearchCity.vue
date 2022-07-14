@@ -58,10 +58,16 @@ export default {
   },
   mounted() {
     this.city = "Boston, MA";
+    this.getCity();
   },
   methods: {
     handleChangeListing(val) {
       this.resultListing = ["One", "Second", "Third", "Third", "Third"];
+    },
+    async getCity() {
+      try {
+        const res = await this.$axios.$get("/users/locate?r=true");
+      } catch (e) {}
     },
     handleChangeCity(val) {
       this.resultCity = ["One", "Second", "Third", "Third", "Third"];

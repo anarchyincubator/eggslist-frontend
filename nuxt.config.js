@@ -27,6 +27,7 @@ export default {
   plugins: [
     { src: "~/plugins/windowSizePlugin.js", mode: "client" },
     { src: "~/plugins/v-outside.js", mode: "client" },
+    { src: "~/plugins/vueSwiper.js", mode: "client" },
   ],
 
   components: true,
@@ -41,7 +42,23 @@ export default {
     "@nuxtjs/axios",
     "cookie-universal-nuxt",
     "@nuxtjs/style-resources",
+    "@nuxtjs/proxy",
   ],
+  axios: {
+    prefix: "/api",
+    proxy: true,
+    proxyHeaders: false,
+    credentials: true,
+  },
+  proxy: {
+    "/api": {
+      target: "http://206.189.255.110:8000/api",
+      changeOrigin: false,
+      pathRewrite: {
+        "^/api": "/",
+      },
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
