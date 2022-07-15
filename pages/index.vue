@@ -46,9 +46,6 @@ export default {
       products: [],
     };
   },
-  async fetch() {
-    await this.$store.dispatch("categories/getCategories");
-  },
   computed: {
     categories() {
       return this.$store.getters["categories/categories"];
@@ -56,6 +53,7 @@ export default {
   },
 
   async mounted() {
+    await this.$store.dispatch("categories/getCategories");
     const { products } = await this.$store.dispatch("products/getProducts");
     this.products.push(...products);
   },
