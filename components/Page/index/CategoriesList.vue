@@ -42,6 +42,9 @@ export default {
     &--element {
       margin-right: vw(30px);
       cursor: pointer;
+      &:nth-child(4) {
+        margin-right: 0;
+      }
       div {
         border-radius: vw(30px);
         width: vw(300px);
