@@ -7,7 +7,7 @@
     </div>
     <CategoriesList :categories="categories"></CategoriesList>
     <PopularList class="page__popular" :products="products"></PopularList>
-    <StoriesList class="page__stories" :stories="stories"></StoriesList>
+    <StoriesList class="page__stories" :stories="blogs"></StoriesList>
   </div>
 </template>
 
@@ -20,29 +20,7 @@ export default {
   components: { StoriesList, PopularList, CategoriesList, SearchCity },
   data() {
     return {
-      stories: [
-        {
-          title: "Blog post title goes right here across two lines",
-          category: "Category",
-          author: {
-            firstName: "Name",
-          },
-        },
-        {
-          title: "Blog s",
-          category: "Category",
-          author: {
-            firstName: "Name",
-          },
-        },
-        {
-          title: "Blog post title goes right here across two lines",
-          category: "Category",
-          author: {
-            firstName: "Name",
-          },
-        },
-      ],
+      blogs: [],
       products: [],
     };
   },
@@ -55,6 +33,8 @@ export default {
   async mounted() {
     await this.$store.dispatch("categories/getCategories");
     const { products } = await this.$store.dispatch("products/getProducts");
+    const { blogs } = await this.$store.dispatch("blog/getBlogs");
+    this.blogs.push(...blogs);
     this.products.push(...products);
   },
 };

@@ -67,11 +67,15 @@ export default {
 .list {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   @include layout-mobile() {
     flex-direction: column;
   }
   &__item {
     margin-right: vw(30px);
+    &:nth-child(3) {
+      margin-right: 0;
+    }
     @include layout-mobile() {
       margin: 0 0 mvw(48px) 0;
     }
