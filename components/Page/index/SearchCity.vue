@@ -65,7 +65,7 @@ export default {
     },
     async getCity() {
       try {
-        const res = await this.$axios.$get("/users/locate");
+        const res = await this.$axios.$get("/users/locate?r=true");
 
         if (res?.city) {
           this.city = `${res.city}, ${res.state}`;
