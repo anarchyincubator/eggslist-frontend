@@ -57,7 +57,6 @@ export default {
     };
   },
   mounted() {
-    this.city = "Boston, MA";
     this.getCity();
   },
   methods: {
@@ -66,7 +65,11 @@ export default {
     },
     async getCity() {
       try {
-        const res = await this.$axios.$get("/users/locate?r=true");
+        const res = await this.$axios.$get("/users/locate");
+
+        if (res?.city) {
+          this.city = `${res.city}, ${res.state}`;
+        }
       } catch (e) {}
     },
     handleChangeCity(val) {
