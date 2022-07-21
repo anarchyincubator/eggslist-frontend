@@ -45,7 +45,7 @@ export default {
     "@nuxtjs/proxy",
   ],
   axios: {
-    baseURL: "http://206.189.255.110:8000/api",
+    baseURL: "https://eggslist-dev.ferialabs.com/api",
   },
   /* axios: {
     prefix: "/api",
