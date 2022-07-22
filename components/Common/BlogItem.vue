@@ -55,9 +55,11 @@ export default {
   h3 {
     margin: vw(16px) 0;
     height: vw(64px);
+    width: vw(410px);
     @include layout-mobile() {
       height: mvw(50px);
       margin: mvw(8px) 0 mvw(16px) 0;
+      width: mvw(280px);
     }
   }
   &__background {
