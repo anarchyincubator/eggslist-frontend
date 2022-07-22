@@ -1,40 +1,46 @@
 <template>
   <client-only>
-    <div class="popular">
-      <div class="popular__top">
-        <h2>Popular Near You</h2>
-        <nuxt-link to="/">View All Listings</nuxt-link>
-      </div>
+    <div class="quotes">
       <div class="list">
         <div v-swiper:swiperInstance="swiperOptionsInner" class="fake">
           <div v-swiper:swiperInstance="swiperOptionsInner" class="list-cards">
             <div class="swiper-wrapper">
-              <CardItem
-                v-for="(product, index) in products"
+              <div
+                v-for="(quote, index) in quotes"
                 :key="index"
-                :title="product.title"
-                :price="product.price"
-                class="swiper-slide"
-                :background="product.image"
-                :author-config="product.seller"
-              ></CardItem>
+                class="quotes__item swiper-slide"
+              >
+                <img src="@/assets/images/icons/quote.svg" />
+                <div class="quotes__title">
+                  {{ quote.body }}
+                </div>
+                <div class="quotes__author">{{ quote.author }}</div>
+              </div>
             </div>
           </div>
         </div>
         <div class="list__buttons">
           <div
             class="list__buttons__button list__buttons__button--left"
-            :class="{ 'list__buttons__button-not': isInButtonLeft }"
             @click="slidePrev"
           >
-            <img slot="content" src="@/assets/images/icons/arrow_left.svg" />
+            <svg viewBox="0 0 12 18" fill="none">
+              <path
+                d="M11.115 2.115L9 0L0 9L9 18L11.115 15.885L4.245 9L11.115 2.115Z"
+                fill="#FEF3E1"
+              />
+            </svg>
           </div>
           <div
             class="list__buttons__button list__buttons__button--right"
-            :class="{ 'list__buttons__button-not': isInButtonRight }"
             @click="slideNext"
           >
-            <img slot="content" src="@/assets/images/icons/arrow_right.svg" />
+            <svg viewBox="0 0 12 18" fill="none">
+              <path
+                d="M3.00001 0L0.88501 2.115L7.75501 9L0.88501 15.885L3.00001 18L12 9L3.00001 0Z"
+                fill="#FEF3E1"
+              />
+            </svg>
           </div>
         </div>
       </div>
@@ -43,12 +49,10 @@
 </template>
 
 <script>
-import CardItem from "../../Common/CardItem";
 export default {
-  name: "PopularList",
-  components: { CardItem },
+  name: "QuotesList",
   props: {
-    products: {
+    quotes: {
       type: Array,
       default: () => [],
     },
@@ -56,54 +60,30 @@ export default {
   data() {
     return {
       mounted: false,
-      isInButtonRight: false,
-      isInButtonLeft: false,
       swiperOptionsInner: {
-        slidesPerView: 2,
+        slidesPerView: 1,
         spaceBetween: 20,
         allowTouchMove: false,
+        loop: true,
         breakpoints: {
           729: {
-            slidesPerView: 4,
+            slidesPerView: 1,
             spaceBetween: 0,
           },
         },
       },
     };
   },
-  computed: {
-    isMobile() {
-      return this.$store.getters["isMobile"];
-    },
-  },
-  watch: {
-    products() {
-      this.reCalcStyle();
-    },
-  },
 
-  mounted() {
-    setTimeout(() => {
-      this.reCalcStyle();
-    }, 100);
-  },
   methods: {
-    reCalcStyle() {
-      this.isInButtonRight =
-        this.swiperInstance.realIndex + (this.isMobile ? 2 : 4) >=
-        this.products.length;
-      this.isInButtonLeft = this.swiperInstance.realIndex === 0;
-    },
     slidePrev() {
       if (this.swiperInstance) {
         this.swiperInstance.slidePrev();
-        this.reCalcStyle();
       }
     },
     slideNext() {
       if (this.swiperInstance) {
         this.swiperInstance.slideNext();
-        this.reCalcStyle();
       }
     },
   },
@@ -111,35 +91,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popular {
-  &__top {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: vw(48px);
-    h2 {
-      margin-right: auto;
-    }
-    a {
-      font-size: vw(16px);
-      line-height: vw(24px);
-      padding-bottom: vw(1px);
-      font-weight: 600;
-      border-bottom: 2px solid $primary-marigold;
-      height: min-content;
-      &:hover {
-        opacity: 0.75;
-      }
-      @include layout-mobile() {
-        font-size: mvw(16px);
-        line-height: mvw(24px);
-        padding-bottom: mvw(1px);
-        margin-top: mvw(16px);
-      }
-    }
+.quotes {
+  margin-top: vw(130px);
+  margin-bottom: vw(140px);
+  &__title {
+    font-style: italic;
+    font-size: vw(28px);
+    line-height: vw(40px);
+    text-align: center;
+    margin-top: vw(58px);
+    margin-bottom: vw(40px);
+    max-width: vw(850px);
     @include layout-mobile() {
-      flex-direction: column;
-      margin-bottom: mvw(32px);
+      margin: mvw(20px) 0;
+      max-width: 100%;
+      font-size: mvw(20px);
+      line-height: mvw(24px);
     }
+  }
+  &__item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: vw(25px);
+      @include layout-mobile() {
+        width: mvw(25px);
+      }
+    }
+  }
+  &__author {
+    font-size: vw(16px);
+    line-height: vw(24px);
+    font-weight: 500;
+    @include layout-mobile() {
+      font-size: mvw(14px);
+      line-height: mvw(16px);
+    }
+  }
+  @include layout-mobile() {
+    margin-top: mvw(30px);
+    margin-bottom: mvw(70px);
   }
 }
 .list {
@@ -151,7 +144,8 @@ export default {
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      border: 1px solid $primary-marigold;
+      user-select: none;
+      border: vw(1.5px) solid $primary-marigold;
       width: vw(48px);
       height: vw(48px);
       top: 40%;
@@ -163,7 +157,7 @@ export default {
           background: transparent;
         }
       }
-      img {
+      svg {
         height: vw(18px);
         @include layout-mobile() {
           height: mvw(18px);
@@ -197,10 +191,12 @@ export default {
         position: inherit;
         top: auto;
         transform: none;
+        border: mvw(1.5px) solid $primary-marigold;
       }
     }
     @include layout-mobile() {
       display: flex;
+      justify-content: center;
       margin-top: mvw(32px);
     }
   }

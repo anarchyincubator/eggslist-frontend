@@ -8,34 +8,53 @@
     <CategoriesList :categories="categories"></CategoriesList>
     <PopularList class="page__popular" :products="products"></PopularList>
     <StoriesList class="page__stories" :stories="blogs"></StoriesList>
+    <TheFooter
+      :is-additive="true"
+      :is-non-auth="!isAuthenticated"
+      :quotes="quotes"
+      class="page__footer"
+    />
   </div>
 </template>
 
 <script>
+import TheFooter from "../components/Page/TheFooter";
 import SearchCity from "../components/Page/index/SearchCity";
 import CategoriesList from "../components/Page/index/CategoriesList";
 import PopularList from "../components/Page/index/PopularList";
 import StoriesList from "../components/Page/index/StoriesList";
 export default {
-  components: { StoriesList, PopularList, CategoriesList, SearchCity },
+  components: {
+    StoriesList,
+    PopularList,
+    CategoriesList,
+    SearchCity,
+    TheFooter,
+  },
   data() {
     return {
       blogs: [],
       products: [],
+      quotes: [],
     };
   },
   computed: {
     categories() {
       return this.$store.getters["categories/categories"];
     },
+    isAuthenticated() {
+      return this.$store.getters["auth/isAuthenticated"];
+    },
   },
 
   async mounted() {
     await this.$store.dispatch("categories/getCategories");
-    const { products } = await this.$store.dispatch("products/getProducts");
     const { blogs } = await this.$store.dispatch("blog/getBlogs");
     this.blogs.push(...blogs);
+    const { products } = await this.$store.dispatch("products/getProducts");
     this.products.push(...products);
+    const { quotes } = await this.$store.dispatch("quotes/getQuotes");
+    this.quotes.push(...quotes);
   },
 };
 </script>

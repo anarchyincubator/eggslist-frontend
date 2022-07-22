@@ -12,6 +12,7 @@
       <span v-if="isLoading" class="button__loader" />
       <slot v-else />
     </span>
+    <slot name="add"></slot>
   </component>
 </template>
 

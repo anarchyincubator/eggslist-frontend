@@ -1,13 +1,13 @@
 <template>
-  <div class="page-container">
+  <div class="page-container" :class="{ 'page-container__index': isMainPage }">
     <client-only>
       <TheNavbar v-if="!isMobile" />
       <MobileNavbar v-else />
     </client-only>
     <section class="default-layout-root">
       <nuxt />
+      <TheFooter v-if="!isMainPage" class="page-container__footer" />
     </section>
-    <TheFooter class="page-container__footer" />
   </div>
 </template>
 <script>
@@ -25,9 +25,15 @@ export default {
   transition: {
     mode: "fade-enter",
   },
+  data() {
+    return {};
+  },
   computed: {
     isMobile() {
       return this.$store.getters.isMobile;
+    },
+    isMainPage() {
+      return this.$route.path === "/";
     },
   },
 };
@@ -37,6 +43,10 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  &__index {
+    //background-image: url("@/assets/images/pattern_white_main.jpg");
+    // background-size: 80%;
+  }
   &__footer {
     margin-top: auto;
   }

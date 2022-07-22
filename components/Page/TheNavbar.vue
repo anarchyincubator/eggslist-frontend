@@ -1,7 +1,7 @@
 <template>
-  <header class="navbar">
+  <header class="navbar" :class="{ navbar__scrolled: isUserScrolling }">
     <nuxt-link class="navbar__logo" to="/">
-      <img alt="logo" src="@/assets/images/icons/logo.svg" />
+      <img alt="logo" :src="logoLink" />
     </nuxt-link>
     <div class="navbar__links">
       <nuxt-link class="navbar__link menu-1" to="/market"> Market </nuxt-link>
@@ -34,6 +34,9 @@
 </template>
 
 <script>
+import logo from "@/assets/images/icons/logo.svg";
+import logoDark from "@/assets/images/icons/logo_dark.svg";
+import throttle from "lodash.throttle";
 import CustomButton from "~/components/Common/CustomButton.vue";
 
 export default {
@@ -41,28 +44,53 @@ export default {
   components: {
     CustomButton,
   },
+  data() {
+    return {
+      isUserScrolling: false,
+    };
+  },
   computed: {
     isAuthenticated() {
       return this.$store.getters["auth/isAuthenticated"];
     },
+    logoLink() {
+      return !this.isUserScrolling ? logo : logoDark;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     handleClickLogin() {
       this.$store.dispatch("auth/setToken", "3213131");
     },
+    handleScroll: throttle(function (e) {
+      this.isUserScrolling = window.scrollY > 0;
+    }, 100),
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .navbar {
-  margin-top: vw(18px);
-  width: calc(100% - #{$padding-left} * 2);
+  height: vw(64px);
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   position: fixed;
+  margin-left: -$padding-left;
+  padding: 0 $padding-left;
   z-index: 500;
   align-items: center;
-
+  color: $primary-cream;
+  transition: background-color 0.25s;
+  &__scrolled {
+    background-color: $primary-cream;
+    color: #282220;
+  }
   &__logo {
     width: vw(120px);
     margin-right: vw(48px);
@@ -79,7 +107,6 @@ export default {
     align-items: center;
     justify-content: center;
     margin-right: auto;
-    color: $primary-cream;
   }
   &__link {
     margin-right: vw(30px);
@@ -90,7 +117,6 @@ export default {
     &--login {
       margin-right: vw(24px);
       cursor: pointer;
-      color: $primary-cream;
     }
   }
   &__auth {
