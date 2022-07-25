@@ -3,7 +3,7 @@
     <div class="header-container">
       <h1>Find Farmers Near You</h1>
       <SearchCity class="header-container__search" />
-      <div class="header-container__bottom" />
+      <PatternTop class="header-container__bottom" />
     </div>
     <CategoriesList :categories="categories"></CategoriesList>
     <PopularList class="page__popular" :products="products"></PopularList>
@@ -23,8 +23,10 @@ import SearchCity from "../components/Page/index/SearchCity";
 import CategoriesList from "../components/Page/index/CategoriesList";
 import PopularList from "../components/Page/index/PopularList";
 import StoriesList from "../components/Page/index/StoriesList";
+import PatternTop from "../components/Page/index/PatternTop";
 export default {
   components: {
+    PatternTop,
     StoriesList,
     PopularList,
     CategoriesList,
@@ -67,7 +69,7 @@ export default {
     padding-bottom: vw(80px);
     width: 100vw;
     margin-left: vw(-195px);
-    margin-bottom: vw(100px);
+    margin-bottom: vw(50px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,6 +85,7 @@ export default {
     }
     &__search {
       width: vw(822px);
+      margin-bottom: vw(75px);
       @include layout-mobile() {
         width: 100%;
       }
@@ -90,12 +93,13 @@ export default {
     &__bottom {
       position: absolute;
       bottom: 0;
-      background-image: url("@/assets/images/header_bottom.png");
+      // background-image: url("@/assets/images/header_bottom.png");
       width: 100%;
       height: vw(75px);
       background-size: cover;
       @include layout-mobile() {
-        height: mvw(70px);
+        height: mvw(60px);
+        transform: scale(2);
       }
     }
     @include layout-mobile() {

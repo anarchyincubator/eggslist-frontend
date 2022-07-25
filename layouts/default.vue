@@ -44,8 +44,8 @@ export default {
   display: flex;
   flex-direction: column;
   &__index {
-    //background-image: url("@/assets/images/pattern_white_main.jpg");
-    // background-size: 80%;
+    background-image: url("@/assets/images/noise.jpg");
+    background-size: 50%;
   }
   &__footer {
     margin-top: auto;

@@ -12,9 +12,10 @@
               <CardItem
                 v-for="(product, index) in products"
                 :key="index"
+                class="swiper-slide list__slide"
+                :style="{ 'margin-right': marginRight }"
                 :title="product.title"
                 :price="product.price"
-                class="swiper-slide"
                 :background="product.image"
                 :author-config="product.seller"
               ></CardItem>
@@ -58,14 +59,16 @@ export default {
       mounted: false,
       isInButtonRight: false,
       isInButtonLeft: false,
+      resistance: false,
+      observer: true,
+      observeParents: true,
       swiperOptionsInner: {
         slidesPerView: 2,
-        spaceBetween: 20,
         allowTouchMove: false,
         breakpoints: {
           729: {
             slidesPerView: 4,
-            spaceBetween: 0,
+            spaceBetween: 30,
           },
         },
       },
@@ -75,19 +78,32 @@ export default {
     isMobile() {
       return this.$store.getters["isMobile"];
     },
+    windowWidth() {
+      return this.$store.state.windowWidth;
+    },
+    marginRight() {
+      return `${(30 * this.windowWidth) / 1680}px`;
+    },
   },
   watch: {
     products() {
       this.reCalcStyle();
+    },
+    windowWidth() {
+      this.reCalcWidth();
     },
   },
 
   mounted() {
     setTimeout(() => {
       this.reCalcStyle();
+      this.reCalcWidth();
     }, 100);
   },
   methods: {
+    reCalcWidth() {
+      this.swiperInstance.params.spaceBetween = (30 * this.windowWidth) / 1680;
+    },
     reCalcStyle() {
       this.isInButtonRight =
         this.swiperInstance.realIndex + (this.isMobile ? 2 : 4) >=
