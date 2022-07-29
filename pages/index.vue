@@ -2,7 +2,7 @@
   <div class="page">
     <div class="header-container">
       <h1>Find Farmers Near You</h1>
-      <SearchCity class="header-container__search" />
+      <SearchCity :cities="cities" class="header-container__search" />
       <PatternTop class="header-container__bottom" />
     </div>
     <CategoriesList :categories="categories"></CategoriesList>
@@ -44,6 +44,9 @@ export default {
     categories() {
       return this.$store.getters["categories/categories"];
     },
+    cities() {
+      return this.$store.getters["cities"];
+    },
     isAuthenticated() {
       return this.$store.getters["auth/isAuthenticated"];
     },
@@ -57,6 +60,7 @@ export default {
     this.products.push(...products);
     const { quotes } = await this.$store.dispatch("quotes/getQuotes");
     this.quotes.push(...quotes);
+    await this.$store.dispatch("getCities");
   },
 };
 </script>
@@ -99,7 +103,8 @@ export default {
       background-size: cover;
       @include layout-mobile() {
         height: mvw(60px);
-        transform: scale(2);
+        bottom: mvw(-20px);
+        transform: scale(1);
       }
     }
     @include layout-mobile() {

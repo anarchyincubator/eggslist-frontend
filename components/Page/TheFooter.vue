@@ -1,63 +1,68 @@
 <template>
-  <footer class="footer">
-    <div v-if="isAdditive" class="footer__additive">
-      <img src="@/assets/images/footer_up.png" class="footer__additive--back" />
-      <FooterQuotes :quotes="quotes"></FooterQuotes>
-      <div v-if="isNonAuth" class="footer__additive__join">
-        <div>
-          <h2>Join The Movement!</h2>
-          <div class="body-1">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.
+  <client-only>
+    <footer class="footer">
+      <div v-if="isAdditive" class="footer__additive">
+        <img
+          src="@/assets/images/footer_up.png"
+          class="footer__additive--back"
+        />
+        <FooterQuotes :quotes="quotes"></FooterQuotes>
+        <div v-if="isNonAuth" class="footer__additive__join">
+          <div>
+            <h2>Join The Movement!</h2>
+            <div class="body-1">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.
+            </div>
+          </div>
+          <CustomButton class="footer__additive__join--button" theme="primary">
+            Get Started
+            <img slot="add" src="@/assets/images/icons/arrow-forward.svg" />
+          </CustomButton>
+        </div>
+      </div>
+      <div class="footer__top">
+        <img class="footer__logo" src="@/assets/images/icons/logo.svg" />
+        <div class="footer__top-center">
+          <div class="footer__top-center--first">
+            <p>Market</p>
+            <p>About</p>
+            <p>Our stories</p>
+          </div>
+          <div class="footer__top-center--second">
+            <p>Account</p>
+            <p>Contact us</p>
           </div>
         </div>
-        <CustomButton class="footer__additive__join--button" theme="primary">
-          Get Started
-          <img slot="add" src="@/assets/images/icons/arrow-forward.svg" />
-        </CustomButton>
-      </div>
-    </div>
-    <div class="footer__top">
-      <img class="footer__logo" src="@/assets/images/icons/logo.svg" />
-      <div class="footer__top-center">
-        <div class="footer__top-center--first">
-          <p>Market</p>
-          <p>About</p>
-          <p>Our stories</p>
-        </div>
-        <div class="footer__top-center--second">
-          <p>Account</p>
-          <p>Contact us</p>
-        </div>
-      </div>
-      <div class="footer__top-icons">
-        <div class="footer__top--icon">
-          <img
-            src="@/assets/images/icons/social-fb.svg"
-            @click="handleShareClick"
-          />
-        </div>
-        <div class="footer__top--icon">
-          <img
-            src="@/assets/images/icons/social-tw.svg"
-            @click="handleShareClick"
-          />
-        </div>
-        <div class="footer__top--icon">
-          <img
-            src="@/assets/images/icons/social-inst.svg"
-            @click="handleShareClick"
-          />
+        <div class="footer__top-icons">
+          <div class="footer__top--icon">
+            <img
+              src="@/assets/images/icons/social-fb.svg"
+              @click="handleShareClick"
+            />
+          </div>
+          <div class="footer__top--icon">
+            <img
+              src="@/assets/images/icons/social-tw.svg"
+              @click="handleShareClick"
+            />
+          </div>
+          <div class="footer__top--icon">
+            <img
+              src="@/assets/images/icons/social-inst.svg"
+              @click="handleShareClick"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="footer__bottom">
-      <span>© 2022 Eggslist. All rights reserved.</span>
-      <div class="footer__bottom-right">
-        <span>Terms of Service</span>
-        <span>Privacy Policy</span>
+      <div class="footer__bottom">
+        <span>© 2022 Eggslist. All rights reserved.</span>
+        <div class="footer__bottom-right">
+          <span>Terms of Service</span>
+          <span>Privacy Policy</span>
+        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
+  </client-only>
 </template>
 
 <script>

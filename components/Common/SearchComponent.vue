@@ -3,12 +3,16 @@
     <CustomInput
       v-model="inputData"
       :placeholder="placeholder"
+      :padding-default="false"
       @focus="handleFocus"
     >
       <slot class="search-container__icon" name="icon"></slot>
     </CustomInput>
 
-    <div v-if="isOpened" class="search-container__results">
+    <div
+      v-if="isOpened && result && result.length !== 0"
+      class="search-container__results"
+    >
       <div
         v-for="(ceil, index) in result"
         :key="index"
@@ -38,6 +42,10 @@ export default {
       default: () => [],
     },
     placeholder: {
+      type: String,
+      default: "",
+    },
+    noText: {
       type: String,
       default: "",
     },
@@ -110,7 +118,7 @@ export default {
     overflow: scroll;
     &--ceil {
       width: 100%;
-      height: vw(40px);
+      min-height: vw(40px);
       padding: vw(8px) vw(12px);
       box-sizing: border-box;
       transition: 0.25s background-color;
@@ -120,7 +128,7 @@ export default {
         background-color: #d5bb91;
       }
       @include layout-mobile() {
-        height: mvw(40px);
+        min-height: mvw(40px);
         padding: mvw(8px) mvw(12px);
       }
     }

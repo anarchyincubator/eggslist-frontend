@@ -4,6 +4,9 @@
       <TheNavbar v-if="!isMobile" />
       <MobileNavbar v-else />
     </client-only>
+    <transition name="fade">
+      <AuthComponent v-if="isAuthComponent"></AuthComponent>
+    </transition>
     <section class="default-layout-root">
       <nuxt />
       <TheFooter v-if="!isMainPage" class="page-container__footer" />
@@ -14,10 +17,12 @@
 import TheNavbar from "~/components/Page/TheNavbar.vue";
 import MobileNavbar from "~/components/Page/MobileNavbar.vue";
 import TheFooter from "../components/Page/TheFooter";
+import AuthComponent from "../components/Auth/AuthComponent";
 
 export default {
   name: "DefaultLayout",
   components: {
+    AuthComponent,
     TheFooter,
     TheNavbar,
     MobileNavbar,
@@ -25,15 +30,15 @@ export default {
   transition: {
     mode: "fade-enter",
   },
-  data() {
-    return {};
-  },
   computed: {
     isMobile() {
       return this.$store.getters.isMobile;
     },
     isMainPage() {
       return this.$route.path === "/";
+    },
+    isAuthComponent() {
+      return this.$store.state.authComponentShow;
     },
   },
 };

@@ -2,7 +2,7 @@
   <div class="stories">
     <div class="stories__top">
       <h2>Featured Stories</h2>
-      <nuxt-link to="/">View All Listings</nuxt-link>
+      <nuxt-link tabindex="-1" to="/">View All Listings</nuxt-link>
     </div>
     <div class="list">
       <BlogItem

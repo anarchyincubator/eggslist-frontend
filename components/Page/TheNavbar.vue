@@ -59,13 +59,15 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+    this.handleScroll();
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     handleClickLogin() {
-      this.$store.dispatch("auth/setToken", "3213131");
+      // this.$store.dispatch("auth/setToken", "3213131");
+      this.$store.commit("setAuthComponent", true);
     },
     handleScroll: throttle(function (e) {
       this.isUserScrolling = window.scrollY > 0;

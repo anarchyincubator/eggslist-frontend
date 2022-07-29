@@ -28,6 +28,8 @@ export default {
     { src: "~/plugins/windowSizePlugin.js", mode: "client" },
     { src: "~/plugins/v-outside.js", mode: "client" },
     { src: "~/plugins/vueSwiper.js", mode: "client" },
+    { src: "~/plugins/v-scroll-lock.js", mode: "client" },
+    { src: "~/plugins/nuxtClientInit.js", mode: "client" },
   ],
 
   components: true,
