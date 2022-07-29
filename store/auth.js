@@ -20,6 +20,20 @@ export const actions = {
       }
     });
   },
+  register({ dispatch }, user) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$post("/users/sign-up", user);
+        this.$cookies.set("JWT-token", response.access);
+        await dispatch("setToken", response.access);
+        await dispatch("user/getUserData", {}, { root: true });
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
   setToken({ commit }, token) {
     this.$axios.setToken(token, "Bearer");
     commit("setToken", token);

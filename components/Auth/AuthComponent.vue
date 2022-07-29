@@ -76,7 +76,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 10000;
   &__content {
     position: absolute;
     transform: translate(-50%, -50%);

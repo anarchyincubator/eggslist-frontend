@@ -7,14 +7,39 @@
     </div>
     <h3 class="reg__h3">Sign up with email</h3>
     <div class="reg__form">
-      <custom-input tabindex="0">
+      <custom-input
+        v-model="login"
+        :is-in-valid="Boolean(errorLogin)"
+        :error-text="errorLogin"
+        tabindex="0"
+        @focus="handleFocusLogin"
+      >
         <label slot="label">Email<strong>*</strong></label>
       </custom-input>
-      <custom-input type="password" class="reg__form--password" tabindex="1">
+      <custom-input v-model="firstName" class="reg__form--first" tabindex="1">
+        <label slot="label"
+          >First name (or the name of the farm)<strong>*</strong></label
+        >
+      </custom-input>
+      <custom-input
+        v-model="password"
+        :type="isShowPass ? 'password' : 'text'"
+        :is-in-valid="Boolean(errorPassword)"
+        :error-text="errorPassword"
+        :icon="visibilityIcon"
+        class="reg__form--password"
+        tabindex="2"
+        @focus="handleFocusPassword"
+        @clickIcon="handleShowPassword"
+      >
         <label slot="label">Password<strong>*</strong></label>
       </custom-input>
       <div class="reg__form--forgot button-2">Forgot Password?</div>
-      <custom-button class="reg__form--button" tabindex="2" theme="primary"
+      <custom-button
+        class="reg__form--button"
+        tab-index="3"
+        theme="primary"
+        @click="submitLogin"
         >Create account</custom-button
       >
     </div>
@@ -30,15 +55,88 @@
 </template>
 
 <script>
+import visibilityIcon from "@/assets/images/icons/visibility.svg";
 import CustomInput from "../Common/CustomInput";
 import CustomButton from "../Common/CustomButton";
 export default {
   name: "RegView",
   components: { CustomButton, CustomInput },
   emits: ["loginClick"],
+  data() {
+    return {
+      login: "",
+      password: "",
+      firstName: "",
+      isShowPass: true,
+      errorLogin: null,
+      errorPassword: null,
+      visibilityIcon,
+    };
+  },
   methods: {
     handleLoginClick() {
       this.$emit("loginClick");
+    },
+    validatePasswordField(password) {
+      this.errorPassword = null;
+      if (!password) {
+        this.errorPassword = "The password is required";
+        return false;
+      }
+      if (password.length <= 7) {
+        this.errorPassword = "Password must be more than 7 symbols";
+        return false;
+      }
+
+      this.errorPassword = null;
+      return true;
+    },
+    validateLoginField(email) {
+      this.errorLogin = null;
+
+      let re = /\S+@\S+\.\S+/;
+      if (!email) {
+        this.errorLogin = "The login is required";
+        return false;
+      }
+      if (!re.test(email)) {
+        this.errorLogin = "Email is not valid";
+        return false;
+      }
+
+      this.errorLogin = null;
+      return true;
+    },
+    validateLogin() {
+      let value = true;
+
+      value &= this.validateLoginField(this.login);
+      value &= this.validatePasswordField(this.password);
+
+      return value;
+    },
+    handleFocusLogin() {
+      this.errorLogin = null;
+    },
+    handleShowPassword() {
+      this.isShowPass = !this.isShowPass;
+    },
+    handleFocusPassword() {
+      this.errorPassword = null;
+    },
+    async submitLogin() {
+      if (!this.validateLogin()) return;
+
+      try {
+        await this.$store.dispatch("auth/register", {
+          email: this.login,
+          first_name: this.firstName,
+          password: this.password,
+        });
+        this.$store.commit("setAuthComponent", false);
+      } catch (e) {
+        this.errorLogin = e.data?.detail;
+      }
     },
   },
 };
@@ -102,8 +200,14 @@ export default {
         height: mvw(48px);
       }
     }
+    &--first {
+      margin: vw(24px) 0 vw(10px) 0;
+      @include layout-mobile() {
+        margin: mvw(20px) 0 mvw(20px) 0;
+      }
+    }
     &--password {
-      margin: vw(24px) 0 vw(16px) 0;
+      margin: vw(28px) 0 vw(32px) 0;
       @include layout-mobile() {
         margin: mvw(20px) 0 mvw(20px) 0;
       }
