@@ -10,13 +10,27 @@ export const actions = {
     return new Promise(async (resolve, reject) => {
       let response;
       try {
-        response = await this.$axios.$post("auth/login", user);
-        this.$cookies.set("JWT-token", response.meta.token);
-        await dispatch("setToken", response.meta.token);
-        await dispatch("user/setUserData", response.data, { root: true });
+        response = await this.$axios.$post("/users/sign-in", user);
+        this.$cookies.set("JWT-token", response.access);
+        await dispatch("setToken", response.access);
+        await dispatch("user/getUserData", {}, { root: true });
         await resolve(response);
       } catch (e) {
-        reject(e.response.status);
+        reject(e.response);
+      }
+    });
+  },
+  register({ dispatch }, user) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$post("/users/sign-up", user);
+        this.$cookies.set("JWT-token", response.access);
+        await dispatch("setToken", response.access);
+        await dispatch("user/getUserData", {}, { root: true });
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
       }
     });
   },
@@ -25,6 +39,7 @@ export const actions = {
     commit("setToken", token);
   },
   clearToken({ commit }) {
+    this.$axios.setToken(false);
     this.$cookies.remove("JWT-token");
     commit("clearToken");
   },

@@ -1,17 +1,40 @@
 <template>
   <div class="input-container">
+    <div class="input-container__label">
+      <slot name="label"> </slot>
+    </div>
     <slot></slot>
-    <input
-      v-model="inputData"
-      class="input-container__input subtitle-1"
-      :placeholder="placeholder"
-      @focus="$emit('focus')"
-      @keyup.enter="$emit('enter')"
-    />
+    <div class="input-container__main">
+      <input
+        ref="input"
+        v-model="inputData"
+        :type="type"
+        class="input-container__input subtitle-1"
+        :class="{
+          'input-container__input--default': paddingDefault,
+          'input-container__input--error': isInValid,
+        }"
+        :placeholder="placeholder"
+        @focus="handleEmit"
+        @keyup.enter="$emit('enter')"
+      />
+      <div
+        v-if="icon || isInValid"
+        class="input-container__icon"
+        :class="{ 'input-container__icon--error': isInValid }"
+        @click="$emit('clickIcon')"
+      >
+        <img :src="additiveIcon" />
+      </div>
+    </div>
+    <div v-if="isInValid" class="input-container__error">
+      {{ errorText || "Field is required" }}
+    </div>
   </div>
 </template>
 
 <script>
+import errorIcon from "@/assets/images/icons/error.svg";
 export default {
   name: "CustomInput",
   props: {
@@ -19,11 +42,32 @@ export default {
       type: String,
       default: "",
     },
+    paddingDefault: {
+      type: Boolean,
+      default: true,
+    },
     placeholder: {
       type: String,
       default: "",
     },
+    type: {
+      type: String,
+      default: "text",
+    },
+    icon: {
+      type: String,
+      default: "",
+    },
+    isInValid: {
+      type: Boolean,
+      default: false,
+    },
+    errorText: {
+      type: String,
+      default: "",
+    },
   },
+  emits: ["clickIcon", "enter"],
   computed: {
     inputData: {
       get() {
@@ -33,6 +77,18 @@ export default {
         this.$emit("input", value);
       },
     },
+    additiveIcon() {
+      return this.isInValid ? errorIcon : this.icon;
+    },
+  },
+  methods: {
+    handleEmit() {
+      setTimeout(() => {
+        this.$refs.input.selectionStart = 10000;
+        this.$refs.input.selectionEnd = 10000;
+      }, 0);
+      this.$emit("focus");
+    },
   },
 };
 </script>
@@ -41,16 +97,40 @@ export default {
 .input-container {
   position: relative;
   width: 100%;
+  &__label {
+    font-size: vw(14px);
+    line-height: vw(24px);
+    color: $primary-black;
+    @include layout-mobile() {
+      font-size: mvw(14px);
+      line-height: mvw(24px);
+    }
+  }
+  &__main {
+    position: relative;
+  }
   &__input {
     width: 100%;
-    border: 2px solid #d5bb91;
+    border: 1.5px solid #d5bb91;
     border-radius: vw(12px);
     opacity: 1;
     padding: vw(12px) vw(32px);
     background: $primary-white;
     color: $primary-black;
     box-sizing: border-box;
-
+    @include layout-mobile() {
+      border-radius: mvw(12px);
+      padding: mvw(15px) 0 mvw(15px) mvw(47px);
+    }
+    &--default {
+      padding: vw(12px);
+      @include layout-mobile() {
+        padding: mvw(10px) mvw(10px);
+      }
+    }
+    &--error {
+      border: 1.5px solid $error;
+    }
     &::placeholder {
       color: #605139;
     }
@@ -59,16 +139,67 @@ export default {
       outline: 0 !important;
       outline-offset: 0 !important;
       background: $primary-white;
-      border: 2px solid $primary-marigold;
+      border: 1.5px solid $primary-marigold;
 
       & + label {
         opacity: 0;
       }
     }
+  }
+  &__error {
+    position: absolute;
+    bottom: vw(-24px);
+    left: vw(14px);
+    color: #b00020;
+    font-size: vw(12px);
     @include layout-mobile() {
-      border-radius: mvw(12px);
-      padding: mvw(15px) 0 mvw(15px) mvw(47px);
+      bottom: mvw(-20px);
+      left: vw(14px);
+      font-size: mvw(12px);
     }
+  }
+  &__icon {
+    position: absolute;
+    right: vw(20px);
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    &--error {
+      cursor: default;
+      animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    img {
+      width: vw(20px);
+      @include layout-mobile() {
+        width: mvw(20px);
+      }
+    }
+    @include layout-mobile() {
+      right: mvw(20px);
+    }
+  }
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate(-1px, -50%);
+  }
+
+  20%,
+  80% {
+    transform: translate(2px, -50%);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate(-2px, -50%);
+  }
+
+  40%,
+  60% {
+    transform: translate(2px, -50%);
   }
 }
 </style>

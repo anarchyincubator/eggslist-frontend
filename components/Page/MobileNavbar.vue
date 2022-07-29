@@ -1,5 +1,9 @@
 <template>
-  <div class="navbar-container" :class="{ 'navbar-container--opened': opened }">
+  <div
+    v-scroll-lock="opened"
+    class="navbar-container"
+    :class="{ 'navbar-container--opened': opened }"
+  >
     <div class="navbar-container__top">
       <img src="@/assets/images/icons/logo_dark.svg" />
       <TheHamburger v-model="opened" />
@@ -19,7 +23,7 @@
       <div v-if="isAuthenticated" class="navbar-container__line" />
       <div v-if="isAuthenticated" class="navbar-container__avatar ceil">
         <img src="@/assets/images/avatar_mock.png" alt="" />
-        <span class="menu-1"> Anna</span>
+        <span class="menu-1"> {{ user.firstName }}</span>
       </div>
       <CustomButton theme="primary" class="navbar-container__button button-2">
         Post A Listing
@@ -53,10 +57,14 @@ export default {
     isAuthenticated() {
       return this.$store.getters["auth/isAuthenticated"];
     },
+    user() {
+      return this.$store.getters["user/user"];
+    },
   },
   methods: {
     handleClickLogin() {
-      this.$store.dispatch("auth/setToken", "3213131");
+      this.$store.commit("setAuthComponent", true);
+      this.opened = false;
     },
   },
 };

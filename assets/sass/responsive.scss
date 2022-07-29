@@ -11,6 +11,13 @@
     @content;
   }
 }
+@function vh($px-vw, $base-vh: 1000px) {
+  @return  math.div(($px-vw * 100vh), $base-vh);
+}
+
+@function scale($base-vh: 1000px) {
+  @return  math.div(100vh, $base-vh);
+}
 
 @function vw($px-vw, $base-vw: 1680px) {
   @return  math.div(($px-vw * 100vw), $base-vw);

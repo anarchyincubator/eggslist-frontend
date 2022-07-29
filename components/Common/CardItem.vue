@@ -5,6 +5,16 @@
     <div class="body-1">${{ price }}</div>
     <div v-if="authorConfig" class="card__author">
       <span>{{ authorConfig.firstName }}</span>
+      <img
+        v-if="authorConfig.isVerified"
+        class="card__author--verified"
+        src="@/assets/images/icons/verified.svg"
+      />
+      <img
+        v-if="authorConfig.isFavourite"
+        class="card__author--like"
+        src="@/assets/images/icons/like_dark.svg"
+      />
     </div>
   </div>
 </template>
@@ -75,6 +85,15 @@ export default {
       font-size: vw(14px);
       line-height: vw(16px);
       font-weight: 600;
+    }
+    img {
+      margin-left: vw(5px);
+    }
+    &--verified {
+      width: vw(15px);
+    }
+    &--like {
+      width: vw(13px);
     }
     @include layout-mobile() {
       display: none;

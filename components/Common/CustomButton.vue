@@ -2,10 +2,7 @@
   <component
     :is="type"
     :class="classes"
-    :href="href"
-    rel="noopener"
-    target="_blank"
-    :to="to"
+    :tabindex="tabIndex"
     @click="handleClick"
   >
     <span class="button__text">
@@ -20,17 +17,13 @@
 export default {
   name: "CustomButton",
   props: {
-    href: {
-      type: String,
-      default: null,
-    },
-    to: {
-      type: String,
-      default: null,
-    },
     isDisabled: {
       type: Boolean,
       default: false,
+    },
+    tabIndex: {
+      type: String,
+      default: "-1",
     },
     theme: {
       type: String,
@@ -122,8 +115,10 @@ export default {
     border: 1.5px solid #282220;
     border-radius: vw(12px);
     text-align: center;
+    font-size: vw(16px);
 
     @include layout-mobile() {
+      font-size: mvw(14px);
       width: 100%;
       border-radius: mvw(12px);
       padding: mvw(16px) mvw(90px);
@@ -135,6 +130,7 @@ export default {
 
     .button__text {
       text-align: center;
+      display: flex;
       color: $primary-black;
     }
   }
