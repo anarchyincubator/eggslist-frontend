@@ -138,7 +138,7 @@ export default {
         this.loadingReg = false;
         this.$store.commit("setAuthComponent", false);
       } catch (e) {
-        this.errorLogin = e.data?.detail;
+        this.errorLogin = e.data?.email;
         this.loadingReg = false;
       }
     },
