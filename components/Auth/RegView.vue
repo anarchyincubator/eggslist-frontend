@@ -39,6 +39,7 @@
         class="reg__form--button"
         tab-index="3"
         theme="primary"
+        :is-loading="loadingReg"
         @click="submitLogin"
         >Create account</custom-button
       >
@@ -69,6 +70,7 @@ export default {
       firstName: "",
       isShowPass: true,
       errorLogin: null,
+      loadingReg: false,
       errorPassword: null,
       visibilityIcon,
     };
@@ -126,16 +128,18 @@ export default {
     },
     async submitLogin() {
       if (!this.validateLogin()) return;
-
+      this.loadingReg = true;
       try {
         await this.$store.dispatch("auth/register", {
           email: this.login,
           first_name: this.firstName,
           password: this.password,
         });
+        this.loadingReg = false;
         this.$store.commit("setAuthComponent", false);
       } catch (e) {
         this.errorLogin = e.data?.detail;
+        this.loadingReg = false;
       }
     },
   },

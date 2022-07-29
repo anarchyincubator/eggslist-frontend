@@ -80,11 +80,9 @@ export default {
   &__loader {
     display: inline-block;
     width: vw(14px);
-    height: vw(14px);
 
     @include layout-mobile() {
       width: mvw(14px);
-      height: mvw(14px);
     }
   }
 
@@ -145,7 +143,7 @@ export default {
   &-disabled {
     pointer-events: none;
     cursor: not-allowed;
-    background: #201e1d;
+    background: $primary-marigold-dark;
   }
 }
 @keyframes loader-animation {

@@ -155,7 +155,7 @@ export default {
     @include layout-mobile() {
       bottom: mvw(-20px);
       left: vw(14px);
-      font-size: mvw(12px);
+      font-size: mvw(10px);
     }
   }
   &__icon {

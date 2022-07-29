@@ -34,6 +34,7 @@
         class="login__form--button"
         tab-index="2"
         theme="primary"
+        :is-loading="loadingLogin"
         @click="submitLogin"
         >Log In</custom-button
       >
@@ -64,6 +65,7 @@ export default {
       isShowPass: true,
       errorLogin: null,
       errorPassword: null,
+      loadingLogin: false,
       visibilityIcon,
     };
   },
@@ -120,14 +122,16 @@ export default {
     },
     async submitLogin() {
       if (!this.validateLogin()) return;
-
+      this.loadingLogin = true;
       try {
         await this.$store.dispatch("auth/login", {
           username: this.login,
           password: this.password,
         });
         this.$store.commit("setAuthComponent", false);
+        this.loadingLogin = false;
       } catch (e) {
+        this.loadingLogin = false;
         this.errorLogin = e.data?.detail;
       }
     },
