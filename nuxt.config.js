@@ -17,6 +17,8 @@ export default {
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
+  ssr: false,
+  analyze: true,
   target: "static",
   css: ["@/assets/sass/main.scss"],
   styleResources: {
