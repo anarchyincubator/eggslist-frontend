@@ -202,6 +202,7 @@ export default {
       height: vw(56px);
       @include layout-mobile() {
         height: mvw(48px);
+        padding: mvw(16px) mvw(40px);
       }
     }
     &--first {

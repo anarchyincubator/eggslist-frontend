@@ -25,8 +25,8 @@ export const actions = {
       let response;
       try {
         response = await this.$axios.$post("/users/sign-up", user);
-        this.$cookies.set("JWT-token", response.access);
-        await dispatch("setToken", response.access);
+        this.$cookies.set("JWT-token", response.access_token);
+        await dispatch("setToken", response.access_token);
         await dispatch("user/getUserData", {}, { root: true });
         await resolve(response);
       } catch (e) {
