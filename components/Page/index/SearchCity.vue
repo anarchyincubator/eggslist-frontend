@@ -37,7 +37,7 @@
       theme="primary"
       @click="handleFindListings"
     >
-      Find Fermers
+      Find Farmers
     </CustomButton>
   </div>
 </template>
