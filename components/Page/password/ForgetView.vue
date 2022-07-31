@@ -82,6 +82,9 @@ export default {
         await this.$store.dispatch("auth/requestPassword", this.login);
         this.loadingLogin = false;
         this.sent = true;
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
       } catch (e) {
         this.loadingLogin = false;
         this.errorLogin = e.data?.detail;

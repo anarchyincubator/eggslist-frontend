@@ -117,6 +117,9 @@ export default {
         });
         this.loading = false;
         this.sent = true;
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
       } catch (e) {
         this.loading = false;
         this.errorPassword = e.data?.code;
