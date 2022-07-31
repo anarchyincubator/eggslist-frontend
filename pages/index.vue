@@ -53,14 +53,19 @@ export default {
   },
 
   async mounted() {
-    await this.$store.dispatch("categories/getCategories");
-    const { blogs } = await this.$store.dispatch("blog/getBlogs");
-    this.blogs.push(...blogs);
-    const { products } = await this.$store.dispatch("products/getProducts");
-    this.products.push(...products);
-    const { quotes } = await this.$store.dispatch("quotes/getQuotes");
-    this.quotes.push(...quotes);
-    await this.$store.dispatch("getCities");
+    this.$store.dispatch("categories/getCategories");
+    this.$store.dispatch("getCities");
+    this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
+      this.blogs.push(...blogs);
+    });
+
+    this.$store.dispatch("products/getProducts").then(({ products }) => {
+      this.products.push(...products);
+    });
+
+    this.$store.dispatch("quotes/getQuotes").then(({ quotes }) => {
+      this.quotes.push(...quotes);
+    });
   },
 };
 </script>

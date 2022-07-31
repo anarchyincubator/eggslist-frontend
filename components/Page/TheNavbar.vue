@@ -23,7 +23,7 @@
           src="@/assets/images/icons/like.svg"
         />
         <div class="navbar__auth__avatar">
-          <img src="@/assets/images/avatar_mock.png" alt="" />
+          <img :src="user.avatar" alt="" />
         </div>
       </div>
       <CustomButton theme="primary" class="button-2">
@@ -52,6 +52,9 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters["auth/isAuthenticated"];
+    },
+    user() {
+      return this.$store.getters["user/user"];
     },
     logoLink() {
       return !this.isUserScrolling ? logo : logoDark;

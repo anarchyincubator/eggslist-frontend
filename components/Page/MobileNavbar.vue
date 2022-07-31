@@ -22,7 +22,7 @@
       <nuxt-link v-else class="ceil menu-1" to="">Favorite Farmers</nuxt-link>
       <div v-if="isAuthenticated" class="navbar-container__line" />
       <div v-if="isAuthenticated" class="navbar-container__avatar ceil">
-        <img src="@/assets/images/avatar_mock.png" alt="" />
+        <img :src="user.avatar" alt="" />
         <span class="menu-1"> {{ user.firstName }}</span>
       </div>
       <CustomButton theme="primary" class="navbar-container__button button-2">
