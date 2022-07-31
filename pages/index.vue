@@ -51,6 +51,11 @@ export default {
       return this.$store.getters["auth/isAuthenticated"];
     },
   },
+  created() {
+    if (this.$route.query.login) {
+      this.$store.commit("setAuthComponent", true);
+    }
+  },
 
   async mounted() {
     this.$store.dispatch("categories/getCategories");

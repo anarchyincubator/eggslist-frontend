@@ -1,14 +1,14 @@
 <template>
   <div class="page-container" :class="{ 'page-container__index': isMainPage }">
     <client-only>
-      <TheNavbar v-if="!isMobile" />
+      <TheNavbar v-if="!isMobile" :is-static="!isMainPage" />
       <MobileNavbar v-else />
     </client-only>
     <transition name="fade">
       <AuthComponent v-if="isAuthComponent"></AuthComponent>
     </transition>
     <section class="default-layout-root">
-      <nuxt />
+      <nuxt> </nuxt>
       <TheFooter v-if="!isMainPage" class="page-container__footer" />
     </section>
   </div>
@@ -47,6 +47,7 @@ export default {
 .page-container {
   min-height: 100vh;
   display: flex;
+  height: 1px;
   flex-direction: column;
   &__index {
     background-image: url("@/assets/images/noise.jpg");
@@ -55,5 +56,10 @@ export default {
   &__footer {
     margin-top: auto;
   }
+}
+.default-layout-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 </style>

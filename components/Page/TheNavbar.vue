@@ -1,5 +1,8 @@
 <template>
-  <header class="navbar" :class="{ navbar__scrolled: isUserScrolling }">
+  <header
+    class="navbar"
+    :class="{ navbar__scrolled: isUserScrolling || isStatic }"
+  >
     <nuxt-link class="navbar__logo" to="/">
       <img alt="logo" :src="logoLink" />
     </nuxt-link>
@@ -44,6 +47,12 @@ export default {
   components: {
     CustomButton,
   },
+  props: {
+    isStatic: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       isUserScrolling: false,
@@ -57,10 +66,12 @@ export default {
       return this.$store.getters["user/user"];
     },
     logoLink() {
-      return !this.isUserScrolling ? logo : logoDark;
+      return !this.isUserScrolling && !this.isStatic ? logo : logoDark;
     },
   },
   mounted() {
+    if (this.isStatic) return;
+
     window.addEventListener("scroll", this.handleScroll);
     this.handleScroll();
   },

@@ -1,11 +1,8 @@
 <template>
   <client-only>
     <footer class="footer">
+      <img src="@/assets/images/footer_up.png" class="footer__additive--back" />
       <div v-if="isAdditive" class="footer__additive">
-        <img
-          src="@/assets/images/footer_up.png"
-          class="footer__additive--back"
-        />
         <FooterQuotes :quotes="quotes"></FooterQuotes>
         <div v-if="isNonAuth" class="footer__additive__join">
           <div>

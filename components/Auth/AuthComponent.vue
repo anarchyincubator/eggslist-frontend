@@ -1,7 +1,11 @@
 <template>
   <div v-scroll-lock="true" class="auth-container">
     <div class="auth-container__content" :style="styleScale">
-      <LoginView v-if="isLogin" @regClick="handleRegClick"></LoginView>
+      <LoginView
+        v-if="isLogin"
+        @regClick="handleRegClick"
+        @forgetClick="handleForgetClick"
+      ></LoginView>
       <RegView v-else-if="isReg" @loginClick="handleLoginClick"></RegView>
       <img
         :src="closePath"
@@ -58,6 +62,9 @@ export default {
   methods: {
     handleRegClick() {
       this.stateAuth = "reg";
+    },
+    handleForgetClick() {
+      this.stateAuth = "forget";
     },
     handleLoginClick() {
       this.stateAuth = "login";
