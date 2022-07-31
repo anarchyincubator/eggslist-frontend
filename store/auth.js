@@ -20,6 +20,34 @@ export const actions = {
       }
     });
   },
+  async requestPassword({}, email) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const response = await this.$axios.$post(
+          "/users/password-reset-request",
+          { email }
+        );
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
+  async resetPassword({}, { code, password }) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const response = await this.$axios.$post(
+          "/users/password-reset-confirm",
+          { code, password }
+        );
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
   register({ dispatch }, user) {
     return new Promise(async (resolve, reject) => {
       let response;

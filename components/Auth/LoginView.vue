@@ -29,7 +29,9 @@
       >
         <label slot="label">Password<strong>*</strong></label>
       </custom-input>
-      <div class="login__form--forgot button-2">Forgot Password?</div>
+      <div class="login__form--forgot button-2" @click="handleForgetClick">
+        Forgot Password?
+      </div>
       <custom-button
         class="login__form--button"
         tab-index="2"
@@ -57,7 +59,7 @@ import CustomButton from "../Common/CustomButton";
 export default {
   name: "LoginView",
   components: { CustomButton, CustomInput },
-  emits: ["regClick"],
+  emits: ["regClick", "forgetClick"],
   data() {
     return {
       login: "",
@@ -72,6 +74,10 @@ export default {
   methods: {
     handleCreateClick() {
       this.$emit("regClick");
+    },
+    handleForgetClick() {
+      this.$store.commit("setAuthComponent", false);
+      window.open("/password-reset", "_blank");
     },
     validatePasswordField(password) {
       this.errorPassword = null;
