@@ -122,6 +122,7 @@ $padding-bottom: mvw(32px);
     display: flex;
     img {
       width: mvw(24px);
+      border-radius: 50%;
       height: mvw(24px);
       margin-right: mvw(8px);
     }

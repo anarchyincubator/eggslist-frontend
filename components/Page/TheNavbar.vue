@@ -136,9 +136,9 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
-
       border-radius: 50%;
       img {
+        border-radius: 50%;
         cursor: pointer;
         object-fit: contain;
         width: vw(32px);
