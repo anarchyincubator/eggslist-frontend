@@ -126,6 +126,9 @@ export default {
   }
   &__popular {
     margin: vw(128px) 0;
+    @include layout-mobile() {
+      margin: mvw(64px) 0;
+    }
   }
   &__stories {
     margin-bottom: vw(128px);

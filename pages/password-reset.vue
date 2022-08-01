@@ -18,7 +18,6 @@ export default {
   },
   created() {
     this.code = this.$route.query?.reset_code;
-    console.log(this.code);
   },
 };
 </script>

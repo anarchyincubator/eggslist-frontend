@@ -3,7 +3,7 @@
     <footer class="footer">
       <img src="@/assets/images/footer_up.png" class="footer__additive--back" />
       <div v-if="isAdditive" class="footer__additive">
-        <FooterQuotes :quotes="quotes"></FooterQuotes>
+        <FooterQuotes v-if="isNonAuth" :quotes="quotes"></FooterQuotes>
         <div v-if="isNonAuth" class="footer__additive__join">
           <div>
             <h2>Join The Movement!</h2>
@@ -130,7 +130,7 @@ export default {
       box-sizing: border-box;
       color: $primary-black;
       width: 100%;
-      background-image: url("@/assets/images/pattern_white.jpg");
+      background-image: url("@/assets/images/pattern_white.png");
       background-size: cover;
       border-radius: vw(12px);
       padding: vw(70px);

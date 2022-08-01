@@ -134,9 +134,10 @@ export default {
   }
   &__button {
     width: vw(166px);
-
+    font-size: vw(16px);
     @include layout-mobile() {
       width: 100%;
+      font-size: mvw(14px);
     }
   }
   @include layout-mobile() {

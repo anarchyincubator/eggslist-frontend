@@ -45,13 +45,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-container {
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
-  height: 1px;
   flex-direction: column;
-  &__index {
-    background-image: url("@/assets/images/noise.jpg");
-    background-size: 50%;
+  background-image: url("@/assets/images/noise.jpg");
+  background-size: 80%;
+  @include layout-mobile() {
+    background-size: contain;
   }
   &__footer {
     margin-top: auto;

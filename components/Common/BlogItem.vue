@@ -48,7 +48,8 @@ export default {
     line-height: vw(16px);
     margin-bottom: vw(16px);
     @include layout-mobile() {
-      font-size: mvw(16px);
+      font-size: mvw(12px);
+      font-weight: 600;
       line-height: mvw(16px);
     }
   }
@@ -58,7 +59,7 @@ export default {
     width: vw(410px);
     @include layout-mobile() {
       height: mvw(50px);
-      margin: mvw(8px) 0 mvw(16px) 0;
+      margin: mvw(8px) 0 0 0;
       width: mvw(280px);
     }
   }
@@ -83,6 +84,7 @@ export default {
     @include layout-mobile() {
       font-size: mvw(14px);
       line-height: mvw(16px);
+      margin-top: mvw(16px);
     }
   }
 }

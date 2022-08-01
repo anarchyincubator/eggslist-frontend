@@ -102,7 +102,9 @@ export default {
   },
   methods: {
     reCalcWidth() {
-      this.swiperInstance.params.spaceBetween = (30 * this.windowWidth) / 1680;
+      this.swiperInstance.params.spaceBetween = this.isMobile
+        ? (20 * this.windowWidth) / 320
+        : (30 * this.windowWidth) / 1680;
     },
     reCalcStyle() {
       this.isInButtonRight =
