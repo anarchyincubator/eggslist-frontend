@@ -19,7 +19,7 @@
         class="search-container__results--ceil subtitle-1"
         @click="handleClickCeil(ceil)"
       >
-        {{ ceil }}
+        {{ ceil.name }}
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: "",
+      required: true,
     },
     result: {
       type: Array,
@@ -50,6 +50,7 @@ export default {
       default: "",
     },
   },
+  emits: ["setupCity", "input", "changeInput"],
   data() {
     return {
       isOpened: false,
@@ -92,8 +93,9 @@ export default {
       this.isOpened = false;
     },
     handleClickCeil(ceil) {
-      this.searchValue = ceil;
-      this.inputData = ceil;
+      this.searchValue = ceil.name;
+      this.inputData = ceil.name;
+      this.$emit("setupCity", ceil);
       this.isOpened = false;
     },
   },

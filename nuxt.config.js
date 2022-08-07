@@ -40,7 +40,6 @@ export default {
 
   components: true,
 
-  buildModules: [],
   device: {
     refreshOnResize: true,
   },
@@ -51,6 +50,7 @@ export default {
     "cookie-universal-nuxt",
     "@nuxtjs/style-resources",
     "@nuxtjs/proxy",
+    ["vue-currency-input/nuxt", { globalOptions: { currency: "USD" } }],
   ],
   axios: {
     baseURL: "https://eggslist-dev.ferialabs.com/api",

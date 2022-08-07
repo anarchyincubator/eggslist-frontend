@@ -23,6 +23,7 @@
       :result="resultCity"
       placeholder="Search city"
       no-text="No cities"
+      @setupCity="handleEmitCity"
       @changeInput="handleChangeCity"
     >
       <img
@@ -46,7 +47,7 @@
 import SearchComponent from "@/components/Common/SearchComponent.vue";
 import CustomButton from "../../Common/CustomButton";
 import CustomInput from "../../Common/CustomInput";
-import _ from "lodash";
+
 export default {
   name: "SearchCity",
   components: {
@@ -72,25 +73,25 @@ export default {
   },
   methods: {
     async getCity() {
+      this.city = await this.$store.dispatch("getLocate");
+    },
+    async handleEmitCity(val) {
       try {
-        const res = await this.$axios.$get("/users/locate?r=true");
-
-        if (res?.city) {
-          this.city = `${res.city}, ${res.state}`;
-        }
+        await this.$store.dispatch("saveCity", val);
       } catch (e) {}
     },
-
     handleChangeCity(val) {
       this.resultCity = this.cities
         .filter(({ name }) => {
           return name.includes(val);
         })
         .map((obj) => {
-          return `${obj.name}, ${obj.state}`;
+          return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
         });
     },
-    handleFindListings() {},
+    handleFindListings() {
+      this.$router.push({ path: "catalog", query: { search: this.listing } });
+    },
   },
 };
 </script>

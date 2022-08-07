@@ -59,12 +59,11 @@ export default {
 
   async mounted() {
     this.$store.dispatch("categories/getCategories");
-    this.$store.dispatch("getCities");
     this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
       this.blogs.push(...blogs);
     });
 
-    this.$store.dispatch("products/getProducts").then(({ products }) => {
+    this.$store.dispatch("products/getProductsPopular").then(({ products }) => {
       this.products.push(...products);
     });
 

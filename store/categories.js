@@ -3,7 +3,8 @@ export const state = () => ({
   categories: [],
 });
 export const getters = {
-  categories: (state) => state.categories?.map(Category) || [],
+  categories: (state) =>
+    (state.categories && state.categories?.map(Category)) || [],
 };
 export const actions = {
   async getCategories({ commit }) {

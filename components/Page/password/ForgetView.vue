@@ -87,7 +87,11 @@ export default {
         }, 0);
       } catch (e) {
         this.loadingLogin = false;
-        this.errorLogin = e.data?.email;
+        if (e.data?.email?.length > 0) {
+          this.errorLogin = e.data?.email[0];
+        } else {
+          this.errorLogin = e.data?.email;
+        }
       }
     },
   },

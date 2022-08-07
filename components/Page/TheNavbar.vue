@@ -85,7 +85,7 @@ export default {
     },
     handleScroll: throttle(function (e) {
       this.isUserScrolling = window.scrollY > 0;
-    }, 100),
+    }, 50),
   },
 };
 </script>
