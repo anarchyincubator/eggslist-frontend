@@ -9,6 +9,7 @@
         ref="input"
         v-model="inputData"
         :type="type"
+        min="0"
         class="input-container__input subtitle-1"
         :class="{
           'input-container__input--default': paddingDefault,

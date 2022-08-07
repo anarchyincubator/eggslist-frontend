@@ -114,11 +114,11 @@ export default {
   }
   &__additive {
     &--back {
-      height: vw(175px);
+      height: vw(125px);
       margin-left: -$padding-left;
       width: 100%;
       position: absolute;
-      top: vw(-145px);
+      top: vw(-115px);
       z-index: 5;
       @include layout-mobile() {
         height: mvw(70px);

@@ -64,7 +64,7 @@ export default {
       this.blogs.push(...blogs);
     });
 
-    this.$store.dispatch("products/getProducts").then(({ products }) => {
+    this.$store.dispatch("products/getProductsPopular").then(({ products }) => {
       this.products.push(...products);
     });
 
