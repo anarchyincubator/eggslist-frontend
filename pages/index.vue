@@ -59,7 +59,6 @@ export default {
 
   async mounted() {
     this.$store.dispatch("categories/getCategories");
-    this.$store.dispatch("getCities");
     this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
       this.blogs.push(...blogs);
     });

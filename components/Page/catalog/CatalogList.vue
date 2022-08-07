@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog">
+  <div v-if="!loading" class="catalog">
     <CardItem
       v-for="(item, index) in items"
       :key="index"
@@ -10,17 +10,29 @@
       class="catalog__item"
     ></CardItem>
   </div>
+  <div v-else class="catalog">
+    <SkeletonCardItem
+      v-for="(item, index) in 5"
+      :key="index"
+      class="catalog__item"
+    ></SkeletonCardItem>
+  </div>
 </template>
 
 <script>
 import CardItem from "../../Common/CardItem";
+import SkeletonCardItem from "../../Common/SkeletonCardItem";
 export default {
   name: "CatalogList",
-  components: { CardItem },
+  components: { CardItem, SkeletonCardItem },
   props: {
     items: {
       type: Array,
       required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
 };

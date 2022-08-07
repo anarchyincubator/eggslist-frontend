@@ -16,6 +16,7 @@ export const actions = {
       return {
         products: response?.results.map(Product),
         totalPage: response?.total_pages,
+        count: response?.count,
       };
     } catch (e) {}
   },

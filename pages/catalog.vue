@@ -8,20 +8,24 @@
       <FiltersCatalog
         ref="filterCatalog"
         :categories="categories"
+        :query="startQuery"
         @reset="handleReset"
         @apply="handleApplyFilter"
       ></FiltersCatalog>
       <div class="page__container__right">
-        <div v-if="products.length > 0" class="page__container__results">
+        <div
+          v-if="products.length > 0 || loading"
+          class="page__container__results"
+        >
           <div class="page__container__lists">
-            <p>{{ products.length }} listings</p>
+            <p>{{ countItems }} listings</p>
             <DropdownSort
               v-model="sort"
               :variants="sortOptions"
               @input="changeSort"
             ></DropdownSort>
           </div>
-          <CatalogList :items="products"></CatalogList>
+          <CatalogList :loading="loading" :items="products"></CatalogList>
           <ThePagination
             v-model="currentPage"
             class="page__container__pagination"
@@ -70,6 +74,9 @@ export default {
     return {
       products: [],
       currentPage: 1,
+      countItems: 0,
+      loading: false,
+      startQuery: {},
       sort: "price",
       query: "",
       totalPage: 0,
@@ -87,11 +94,20 @@ export default {
     },
   },
   async mounted() {
-    this.$store.dispatch("categories/getCategories");
-    const resp = await this.$store.dispatch("products/getProducts");
+    this.loading = true;
+    this.$store.dispatch("categories/getCategories").then(() => {
+      if (this.$route.query) {
+        this.startQuery = this.$route.query;
+      }
+    });
+    const resp = await this.$store.dispatch(
+      "products/getProducts",
+      window.location.search.replace("?", "")
+    );
     this.totalPage = resp.totalPage;
-    console.log(resp);
+    this.countItems = resp.count;
     this.products.push(...resp?.products);
+    this.loading = false;
   },
   methods: {
     async handleResetButton() {
@@ -100,26 +116,31 @@ export default {
     },
     async handleReset() {
       this.query = "";
+      this.$router.push(`/catalog`);
       await this.getProducts();
     },
     async handleApplyFilter(val) {
       this.query = val;
+      this.$router.push(`/catalog?${val}`);
       await this.getProducts();
     },
     async changeSort(val) {
       await this.getProducts();
     },
     async getProducts() {
+      this.loading = true;
       const q =
         this.query + `&page=${this.currentPage}` + `&ordering=${this.sort}`;
       const resp = await this.$store.dispatch("products/getProducts", q);
       this.totalPage = resp.totalPage;
+      this.countItems = resp.count;
       this.products.splice(0, this.products.length);
       this.products.push(...resp?.products);
+      this.loading = false;
     },
     async handleChangePagination() {
-      await this.getProducts();
       window.scrollTo(0, 0);
+      await this.getProducts();
     },
   },
 };

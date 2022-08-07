@@ -54,6 +54,7 @@
       :result="resultCity"
       placeholder="Search city"
       no-text="No cities"
+      @setupCity="handleEmitCity"
       @changeInput="handleChangeCity"
     >
       <img
@@ -92,6 +93,12 @@ export default {
       type: Array,
       required: true,
     },
+    query: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -109,6 +116,12 @@ export default {
     };
   },
   computed: {
+    currentCity() {
+      return this.$store.getters["currentCity"];
+    },
+    cities() {
+      return this.$store.getters["cities"];
+    },
     selectedSlugs() {
       const obj = {};
       this.categories.forEach((item, index) => {
@@ -124,31 +137,68 @@ export default {
     },
   },
   watch: {
-    /*  priceMin: {
-      handler(val) {
-        if (Number(val) <= Number(this.priceMax)) return;
-
-        this.priceMax = val;
-      },
-    },
-    priceMax: {
-      handler(val) {
-        if (Number(val) >= Number(this.priceMin)) return;
-
-        this.priceMin = val;
-      },
-    },*/
     categories: {
       handler(val) {
         this.selects = val.map((item) => []);
       },
       deep: true,
     },
+    query: {
+      handler(val) {
+        this.getFromQuery();
+      },
+      deep: true,
+    },
+  },
+  mounted() {
+    this.getCity();
+  },
+  created() {
+    this.selects = this.categories.map((item) => []);
   },
   methods: {
+    async getCity() {
+      this.city = await this.$store.dispatch("getLocate");
+    },
     handleChangeSelect(val, index) {
       this.selects = this.categories.map((item) => []);
       this.selects[index] = val;
+    },
+    getFromQuery() {
+      if (this.query.subcategory) {
+        this.categories.forEach((item, ind) => {
+          item.subs.forEach(({ slug }, index) => {
+            if (
+              Array.isArray(this.query.subcategory) &&
+              this.query.subcategory.find((sl) => sl === slug)
+            ) {
+              this.$set(this.selects[ind], index, true);
+            }
+
+            if (
+              !Array.isArray(this.query.subcategory) &&
+              this.query.subcategory === slug
+            ) {
+              this.$set(this.selects[ind], index, true);
+            }
+          });
+        });
+      }
+      if (this.query.search) {
+        this.searchInput = this.query.search;
+      }
+      if (this.query.price_from) {
+        this.priceMin = Number(this.query.price_from);
+      }
+      if (this.query.price_to) {
+        this.priceMax = Number(this.query.price_to);
+      }
+      if (this.query.allow_pickup) {
+        this.pickupSelects[0] = true;
+      }
+      if (this.query.allow_delivery) {
+        this.pickupSelects[1] = true;
+      }
     },
     handleApplyFilter() {
       let query = "";
@@ -177,10 +227,22 @@ export default {
       }
       this.$emit("apply", query);
     },
-    handleChangeCity(val) {},
+    async handleEmitCity(val) {
+      try {
+        await this.$store.dispatch("saveCity", val);
+      } catch (e) {}
+    },
+    handleChangeCity(val) {
+      this.resultCity = this.cities
+        .filter(({ name }) => {
+          return name.includes(val);
+        })
+        .map((obj) => {
+          return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
+        });
+    },
     resetFilters() {
       this.selects = this.categories.map((item) => []);
-      this.city = "";
       this.searchInput = "";
       this.resultCity = [];
       this.pickupSelects = [];
@@ -195,6 +257,7 @@ export default {
 <style lang="scss" scoped>
 .filter-container {
   width: vw(300px);
+  flex-shrink: 0;
   &__header {
     display: flex;
     align-items: center;

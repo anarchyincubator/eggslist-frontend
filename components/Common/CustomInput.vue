@@ -56,7 +56,7 @@ export default {
   name: "CustomInput",
   props: {
     value: {
-      type: String,
+      type: null,
       default: "",
     },
     paddingDefault: {

@@ -3,7 +3,7 @@
     <div class="popular">
       <div class="popular__top">
         <h2>Popular Near You</h2>
-        <nuxt-link tabindex="-1" to="/">View All Listings</nuxt-link>
+        <nuxt-link tabindex="-1" to="/catalog">View All Listings</nuxt-link>
       </div>
       <div class="list">
         <div v-swiper:swiperInstance="swiperOptionsInner" class="fake">
