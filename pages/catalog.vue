@@ -15,7 +15,11 @@
         <div v-if="products.length > 0" class="page__container__results">
           <div class="page__container__lists">
             <p>{{ products.length }} listings</p>
-            <DropdownSort v-model="sort" :variants="sortOptions"></DropdownSort>
+            <DropdownSort
+              v-model="sort"
+              :variants="sortOptions"
+              @input="changeSort"
+            ></DropdownSort>
           </div>
           <CatalogList :items="products"></CatalogList>
           <ThePagination
@@ -102,16 +106,20 @@ export default {
       this.query = val;
       await this.getProducts();
     },
+    async changeSort(val) {
+      await this.getProducts();
+    },
     async getProducts() {
-      const q = this.query + `&page=${this.currentPage}`;
+      const q =
+        this.query + `&page=${this.currentPage}` + `&ordering=${this.sort}`;
       const resp = await this.$store.dispatch("products/getProducts", q);
       this.totalPage = resp.totalPage;
       this.products.splice(0, this.products.length);
       this.products.push(...resp?.products);
-      window.scrollTo(0, 0);
     },
-    handleChangePagination() {
-      this.getProducts();
+    async handleChangePagination() {
+      await this.getProducts();
+      window.scrollTo(0, 0);
     },
   },
 };

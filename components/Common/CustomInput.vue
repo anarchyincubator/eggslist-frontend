@@ -5,7 +5,23 @@
     </div>
     <slot></slot>
     <div class="input-container__main">
+      <currency-input
+        v-if="type === 'number'"
+        v-model="inputData"
+        :placeholder="placeholder"
+        class="input-container__input subtitle-1"
+        :class="{
+          'input-container__input--default': paddingDefault,
+          'input-container__input--error': isInValid,
+        }"
+        min="0"
+        currency="USD"
+        locale="en"
+        @focus="handleEmit"
+        @keyup.enter="$emit('enter')"
+      />
       <input
+        v-else
         ref="input"
         v-model="inputData"
         :type="type"

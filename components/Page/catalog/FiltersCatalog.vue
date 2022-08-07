@@ -37,7 +37,7 @@
     <div class="filter-container__price">
       <CustomInput
         v-model="priceMin"
-        placeholder="$ Min"
+        placeholder="$ Max"
         type="number"
       ></CustomInput>
       <p>to</p>
@@ -100,8 +100,8 @@ export default {
       searchInput: "",
       resultCity: [],
       pickupSelects: [],
-      priceMin: "",
-      priceMax: "",
+      priceMin: null,
+      priceMax: null,
       pickup: {
         name: "Pickup Options",
         options: ["Allow pickup", "Allow delivery"],
@@ -124,7 +124,7 @@ export default {
     },
   },
   watch: {
-    priceMin: {
+    /*  priceMin: {
       handler(val) {
         if (Number(val) <= Number(this.priceMax)) return;
 
@@ -137,7 +137,7 @@ export default {
 
         this.priceMin = val;
       },
-    },
+    },*/
     categories: {
       handler(val) {
         this.selects = val.map((item) => []);
@@ -184,8 +184,8 @@ export default {
       this.searchInput = "";
       this.resultCity = [];
       this.pickupSelects = [];
-      this.priceMin = "";
-      this.priceMax = "";
+      this.priceMin = null;
+      this.priceMax = null;
       this.$emit("reset");
     },
   },
