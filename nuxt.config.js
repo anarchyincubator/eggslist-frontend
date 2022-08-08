@@ -52,12 +52,12 @@ export default {
     "@nuxtjs/proxy",
     ["vue-currency-input/nuxt", { globalOptions: { currency: "USD" } }],
   ],
-  /* axios: {
+  axios: {
     baseURL: "https://eggslist-dev.ferialabs.com/api",
     credentials: true,
     proxyHeaders: false,
-  },*/
-  axios: {
+  },
+  /*axios: {
     prefix: "/api",
     proxy: true,
     proxyHeaders: false,
@@ -71,7 +71,7 @@ export default {
         "^/api": "/",
       },
     },
-  },
+  },*/
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
