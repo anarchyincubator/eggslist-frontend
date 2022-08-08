@@ -30,6 +30,7 @@
       :key="index"
       v-model="selects[index]"
       :category="category"
+      :open-start="Boolean(query.subcategory)"
       class="filter-container__category"
       @input="handleChangeSelect($event, index)"
     ></TheCategory>

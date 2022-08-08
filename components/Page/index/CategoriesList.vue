@@ -6,6 +6,7 @@
         v-for="(element, index) in categories"
         :key="index"
         class="categories__list--element"
+        @click="handleClickCategory(element)"
       >
         <div :style="getBackgroundStyle(element.image)" alt="category" />
         <h3>{{ element.name }}</h3>
@@ -28,6 +29,13 @@ export default {
       return {
         "background-image": `url(${path})`,
       };
+    },
+    handleClickCategory(val) {
+      let query = "?";
+      val.subs.forEach(({ slug }) => {
+        query += `subcategory=${slug}&`;
+      });
+      this.$router.push(`/catalog${query}`);
     },
   },
 };

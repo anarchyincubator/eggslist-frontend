@@ -1,4 +1,7 @@
 import City from "@/utils/adapters/City";
+
+import { localStorageKeyCity, localStorageKeyAuth } from "../utils/data";
+
 export const state = () => ({
   windowWidth: null,
   windowHeight: null,
@@ -54,8 +57,8 @@ export const actions = {
   },
   async nuxtClientInit({ dispatch, commit }, { app }) {
     dispatch("getCities");
-    const token = app.$cookies.get("JWT-token");
-    const city = app.$cookies.get("city");
+    const token = localStorage.getItem(localStorageKeyAuth);
+    const city = localStorage.getItem(localStorageKeyCity);
     if (city) {
       await commit("setCurrentCity", city);
     }
@@ -79,7 +82,7 @@ export const mutations = {
     state.cities = [...cities];
   },
   setCurrentCity(state, city) {
-    this.$cookies.set("city", city);
+    localStorage.setItem(localStorageKeyCity, city);
     state.currentCity = city;
   },
   setAuthComponent(state, show) {

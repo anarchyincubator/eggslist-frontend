@@ -1,3 +1,5 @@
+import { localStorageKeyAuth } from "../utils/data";
+
 export const state = () => ({
   token: undefined,
 });
@@ -11,7 +13,7 @@ export const actions = {
       let response;
       try {
         response = await this.$axios.$post("/users/sign-in", user);
-        this.$cookies.set("JWT-token", response.access);
+        localStorage.setItem(localStorageKeyAuth, response.access);
         await dispatch("setToken", response.access);
         await dispatch("user/getUserData", {}, { root: true });
         await resolve(response);
@@ -53,7 +55,7 @@ export const actions = {
       let response;
       try {
         response = await this.$axios.$post("/users/sign-up", user);
-        this.$cookies.set("JWT-token", response.access);
+        localStorage.setItem(localStorageKeyAuth, response.access);
         await dispatch("setToken", response.access);
         await dispatch("user/getUserData", {}, { root: true });
         await resolve(response);
@@ -68,7 +70,7 @@ export const actions = {
   },
   clearToken({ commit }) {
     this.$axios.setToken(false);
-    this.$cookies.remove("JWT-token");
+    localStorage.setItem(localStorageKeyAuth, null);
     commit("clearToken");
   },
 };

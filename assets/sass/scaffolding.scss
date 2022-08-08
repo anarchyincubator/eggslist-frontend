@@ -6,6 +6,7 @@ html, body {
   width: 100vw;
   touch-action: pan-y;
   min-height: 100%;
+  color: $primary-black;
   background: $primary-white;
   font-family: $font-default, sans-serif !important;
   -moz-osx-font-smoothing: grayscale;

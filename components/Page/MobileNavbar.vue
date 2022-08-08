@@ -9,7 +9,7 @@
       <TheHamburger v-model="opened" />
     </div>
     <div v-if="opened" class="navbar-container-opened">
-      <nuxt-link class="ceil menu-1" to="/market"> Market </nuxt-link>
+      <nuxt-link class="ceil menu-1" to="/catalog"> Market </nuxt-link>
       <nuxt-link class="ceil menu-1" to="/about"> About </nuxt-link>
       <nuxt-link class="ceil menu-1" to="/stories"> Our stories </nuxt-link>
       <div

@@ -47,6 +47,10 @@ export default {
       type: Object,
       required: true,
     },
+    openStart: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -68,26 +72,11 @@ export default {
     },
   },
   watch: {
-    /* selectChecks: {
-      handler(val) {
-        this.selectedData = this.category.subs
-          .filter((item, index) => this.selectChecks[index])
-          .map(({ slug }) => {
-            return slug;
-          });
-      },
-      deep: true,
+    openStart(val) {
+      if (val && this.isSelect) {
+        this.isOpened = true;
+      }
     },
-
-    selectedData: {
-      handler(val, newVal) {
-        if (val === newVal) return;
-        this.selectChecks = this.category.subs.map((item, index) => {
-          return item.slug === val[index];
-        });
-      },
-      deep: true,
-    },*/
   },
   methods: {
     handleClickButton() {
