@@ -17,6 +17,7 @@
         min="0"
         currency="USD"
         locale="en"
+        @focusout="$emit('focusout')"
         @focus="handleEmit"
         @keyup.enter="$emit('enter')"
       />
@@ -32,6 +33,7 @@
           'input-container__input--error': isInValid,
         }"
         :placeholder="placeholder"
+        @focusout="$emit('focusout')"
         @focus="handleEmit"
         @keyup.enter="$emit('enter')"
       />
@@ -84,7 +86,7 @@ export default {
       default: "",
     },
   },
-  emits: ["clickIcon", "enter"],
+  emits: ["clickIcon", "enter", "focusout", "input"],
   computed: {
     inputData: {
       get() {

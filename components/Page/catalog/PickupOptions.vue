@@ -47,6 +47,10 @@ export default {
       type: Object,
       required: true,
     },
+    openStart: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -65,6 +69,13 @@ export default {
       set(value) {
         this.$emit("input", value);
       },
+    },
+  },
+  watch: {
+    openStart(val) {
+      if (val && this.isSelect) {
+        this.isOpened = true;
+      }
     },
   },
   methods: {

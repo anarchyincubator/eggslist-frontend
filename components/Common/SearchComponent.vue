@@ -5,6 +5,7 @@
       :placeholder="placeholder"
       :padding-default="false"
       @focus="handleFocus"
+      @focusout="$emit('focusout')"
     >
       <slot class="search-container__icon" name="icon"></slot>
     </CustomInput>
@@ -50,7 +51,7 @@ export default {
       default: "",
     },
   },
-  emits: ["setupCity", "input", "changeInput"],
+  emits: ["setupCity", "input", "changeInput", "focusout"],
   data() {
     return {
       isOpened: false,

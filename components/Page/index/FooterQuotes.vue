@@ -141,6 +141,7 @@ export default {
     &__button {
       position: absolute;
       display: flex;
+      z-index: 10;
       align-items: center;
       justify-content: center;
       border-radius: 50%;

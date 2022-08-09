@@ -90,7 +90,7 @@ h4 {
 
 .button-2 {
   font-size: vw(16px);
-  font-weight: bold;
+  font-weight: 600;
   line-height: vw(32px);
 
   @include layout-mobile() {

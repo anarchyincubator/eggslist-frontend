@@ -11,6 +11,7 @@
         :query="startQuery"
         @reset="handleReset"
         @apply="handleApplyFilter"
+        @changeCity="handleChangeCity"
       ></FiltersCatalog>
       <div class="page__container__right">
         <div
@@ -120,6 +121,14 @@ export default {
       await this.getProducts();
     },
     async handleApplyFilter(val) {
+      if (val === this.query) return;
+
+      this.query = val;
+      this.$router.push(`/catalog?${val}`);
+      await this.getProducts();
+    },
+
+    async handleChangeCity(val) {
       this.query = val;
       this.$router.push(`/catalog?${val}`);
       await this.getProducts();

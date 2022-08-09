@@ -4,12 +4,6 @@
       <div class="filter-container__reset" @click="resetFilters">
         Reset Filters
       </div>
-      <CustomButton
-        class="filter-container__header--button"
-        theme="primary"
-        @click="handleApplyFilter"
-        >Apply Filters</CustomButton
-      >
     </div>
     <div class="filter-container__input">
       <img
@@ -22,6 +16,8 @@
         :padding-default="false"
         placeholder="Search"
         class="filter-container__search"
+        @enter="handleApplyFilter"
+        @focusout="handleApplyFilter"
       />
     </div>
     <h6>Category</h6>
@@ -40,12 +36,16 @@
         v-model="priceMin"
         placeholder="$ Max"
         type="number"
+        @enter="handleApplyFilter"
+        @focusout="handleApplyFilter"
       ></CustomInput>
       <p>to</p>
       <CustomInput
         v-model="priceMax"
         placeholder="$ Max"
         type="number"
+        @enter="handleApplyFilter"
+        @focusout="handleApplyFilter"
       ></CustomInput>
     </div>
     <h6>Pickup</h6>
@@ -69,7 +69,9 @@
     <PickupOptions
       v-model="pickupSelects"
       :pickup="pickup"
+      :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
       class="filter-container__category"
+      @input="handleApplyFilter"
     ></PickupOptions>
   </div>
 </template>
@@ -79,11 +81,9 @@ import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
 import SearchComponent from "../../Common/SearchComponent";
 import PickupOptions from "./PickupOptions";
-import CustomButton from "../../Common/CustomButton";
 export default {
   name: "FiltersCatalog",
   components: {
-    CustomButton,
     PickupOptions,
     SearchComponent,
     TheCategory,
@@ -164,6 +164,7 @@ export default {
     handleChangeSelect(val, index) {
       this.selects = this.categories.map((item) => []);
       this.selects[index] = val;
+      this.handleApplyFilter();
     },
     getFromQuery() {
       if (this.query.subcategory) {
@@ -195,13 +196,13 @@ export default {
         this.priceMax = Number(this.query.price_to);
       }
       if (this.query.allow_pickup) {
-        this.pickupSelects[0] = true;
+        this.$set(this.pickupSelects, 0, true);
       }
       if (this.query.allow_delivery) {
-        this.pickupSelects[1] = true;
+        this.$set(this.pickupSelects, 1, true);
       }
     },
-    handleApplyFilter() {
+    generateQuery() {
       let query = "";
       Object.values(this.selectedSlugs).forEach((item, index) => {
         item.forEach((key, index) => {
@@ -226,11 +227,18 @@ export default {
       if (this.pickupSelects.length >= 2 && this.pickupSelects[1]) {
         query += "&allow_delivery=true";
       }
-      this.$emit("apply", query);
+      return query;
+    },
+    handleAppleCity() {
+      this.$emit("changeCity", this.generateQuery());
+    },
+    handleApplyFilter() {
+      this.$emit("apply", this.generateQuery());
     },
     async handleEmitCity(val) {
       try {
         await this.$store.dispatch("saveCity", val);
+        this.handleAppleCity();
       } catch (e) {}
     },
     handleChangeCity(val) {
