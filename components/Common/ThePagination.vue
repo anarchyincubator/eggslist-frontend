@@ -134,6 +134,13 @@ export default {
     border-radius: 50%;
     cursor: pointer;
     margin-right: vw(12px);
+    @include layout-mobile() {
+      width: mvw(30px);
+      height: mvw(30px);
+      font-size: mvw(14px);
+      line-height: mvw(24px);
+      margin-right: mvw(12px);
+    }
     &--active {
       border: 2px solid $primary-marigold;
     }
@@ -152,15 +159,30 @@ export default {
     align-items: center;
     justify-content: center;
     margin-right: vw(12px);
+
+    @include layout-mobile() {
+      font-size: mvw(14px);
+      line-height: mvw(24px);
+      margin-right: mvw(12px);
+    }
   }
 
   &__button {
     width: vw(8px);
     cursor: pointer;
     margin-right: vw(25px);
+
+    @include layout-mobile() {
+      width: mvw(8px);
+      padding-bottom: mvw(1px);
+      margin-right: mvw(10px);
+    }
     &--right {
       margin-left: vw(25px);
       margin-right: 0;
+      @include layout-mobile() {
+        margin-left: mvw(10px);
+      }
     }
     &:hover {
       opacity: 0.8;

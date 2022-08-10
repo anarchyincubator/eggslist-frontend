@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown" @click="handleClickOpen">
+  <div v-click-outside="handleClose" class="dropdown" @click="handleClickOpen">
     <div class="dropdown__main">
       <span> Sort: By {{ option.name }}</span>
       <img src="@/assets/images/icons/arrow-up.svg" />
@@ -58,6 +58,9 @@ export default {
     handleSelect(val) {
       this.selectedObj = val.key;
     },
+    handleClose() {
+      this.isOpened = false;
+    },
   },
 };
 </script>
@@ -72,10 +75,19 @@ export default {
     span {
       font-size: vw(16px);
       line-height: vw(24px);
+      @include layout-mobile() {
+        font-size: mvw(16px);
+        line-height: mvw(24px);
+      }
     }
     img {
       width: vw(12px);
       margin-left: vw(10px);
+      transform: rotate(180deg);
+      @include layout-mobile() {
+        width: mvw(12px);
+        margin-left: mvw(10px);
+      }
     }
   }
 
@@ -92,6 +104,13 @@ export default {
       background-color: $primary-white;
       font-size: vw(16px);
       line-height: vw(24px);
+      @include layout-mobile() {
+        font-size: mvw(12px);
+        line-height: mvw(24px);
+        padding-left: mvw(12px);
+        height: mvw(30px);
+      }
+
       &:hover {
         background-color: #f2e2ca;
       }

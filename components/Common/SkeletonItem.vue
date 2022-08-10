@@ -10,7 +10,15 @@ export default {
       type: Number,
       default: 100,
     },
+    heightMobile: {
+      type: Number,
+      default: 100,
+    },
     width: {
+      type: Number,
+      default: 100,
+    },
+    widthMobile: {
       type: Number,
       default: 100,
     },
@@ -21,7 +29,17 @@ export default {
   },
 
   computed: {
+    isMobile() {
+      return this.$store.getters["isMobile"];
+    },
     skeletonStyle() {
+      if (this.isMobile)
+        return {
+          height: `${(this.heightMobile * this.windowWidth) / 320}px`,
+          width: `${(this.widthMobile * this.windowWidth) / 320}px`,
+          "border-radius": `${(this.border * this.windowWidth) / 320}px`,
+        };
+
       return {
         height: `${(this.height * this.windowWidth) / 1680}px`,
         width: `${(this.width * this.windowWidth) / 1680}px`,

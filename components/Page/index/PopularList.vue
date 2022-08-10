@@ -188,14 +188,14 @@ export default {
         }
       }
       &--left {
-        left: vw(-110px);
+        left: vw(-92px);
         @include layout-mobile() {
           left: inherit;
           margin-right: mvw(8px);
         }
       }
       &--right {
-        right: vw(-90px);
+        right: vw(-92px);
         @include layout-mobile() {
           right: inherit;
         }

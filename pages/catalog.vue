@@ -6,6 +6,7 @@
     </div>
     <div class="page__container">
       <FiltersCatalog
+        v-if="!isMobile"
         ref="filterCatalog"
         :categories="categories"
         :query="startQuery"
@@ -13,6 +14,15 @@
         @apply="handleApplyFilter"
         @changeCity="handleChangeCity"
       ></FiltersCatalog>
+      <FiltersCatalogMobile
+        v-else
+        ref="filterCatalogMobile"
+        :categories="categories"
+        :query="startQuery"
+        @reset="handleReset"
+        @apply="handleApplyFilter"
+        @changeCity="handleChangeCity"
+      ></FiltersCatalogMobile>
       <div class="page__container__right">
         <div
           v-if="products.length > 0 || loading"
@@ -21,10 +31,14 @@
           <div class="page__container__lists">
             <p>{{ countItems }} listings</p>
             <DropdownSort
+              v-if="!isMobile"
               v-model="sort"
               :variants="sortOptions"
               @input="changeSort"
             ></DropdownSort>
+            <div v-else class="page__container__reset" @click="handleReset">
+              Reset Filters
+            </div>
           </div>
           <CatalogList :loading="loading" :items="products"></CatalogList>
           <ThePagination
@@ -60,10 +74,12 @@ import CatalogList from "../components/Page/catalog/CatalogList";
 import ThePagination from "../components/Common/ThePagination";
 import CustomButton from "../components/Common/CustomButton";
 import DropdownSort from "../components/Page/catalog/DropdownSort";
+import FiltersCatalogMobile from "../components/Page/catalog/FiltersCatalogMobile";
 
 export default {
   name: "CatalogPage",
   components: {
+    FiltersCatalogMobile,
     DropdownSort,
     CustomButton,
     ThePagination,
@@ -93,6 +109,9 @@ export default {
     categories() {
       return this.$store.getters["categories/categories"];
     },
+    isMobile() {
+      return this.$store.getters["isMobile"];
+    },
   },
   async mounted() {
     this.loading = true;
@@ -112,7 +131,11 @@ export default {
   },
   methods: {
     async handleResetButton() {
-      this.$refs.filterCatalog.resetFilters();
+      if (this.isMobile) {
+        this.$refs.filterCatalogMobile.resetFilters();
+      } else {
+        this.$refs.filterCatalog.resetFilters();
+      }
       await this.handleReset();
     },
     async handleReset() {
@@ -136,10 +159,9 @@ export default {
     async changeSort(val) {
       await this.getProducts();
     },
-    async getProducts() {
+    async getProducts(page = 1) {
       this.loading = true;
-      const q =
-        this.query + `&page=${this.currentPage}` + `&ordering=${this.sort}`;
+      const q = this.query + `&page=${page}` + `&ordering=${this.sort}`;
       const resp = await this.$store.dispatch("products/getProducts", q);
       this.totalPage = resp.totalPage;
       this.countItems = resp.count;
@@ -149,7 +171,7 @@ export default {
     },
     async handleChangePagination() {
       window.scrollTo(0, 0);
-      await this.getProducts();
+      await this.getProducts(this.currentPage);
     },
   },
 };
@@ -161,6 +183,9 @@ export default {
 
   &__container {
     display: flex;
+    @include layout-mobile() {
+      flex-direction: column;
+    }
     &__results {
       width: 100%;
     }
@@ -170,17 +195,40 @@ export default {
       display: flex;
       flex-direction: column;
       margin-left: vw(30px);
+      z-index: 8;
+      @include layout-mobile() {
+        margin-left: 0;
+      }
+    }
+    &__reset {
+      font-size: mvw(14px);
+      line-height: mvw(24px);
+      text-decoration-line: underline;
+      align-self: center;
+      cursor: pointer;
     }
     &__lists {
       margin-bottom: vw(32px);
       display: flex;
       justify-content: space-between;
+
+      @include layout-mobile() {
+        margin-bottom: mvw(32px);
+        margin-top: mvw(16px);
+      }
       p {
         font-size: vw(16px);
         line-height: vw(24px);
+        @include layout-mobile() {
+          font-size: mvw(16px);
+          line-height: mvw(24px);
+        }
       }
     }
     &__pagination {
+      @include layout-mobile() {
+        margin-bottom: mvw(20px);
+      }
     }
     &__not {
       margin-top: vw(120px);
@@ -189,13 +237,26 @@ export default {
       align-items: center;
       text-align: center;
       flex-direction: column;
+      @include layout-mobile() {
+        width: 100%;
+        margin-top: mvw(50px);
+      }
       p {
         margin-top: vw(16px);
         margin-bottom: vw(32px);
+        @include layout-mobile() {
+          margin-top: mvw(16px);
+          margin-bottom: mvw(32px);
+        }
       }
       &-button {
         font-weight: 600;
         height: vw(56px);
+        @include layout-mobile() {
+          height: mvw(56px);
+          width: mvw(270px);
+          margin-bottom: mvw(32px);
+        }
       }
     }
   }
@@ -210,11 +271,16 @@ export default {
     flex-direction: column;
     align-items: center;
     position: relative;
-
+    @include layout-mobile() {
+      margin-left: -$padding-left-mobile;
+      padding-top: mvw(64px);
+      padding-bottom: mvw(40px);
+    }
     h1 {
       color: $primary-marigold;
       margin-bottom: vw(32px);
       @include layout-mobile() {
+        width: mvw(280px);
         margin-top: mvw(64px);
         margin-bottom: mvw(16px);
         text-align: center;

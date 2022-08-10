@@ -23,7 +23,6 @@
         v-for="(sub, index) in category.subs"
         :key="index"
         v-model="selectedData[index]"
-        theme="dark"
         class="category-container__main--checkbox"
         @input="handleChangeValue"
       >
@@ -98,6 +97,10 @@ export default {
     top: 50%;
     transform: translateY(-50%);
     left: vw(-16px);
+    @include layout-mobile() {
+      width: mvw(12px);
+      left: mvw(-16px);
+    }
   }
   &__header {
     display: flex;
@@ -109,6 +112,10 @@ export default {
       line-height: vw(24px);
       color: $neutral-30;
       font-weight: 500;
+      @include layout-mobile() {
+        font-size: mvw(16px);
+        line-height: mvw(24px);
+      }
     }
     &--select {
       p {
@@ -125,12 +132,20 @@ export default {
       justify-content: center;
       border: 1px solid $neutral-70;
 
+      @include layout-mobile() {
+        width: mvw(32px);
+        height: mvw(32px);
+      }
+
       &:hover {
         opacity: 0.8;
       }
       img {
         width: vw(10px);
         transition: transform 0.5s;
+        @include layout-mobile() {
+          width: mvw(11px);
+        }
       }
       &--down {
         img {
@@ -141,8 +156,14 @@ export default {
   }
   &__main {
     margin-top: vw(18px);
+    @include layout-mobile() {
+      margin-top: mvw(10px);
+    }
     &--checkbox {
       margin-bottom: vw(20px);
+      @include layout-mobile() {
+        margin-bottom: mvw(20px);
+      }
     }
   }
 }
