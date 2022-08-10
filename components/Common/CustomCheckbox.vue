@@ -75,9 +75,10 @@ export default {
   }
 
   @include layout-mobile() {
-    padding-left: mvw(20px);
+    padding-left: mvw(24px);
     margin-bottom: mvw(13px);
     font-size: mvw(12px);
+    line-height: mvw(16px);
   }
 
   input {
@@ -111,6 +112,9 @@ export default {
 
 .container:hover input ~ .checkmark {
   opacity: 0.8;
+  @include layout-mobile() {
+    opacity: 1;
+  }
 }
 
 .container input:checked ~ .checkmark {
@@ -118,12 +122,12 @@ export default {
   border: 2px solid $neutral-45;
 }
 
-.container-dark {
+.container {
   .checkmark {
     border: 2px solid $primary-black;
   }
 }
-.container-dark input:checked ~ .checkmark {
+.container input:checked ~ .checkmark {
   background-color: $primary-black;
   border: 2px solid $primary-black;
 }

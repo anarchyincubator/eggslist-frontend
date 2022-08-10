@@ -92,12 +92,17 @@ export default {
 <style lang="scss" scoped>
 .pickup-container {
   width: 100%;
+
   &__icon {
     position: absolute;
     width: vw(11px);
     top: 50%;
     transform: translateY(-50%);
     left: vw(-16px);
+    @include layout-mobile() {
+      width: mvw(11px);
+      left: mvw(-16px);
+    }
   }
   &__header {
     display: flex;
@@ -109,6 +114,10 @@ export default {
       line-height: vw(24px);
       color: $neutral-30;
       font-weight: 500;
+      @include layout-mobile() {
+        font-size: mvw(16px);
+        line-height: mvw(24px);
+      }
     }
     &--select {
       p {
@@ -125,12 +134,20 @@ export default {
       justify-content: center;
       border: 1px solid $neutral-70;
 
+      @include layout-mobile() {
+        width: mvw(32px);
+        height: mvw(32px);
+        border: none;
+      }
       &:hover {
         opacity: 0.8;
       }
       img {
         width: vw(10px);
         transition: transform 0.5s;
+        @include layout-mobile() {
+          width: mvw(11px);
+        }
       }
       &--down {
         img {

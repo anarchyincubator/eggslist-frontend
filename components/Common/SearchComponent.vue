@@ -52,6 +52,7 @@ export default {
     },
   },
   emits: ["setupCity", "input", "changeInput", "focusout"],
+
   data() {
     return {
       isOpened: false,
@@ -85,6 +86,9 @@ export default {
 
       this.inputData = val;
     },
+  },
+  mounted() {
+    this.inputData = this.searchValue;
   },
   methods: {
     handleFocus() {

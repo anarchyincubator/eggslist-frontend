@@ -1,10 +1,5 @@
 <template>
   <div class="filter-container">
-    <div class="filter-container__header">
-      <div class="filter-container__reset" @click="resetFilters">
-        Reset Filters
-      </div>
-    </div>
     <div class="filter-container__input">
       <img
         class="filter-container__input--icon"
@@ -20,59 +15,83 @@
         @focusout="handleApplyFilter"
       />
     </div>
-    <h6>Category</h6>
-    <TheCategory
-      v-for="(category, index) in categories"
-      :key="index"
-      v-model="selects[index]"
-      :category="category"
-      :open-start="Boolean(query.subcategory)"
-      class="filter-container__category"
-      @input="handleChangeSelect($event, index)"
-    ></TheCategory>
-    <h6>Price</h6>
-    <div class="filter-container__price">
-      <CustomInput
-        v-model="priceMin"
-        placeholder="$ Min"
-        type="number"
-        @enter="handleApplyFilter"
-        @focusout="handleApplyFilter"
-      ></CustomInput>
-      <p>to</p>
-      <CustomInput
-        v-model="priceMax"
-        placeholder="$ Max"
-        type="number"
-        @enter="handleApplyFilter"
-        @focusout="handleApplyFilter"
-      ></CustomInput>
-    </div>
-    <h6>Pickup</h6>
-    <SearchComponent
-      v-model="city"
-      class="filter-container__search"
-      :result="resultCity"
-      placeholder="Search city"
-      no-text="No cities"
-      @setupCity="handleEmitCity"
-      @changeInput="handleChangeCity"
-    >
+    <div class="filter-container__filter" @click="handleOpenCatalog">
       <img
-        slot="icon"
-        class="icon"
-        src="@/assets/images/icons/map.svg"
-        alt="search"
+        class="filter-container__filter--icon"
+        src="@/assets/images/icons/filter.svg"
       />
-    </SearchComponent>
-    <div class="filter-container__line" />
-    <PickupOptions
-      v-model="pickupSelects"
-      :pickup="pickup"
-      :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
-      class="filter-container__category"
-      @input="handleApplyFilter"
-    ></PickupOptions>
+      <span> Filters </span>
+    </div>
+    <div
+      v-if="isOpened"
+      v-scroll-lock="isOpened"
+      class="filter-container__absolute"
+    >
+      <div class="filter-container__content">
+        <h2>
+          Filters
+          <img
+            src="@/assets/images/icons/close_dark.svg"
+            @click="handleClose"
+          />
+        </h2>
+        <h6>Category</h6>
+        <TheCategory
+          v-for="(category, index) in categories"
+          :key="index"
+          v-model="selects[index]"
+          :category="category"
+          :open-start="Boolean(query.subcategory)"
+          class="filter-container__category"
+          @input="handleChangeSelect($event, index)"
+        ></TheCategory>
+        <h6>Price</h6>
+        <div class="filter-container__price">
+          <CustomInput
+            v-model="priceMin"
+            placeholder="$ Min"
+            type="number"
+          ></CustomInput>
+          <p>to</p>
+          <CustomInput
+            v-model="priceMax"
+            placeholder="$ Max"
+            type="number"
+          ></CustomInput>
+        </div>
+        <h6>Pickup</h6>
+        <SearchComponent
+          v-model="city"
+          class="filter-container__search"
+          :result="resultCity"
+          placeholder="Search city"
+          no-text="No cities"
+          @setupCity="handleEmitCity"
+          @changeInput="handleChangeCity"
+        >
+          <img
+            slot="icon"
+            class="icon"
+            src="@/assets/images/icons/map.svg"
+            alt="search"
+          />
+        </SearchComponent>
+        <div class="filter-container__line" />
+        <PickupOptions
+          v-model="pickupSelects"
+          :pickup="pickup"
+          :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
+          class="filter-container__category"
+        ></PickupOptions>
+        <CustomButton
+          theme="primary"
+          class="filter-container__button button-2"
+          @click="handleApplyFilter"
+        >
+          Apply filters</CustomButton
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -81,9 +100,11 @@ import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
 import SearchComponent from "../../Common/SearchComponent";
 import PickupOptions from "./PickupOptions";
+import CustomButton from "../../Common/CustomButton";
 export default {
-  name: "FiltersCatalog",
+  name: "FiltersCatalogMobile",
   components: {
+    CustomButton,
     PickupOptions,
     SearchComponent,
     TheCategory,
@@ -108,6 +129,7 @@ export default {
       searchInput: "",
       resultCity: [],
       pickupSelects: [],
+      isOpened: false,
       priceMin: null,
       priceMax: null,
       pickup: {
@@ -160,11 +182,15 @@ export default {
   methods: {
     async getCity() {
       this.city = await this.$store.dispatch("getLocate");
+      console.log(this.city);
+    },
+    handleOpenCatalog() {
+      this.isOpened = true;
     },
     handleChangeSelect(val, index) {
       this.selects = this.categories.map((item) => []);
       this.selects[index] = val;
-      this.handleApplyFilter();
+      // this.handleApplyFilter();
     },
     getFromQuery() {
       if (this.query.subcategory) {
@@ -185,21 +211,33 @@ export default {
             }
           });
         });
+      } else {
+        this.selects = this.categories.map((item) => []);
       }
       if (this.query.search) {
         this.searchInput = this.query.search;
+      } else {
+        this.searchInput = "";
       }
       if (this.query.price_from) {
         this.priceMin = Number(this.query.price_from);
+      } else {
+        this.priceMin = null;
       }
       if (this.query.price_to) {
         this.priceMax = Number(this.query.price_to);
+      } else {
+        this.priceMax = null;
       }
       if (this.query.allow_pickup) {
         this.$set(this.pickupSelects, 0, true);
+      } else {
+        this.$set(this.pickupSelects, 0, false);
       }
       if (this.query.allow_delivery) {
         this.$set(this.pickupSelects, 1, true);
+      } else {
+        this.$set(this.pickupSelects, 1, false);
       }
     },
     generateQuery() {
@@ -234,6 +272,11 @@ export default {
     },
     handleApplyFilter() {
       this.$emit("apply", this.generateQuery());
+      this.isOpened = false;
+    },
+    handleClose() {
+      this.isOpened = false;
+      this.getFromQuery();
     },
     async handleEmitCity(val) {
       try {
@@ -267,6 +310,31 @@ export default {
 .filter-container {
   width: vw(300px);
   flex-shrink: 0;
+  @include layout-mobile() {
+    width: 100%;
+  }
+  &__absolute {
+    position: fixed;
+    z-index: 50;
+    overflow-y: scroll;
+    height: 100%;
+    top: 0;
+    background: $primary-white;
+    margin-left: -$padding-left-mobile;
+    padding: 0 $padding-left-mobile 0 $padding-left-mobile;
+    width: calc(100% - #{$padding-left-mobile} * 2);
+  }
+  &__content {
+    width: 100%;
+    padding-top: mvw(32px);
+    h2 {
+      display: flex;
+      justify-content: space-between;
+      img {
+        width: mvw(15px);
+      }
+    }
+  }
   &__header {
     display: flex;
     align-items: center;
@@ -293,6 +361,33 @@ export default {
     position: relative;
     &--icon {
       position: absolute;
+      z-index: 5;
+      top: 50%;
+      transform: translateY(-50%);
+      @include layout-mobile() {
+        width: mvw(18px);
+        left: mvw(18px);
+      }
+    }
+  }
+  &__filter {
+    position: relative;
+    width: 100%;
+    background: $primary-white;
+    height: mvw(57px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border: 1.5px solid $neutral-70;
+    border-radius: mvw(12px);
+    span {
+      margin-left: mvw(47px);
+      font-weight: 600;
+      font-size: mvw(16px);
+      line-height: mvw(24px);
+    }
+    &--icon {
+      position: absolute;
       left: vw(14px);
       width: vw(12px);
       z-index: 5;
@@ -310,29 +405,54 @@ export default {
     line-height: vw(16px);
     letter-spacing: vw(1.2px);
     text-transform: uppercase;
+
+    @include layout-mobile() {
+      margin-top: mvw(32px);
+      font-size: mvw(12px);
+      line-height: mvw(16px);
+      letter-spacing: mvw(1.2px);
+    }
   }
   &__category {
     margin-top: vw(20px);
+
+    @include layout-mobile() {
+      margin-top: mvw(16px);
+    }
   }
   &__price {
     display: flex;
     align-items: center;
     margin-top: vw(16px);
+
+    @include layout-mobile() {
+      margin-top: mvw(16px);
+    }
     p {
       font-size: vw(16px);
       line-height: vw(24px);
       margin: 0 vw(16px);
+
+      @include layout-mobile() {
+        font-size: mvw(16px);
+        line-height: mvw(24px);
+        margin: 0 mvw(16px);
+      }
     }
   }
   &__search {
-    margin-top: vw(16px);
-    margin-bottom: vw(24px);
+    margin-top: mvw(16px);
+    margin-bottom: mvw(24px);
     position: relative;
   }
   &__line {
     height: 1px;
     width: 100%;
     background-color: $neutral-70;
+  }
+  &__button {
+    margin-top: mvw(50px);
+    margin-bottom: mvw(32px);
   }
 }
 .icon {
