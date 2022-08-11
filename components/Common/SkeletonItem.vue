@@ -26,6 +26,10 @@ export default {
       type: Number,
       default: 0,
     },
+    borderMobile: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
@@ -37,7 +41,7 @@ export default {
         return {
           height: `${(this.heightMobile * this.windowWidth) / 320}px`,
           width: `${(this.widthMobile * this.windowWidth) / 320}px`,
-          "border-radius": `${(this.border * this.windowWidth) / 320}px`,
+          "border-radius": `${(this.borderMobile * this.windowWidth) / 320}px`,
         };
 
       return {

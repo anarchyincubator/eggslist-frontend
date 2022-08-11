@@ -9,6 +9,7 @@
       <CustomInput
         v-model="searchInput"
         :padding-default="false"
+        :is-small="true"
         placeholder="Search"
         class="filter-container__search"
         @enter="handleApplyFilter"
@@ -62,6 +63,7 @@
         <h6>Pickup</h6>
         <SearchComponent
           v-model="city"
+          :is-small="true"
           class="filter-container__search"
           :result="resultCity"
           placeholder="Search city"
@@ -81,15 +83,17 @@
           v-model="pickupSelects"
           :pickup="pickup"
           :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
-          class="filter-container__category"
+          class="filter-container__category filter-container__pickup"
         ></PickupOptions>
-        <CustomButton
-          theme="primary"
-          class="filter-container__button button-2"
-          @click="handleApplyFilter"
-        >
-          Apply filters</CustomButton
-        >
+        <div class="filter-container__button-container">
+          <CustomButton
+            theme="primary"
+            class="filter-container__button button-2"
+            @click="handleApplyFilter"
+          >
+            Apply filters</CustomButton
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -374,11 +378,11 @@ export default {
     position: relative;
     width: 100%;
     background: $primary-white;
-    height: mvw(57px);
+    height: mvw(50px);
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    border: 1.5px solid $neutral-70;
+    border: 1px solid $neutral-70;
     border-radius: mvw(12px);
     span {
       margin-left: mvw(47px);
@@ -450,9 +454,18 @@ export default {
     width: 100%;
     background-color: $neutral-70;
   }
-  &__button {
-    margin-top: mvw(50px);
-    margin-bottom: mvw(32px);
+  &__pickup {
+    margin-bottom: mvw(120px);
+  }
+  &__button-container {
+    background-color: $primary-cream;
+    margin-left: -$padding-left-mobile;
+    width: 100%;
+    width: calc(100% - #{$padding-left-mobile} * 2);
+    padding: mvw(24px) mvw(15px) mvw(32px) mvw(25px);
+    position: fixed;
+    z-index: 100;
+    bottom: 0;
   }
 }
 .icon {

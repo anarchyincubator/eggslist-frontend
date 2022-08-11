@@ -34,7 +34,7 @@
       >
         <label slot="label">Password<strong>*</strong></label>
       </custom-input>
-      <div class="reg__form--forgot button-2">Forgot Password?</div>
+      <div class="reg__form--forgot">Forgot Password?</div>
       <custom-button
         class="reg__form--button"
         tab-index="3"
@@ -223,9 +223,14 @@ export default {
       padding-bottom: vw(4px);
       cursor: pointer;
       width: fit-content;
+      font-size: vw(16px);
+      line-height: vw(24px);
+      font-weight: 600;
       @include layout-mobile() {
         margin-bottom: mvw(10px);
         padding-bottom: mvw(4px);
+        font-size: mvw(14px);
+        line-height: mvw(24px);
       }
     }
     strong {

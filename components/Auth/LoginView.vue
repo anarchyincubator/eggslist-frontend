@@ -29,7 +29,7 @@
       >
         <label slot="label">Password<strong>*</strong></label>
       </custom-input>
-      <div class="login__form--forgot button-2" @click="handleForgetClick">
+      <div class="login__form--forgot" @click="handleForgetClick">
         Forgot Password?
       </div>
       <custom-button
@@ -214,10 +214,15 @@ export default {
       padding-bottom: vw(4px);
       cursor: pointer;
       width: fit-content;
+      font-size: vw(16px);
+      line-height: vw(24px);
+      font-weight: 600;
 
       @include layout-mobile() {
         margin-bottom: mvw(10px);
         padding-bottom: mvw(4px);
+        font-size: mvw(14px);
+        line-height: mvw(24px);
       }
     }
     strong {

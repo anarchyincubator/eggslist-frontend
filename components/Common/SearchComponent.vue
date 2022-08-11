@@ -1,9 +1,10 @@
 <template>
-  <div v-click-outside="handleClose" class="search-container">
+  <div v-click-outside="handleClose" :class="classes">
     <CustomInput
       v-model="inputData"
       :placeholder="placeholder"
       :padding-default="false"
+      :is-small="isSmall"
       @focus="handleFocus"
       @focusout="$emit('focusout')"
     >
@@ -50,6 +51,10 @@ export default {
       type: String,
       default: "",
     },
+    isSmall: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["setupCity", "input", "changeInput", "focusout"],
 
@@ -67,6 +72,14 @@ export default {
       set(value) {
         this.$emit("input", value);
       },
+    },
+    classes() {
+      return [
+        "search-container",
+        {
+          "search-container--small": this.isSmall,
+        },
+      ];
     },
   },
   watch: {

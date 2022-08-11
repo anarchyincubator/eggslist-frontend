@@ -29,7 +29,7 @@
           <img :src="user.avatar" alt="" />
         </div>
       </div>
-      <CustomButton theme="primary" class="button-2">
+      <CustomButton theme="primary" :is-large="false">
         Post A Listing</CustomButton
       >
     </div>

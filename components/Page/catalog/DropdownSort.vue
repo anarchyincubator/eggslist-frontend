@@ -1,6 +1,9 @@
 <template>
   <div v-click-outside="handleClose" class="dropdown" @click="handleClickOpen">
-    <div class="dropdown__main">
+    <div
+      class="dropdown__main"
+      :class="[{ 'dropdown__main--opened': isOpened }]"
+    >
       <span> Sort: By {{ option.name }}</span>
       <img src="@/assets/images/icons/arrow-up.svg" />
     </div>
@@ -84,9 +87,15 @@ export default {
       width: vw(12px);
       margin-left: vw(10px);
       transform: rotate(180deg);
+      transition: 0.25s transform;
       @include layout-mobile() {
         width: mvw(12px);
         margin-left: mvw(10px);
+      }
+    }
+    &--opened {
+      img {
+        transform: rotate(0deg);
       }
     }
   }

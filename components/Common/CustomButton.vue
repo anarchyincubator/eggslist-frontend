@@ -36,6 +36,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isLarge: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ["click"],
   computed: {
@@ -50,6 +54,9 @@ export default {
       return [
         "button",
         `button-${this.theme}`,
+        {
+          "button-small": !this.isLarge,
+        },
         {
           "button-disabled": this.isDisabled || this.isLoading,
         },
@@ -112,12 +119,14 @@ export default {
     background: $primary-marigold;
     border: 1.5px solid #282220;
     border-radius: vw(12px);
+    font-weight: 600;
     text-align: center;
     font-size: vw(16px);
 
     @include layout-mobile() {
-      font-size: mvw(14px);
+      font-size: mvw(16px);
       width: 100%;
+      height: mvw(56px);
       border-radius: mvw(12px);
       padding: mvw(16px) mvw(90px);
     }
@@ -130,6 +139,14 @@ export default {
       text-align: center;
       display: flex;
       color: $primary-black;
+    }
+  }
+  &-small {
+    font-size: vw(14px);
+    line-height: vw(16px);
+    @include layout-mobile() {
+      font-size: mvw(14px);
+      line-height: mvw(16px);
     }
   }
   &-secondary {

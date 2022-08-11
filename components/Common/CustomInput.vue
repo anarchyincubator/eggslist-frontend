@@ -1,5 +1,5 @@
 <template>
-  <div class="input-container">
+  <div :class="classes">
     <div class="input-container__label">
       <slot name="label"> </slot>
     </div>
@@ -85,6 +85,10 @@ export default {
       type: String,
       default: "",
     },
+    isSmall: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["clickIcon", "enter", "focusout", "input"],
   computed: {
@@ -98,6 +102,14 @@ export default {
     },
     additiveIcon() {
       return this.isInValid ? errorIcon : this.icon;
+    },
+    classes() {
+      return [
+        "input-container",
+        {
+          "input-container--small": this.isSmall,
+        },
+      ];
     },
   },
   methods: {
@@ -140,6 +152,7 @@ export default {
     @include layout-mobile() {
       border-radius: mvw(12px);
       padding: mvw(15px) 0 mvw(15px) mvw(47px);
+      border: 1px solid #d5bb91;
     }
     &--default {
       padding: vw(12px);
@@ -149,6 +162,9 @@ export default {
     }
     &--error {
       border: 1.5px solid $error;
+      @include layout-mobile() {
+        border: 1px solid $error;
+      }
     }
     &::placeholder {
       color: #605139;
@@ -159,9 +175,18 @@ export default {
       outline-offset: 0 !important;
       background: $primary-white;
       border: 1.5px solid $primary-marigold;
-
+      @include layout-mobile() {
+        border: 1px solid $primary-marigold;
+      }
       & + label {
         opacity: 0;
+      }
+    }
+  }
+  &--small {
+    .input-container__input {
+      @include layout-mobile() {
+        padding: mvw(12px) 0 mvw(12px) mvw(47px);
       }
     }
   }

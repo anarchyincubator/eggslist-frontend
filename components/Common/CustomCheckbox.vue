@@ -77,7 +77,7 @@ export default {
   @include layout-mobile() {
     padding-left: mvw(24px);
     margin-bottom: mvw(13px);
-    font-size: mvw(12px);
+    font-size: mvw(14px);
     line-height: mvw(16px);
   }
 

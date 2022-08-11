@@ -6,6 +6,7 @@
       :width="300"
       :width-mobile="130"
       :border="30"
+      :border-mobile="12"
     />
     <SkeletonItem
       class="skeleton-card__title"
