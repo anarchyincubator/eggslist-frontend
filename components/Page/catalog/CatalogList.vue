@@ -38,7 +38,10 @@ export default {
   },
   methods: {
     getIfHeight(index) {
-      if (this.items.length === 0 || this.items.length === index + 1)
+      if (
+        this.items.length === 0 ||
+        (this.items.length === index + 1 && index % 2 === 0)
+      )
         return Boolean(this.items[index].title.length >= 14);
 
       let isLarge = this.items[index].title.length >= 14;
