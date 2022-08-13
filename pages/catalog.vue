@@ -290,10 +290,10 @@ export default {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: vw(75px);
+      height: vw(35px);
       background-size: cover;
       @include layout-mobile() {
-        height: mvw(60px);
+        height: mvw(40px);
         bottom: mvw(-20px);
         transform: scale(1);
       }

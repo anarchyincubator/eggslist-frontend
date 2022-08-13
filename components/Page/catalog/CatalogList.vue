@@ -8,6 +8,7 @@
       :price="item.price"
       :author-config="item.seller"
       class="catalog__item"
+      :is-big-height="getIfHeight(index)"
     ></CardItem>
   </div>
   <div v-else class="catalog">
@@ -33,6 +34,21 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    getIfHeight(index) {
+      if (this.items.length === 0 || this.items.length === index + 1)
+        return Boolean(this.items[index].title.length > 14);
+
+      let isLarge = this.items[index].title.length > 14;
+
+      if (index % 2 === 1) {
+        isLarge |= this.items[index - 1].title.length > 14;
+      } else {
+        isLarge |= this.items[index + 1].title.length > 14;
+      }
+      return Boolean(isLarge);
     },
   },
 };

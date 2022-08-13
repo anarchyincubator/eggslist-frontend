@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div :class="classes">
     <div class="card__background" :style="backgroundStyle"></div>
     <h4>{{ title }}</h4>
     <div class="body-1">${{ price }}</div>
@@ -39,12 +39,24 @@ export default {
       type: Object,
       default: null,
     },
+    isBigHeight: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     backgroundStyle() {
       return {
         "background-image": `url(${this.background})`,
       };
+    },
+    classes() {
+      return [
+        "card",
+        {
+          "card-small": !this.isBigHeight,
+        },
+      ];
     },
   },
 };
@@ -97,6 +109,11 @@ export default {
     }
     @include layout-mobile() {
       display: none;
+    }
+  }
+  &-small {
+    h4 {
+      height: auto;
     }
   }
 }

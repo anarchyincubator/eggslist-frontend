@@ -1,9 +1,9 @@
-import Seller from "./Seller";
+import Author from "./Author";
 export default function (blog) {
   return {
     title: blog.title,
     image: blog.image,
     category: blog.category,
-    seller: blog.seller && Seller(blog.seller),
+    author: blog.author && Author(blog.author),
   };
 }

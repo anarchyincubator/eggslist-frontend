@@ -58,7 +58,7 @@ export default {
     height: vw(64px);
     width: vw(410px);
     @include layout-mobile() {
-      height: mvw(50px);
+      height: auto;
       margin: mvw(8px) 0 0 0;
       width: mvw(280px);
     }
