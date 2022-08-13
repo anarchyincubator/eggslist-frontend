@@ -110,8 +110,9 @@ export default {
       height: vw(35px);
       background-size: cover;
       @include layout-mobile() {
-        height: mvw(40px);
-        bottom: mvw(-20px);
+        height: mvw(60px);
+        bottom: mvw(-42px);
+        width: 101%;
         transform: scale(1);
       }
     }

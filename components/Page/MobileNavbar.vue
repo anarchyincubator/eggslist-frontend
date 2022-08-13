@@ -5,7 +5,7 @@
     :class="{ 'navbar-container--opened': opened }"
   >
     <div class="navbar-container__top">
-      <img src="@/assets/images/icons/logo_dark.svg" />
+      <img src="@/assets/images/icons/logo_dark.svg" @click="handleGoMain" />
       <TheHamburger v-model="opened" />
     </div>
     <div v-if="opened" class="navbar-container-opened">
@@ -65,6 +65,9 @@ export default {
     handleClickLogin() {
       this.$store.commit("setAuthComponent", true);
       this.opened = false;
+    },
+    handleGoMain() {
+      this.$router.push("/");
     },
   },
 };
