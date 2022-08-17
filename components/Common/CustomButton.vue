@@ -115,13 +115,13 @@ export default {
   &-outlined {
     display: flex;
     justify-content: center;
-    padding: vw(10px) vw(20px);
+    padding: 0.625rem 1.25rem;
     background: $primary-marigold;
     border: 1.5px solid #282220;
-    border-radius: vw(12px);
+    border-radius: 0.75rem;
     font-weight: 600;
     text-align: center;
-    font-size: vw(16px);
+    font-size: 1rem;
 
     @include layout-mobile() {
       font-size: mvw(16px);
@@ -142,8 +142,8 @@ export default {
     }
   }
   &-small {
-    font-size: vw(14px);
-    line-height: vw(16px);
+    font-size: 0.875rem;
+    line-height: 1rem;
     @include layout-mobile() {
       font-size: mvw(14px);
       line-height: mvw(16px);
@@ -155,7 +155,7 @@ export default {
   }
   &-outlined {
     background: transparent;
-    border: max(1px, vw(1px)) solid #fef6f4;
+    border: 0.0625rem solid #fef6f4;
   }
   &-disabled {
     pointer-events: none;

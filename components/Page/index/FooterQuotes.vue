@@ -92,16 +92,16 @@ export default {
 
 <style lang="scss" scoped>
 .quotes {
-  margin-top: vw(130px);
-  margin-bottom: vw(140px);
+  margin-top: 8.125rem;
+  margin-bottom: 8.75rem;
   &__title {
     font-style: italic;
-    font-size: vw(28px);
-    line-height: vw(40px);
+    font-size: 1.75rem;
+    line-height: 2.5rem;
     text-align: center;
-    margin-top: vw(58px);
-    margin-bottom: vw(40px);
-    max-width: vw(850px);
+    margin-top: 3.625rem;
+    margin-bottom: 2.5rem;
+    max-width: 53.125rem;
     @include layout-mobile() {
       margin: mvw(20px) 0;
       max-width: 100%;
@@ -115,15 +115,15 @@ export default {
     flex-direction: column;
     align-items: center;
     img {
-      width: vw(25px);
+      width: 1.5625rem;
       @include layout-mobile() {
         width: mvw(25px);
       }
     }
   }
   &__author {
-    font-size: vw(16px);
-    line-height: vw(24px);
+    font-size: 1rem;
+    line-height: 1.5rem;
     font-weight: 500;
     @include layout-mobile() {
       font-size: mvw(14px);
@@ -146,9 +146,9 @@ export default {
       justify-content: center;
       border-radius: 50%;
       user-select: none;
-      border: vw(1.5px) solid $primary-marigold;
-      width: vw(48px);
-      height: vw(48px);
+      border: 1.5px solid $primary-marigold;
+      width: 3rem;
+      height: 3rem;
       top: 40%;
       transform: translateY(-50%);
       cursor: pointer;
@@ -159,7 +159,7 @@ export default {
         }
       }
       svg {
-        height: vw(18px);
+        height: 1.125rem;
         @include layout-mobile() {
           height: mvw(18px);
         }

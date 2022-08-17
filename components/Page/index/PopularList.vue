@@ -66,7 +66,7 @@ export default {
         slidesPerView: 2,
         allowTouchMove: false,
         breakpoints: {
-          729: {
+          1120: {
             slidesPerView: 4,
             spaceBetween: 30,
           },
@@ -133,14 +133,14 @@ export default {
   &__top {
     display: flex;
     align-items: baseline;
-    margin-bottom: vw(48px);
+    margin-bottom: 3rem;
     h2 {
       margin-right: auto;
     }
     a {
-      font-size: vw(16px);
-      line-height: vw(24px);
-      padding-bottom: vw(1px);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      padding-bottom: 0.0625rem;
       font-weight: 600;
       border-bottom: 2px solid $primary-marigold;
       height: min-content;
@@ -170,8 +170,8 @@ export default {
       justify-content: center;
       border-radius: 50%;
       border: 1px solid $primary-marigold;
-      width: vw(48px);
-      height: vw(48px);
+      width: 3rem;
+      height: 3rem;
       top: 40%;
       transform: translateY(-50%);
       cursor: pointer;
@@ -182,20 +182,20 @@ export default {
         }
       }
       img {
-        height: vw(18px);
+        height: 1.125rem;
         @include layout-mobile() {
           height: mvw(18px);
         }
       }
       &--left {
-        left: vw(-92px);
+        left: -5.75rem;
         @include layout-mobile() {
           left: inherit;
           margin-right: mvw(8px);
         }
       }
       &--right {
-        right: vw(-92px);
+        right: -5.75rem;
         @include layout-mobile() {
           right: inherit;
         }

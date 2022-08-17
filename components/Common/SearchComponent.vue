@@ -129,17 +129,17 @@ export default {
     z-index: 30;
     position: relative;
     width: 100%;
-    height: vw(176px);
-    top: calc(100% + 8px);
+    height: 11rem;
+    top: calc(100% + 0.5rem);
     position: absolute;
     background: $primary-white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
+    box-shadow: 0px 0px 0.625rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.125rem;
     overflow: scroll;
     &--ceil {
       width: 100%;
-      min-height: vw(40px);
-      padding: vw(8px) vw(12px);
+      min-height: 2.5rem;
+      padding: 0.5rem 0.75rem;
       box-sizing: border-box;
       transition: 0.25s background-color;
       cursor: pointer;

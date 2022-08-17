@@ -96,15 +96,15 @@ export default {
   background: $primary-black;
   width: 100%;
   position: relative;
-  margin-left: -$padding-left;
-  padding: vw(52px) $padding-left vw(80px) $padding-left;
+  margin-left: calc(0rem - $padding-with-width);
+  padding: 3.25rem $padding-with-width 5rem $padding-with-width;
   color: $primary-cream;
   display: flex;
   z-index: 5;
   flex-direction: column;
   &__logo {
-    width: vw(120px);
-    margin-right: vw(320px);
+    width: 7.5rem;
+    margin-right: 20rem;
     cursor: pointer;
     @include layout-mobile() {
       width: mvw(120px);
@@ -114,11 +114,11 @@ export default {
   }
   &__additive {
     &--back {
-      height: vw(125px);
-      margin-left: -$padding-left;
+      height: 7.8125rem;
+      margin-left: calc(0rem - $padding-with-width);
       width: 100%;
       position: absolute;
-      top: vw(-115px);
+      top: -7.1875rem;
       z-index: 5;
       @include layout-mobile() {
         height: mvw(70px);
@@ -132,21 +132,21 @@ export default {
       width: 100%;
       background-image: url("@/assets/images/pattern_white.png");
       background-size: cover;
-      border-radius: vw(12px);
-      padding: vw(70px);
+      border-radius: 0.75rem;
+      padding: 4.375rem;
       display: flex;
       align-items: center;
-      margin-bottom: vw(200px);
+      margin-bottom: 12.5rem;
       .body-1 {
-        width: vw(850px);
-        margin-top: vw(32px);
+        width: 53.125rem;
+        margin-top: 2rem;
         @include layout-mobile() {
           width: 100%;
           margin-top: mvw(16px);
         }
       }
       &--button {
-        height: vw(56px);
+        height: 3.5rem;
         display: flex;
         font-weight: 600;
         margin-left: auto;
@@ -154,9 +154,9 @@ export default {
           display: flex;
         }
         img {
-          margin-left: vw(12px);
+          margin-left: 0.75rem;
           align-items: center;
-          width: vw(16px);
+          width: 1rem;
         }
         @include layout-mobile() {
           height: mvw(56px);
@@ -189,9 +189,9 @@ export default {
       display: flex;
       margin-right: auto;
       p {
-        margin-bottom: vw(24px);
-        font-size: vw(14px);
-        line-height: vw(16px);
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        line-height: 1rem;
         font-weight: 600;
         @include layout-mobile() {
           font-size: mvw(14px);
@@ -214,8 +214,8 @@ export default {
     }
     &--icon {
       border: 1.5px solid $primary-marigold;
-      width: vw(48px);
-      height: vw(48px);
+      width: 3rem;
+      height: 3rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -226,7 +226,7 @@ export default {
         opacity: 0.8;
       }
       img {
-        height: vw(18px);
+        height: 1.125rem;
         @include layout-mobile() {
           height: mvw(18px);
         }
@@ -239,12 +239,12 @@ export default {
     }
   }
   &__bottom {
-    margin: vw(80px) auto 0 auto;
+    margin: 5rem auto 0 auto;
     display: flex;
     span {
-      font-size: vw(12px);
-      line-height: vw(16px);
-      margin-right: vw(15px);
+      font-size: 0.75rem;
+      line-height: 1rem;
+      margin-right: 0.9375rem;
       @include layout-mobile() {
         font-size: mvw(12px);
         line-height: mvw(16px);

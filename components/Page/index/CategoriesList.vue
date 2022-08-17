@@ -45,18 +45,18 @@ export default {
 .categories {
   &__list {
     display: flex;
-    margin-top: vw(48px);
+    margin-top: 3rem;
     flex-wrap: wrap;
     &--element {
-      margin-right: vw(30px);
+      margin-right: auto;
       cursor: pointer;
       &:nth-child(4) {
         margin-right: 0;
       }
       div {
-        border-radius: vw(30px);
-        width: vw(300px);
-        height: vw(139px);
+        border-radius: 1.875rem;
+        width: 18.75rem;
+        height: 8.6875rem;
         background-size: cover;
         background-color: #605139;
         @include layout-mobile() {
@@ -66,7 +66,7 @@ export default {
         }
       }
       h3 {
-        margin-top: vw(16px);
+        margin-top: 1rem;
         @include layout-mobile() {
           margin-top: mvw(8px);
         }
