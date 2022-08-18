@@ -129,9 +129,10 @@ export default {
   position: relative;
   width: 100%;
   &__label {
-    font-size: vw(14px);
-    line-height: vw(24px);
+    font-size: 0.875rem;
+    line-height: 1.5rem;
     color: $primary-black;
+
     @include layout-mobile() {
       font-size: mvw(14px);
       line-height: mvw(24px);
@@ -143,9 +144,9 @@ export default {
   &__input {
     width: 100%;
     border: 1.5px solid #d5bb91;
-    border-radius: vw(12px);
+    border-radius: 0.75rem;
     opacity: 1;
-    padding: vw(12px) vw(32px);
+    padding: 0.75rem 2rem;
     background: $primary-white;
     color: $primary-black;
     box-sizing: border-box;
@@ -155,7 +156,7 @@ export default {
       border: 1px solid #d5bb91;
     }
     &--default {
-      padding: vw(12px);
+      padding: 0.75rem;
       @include layout-mobile() {
         padding: mvw(10px) mvw(10px);
       }
@@ -192,10 +193,10 @@ export default {
   }
   &__error {
     position: absolute;
-    bottom: vw(-24px);
-    left: vw(14px);
+    bottom: -1.5rem;
+    left: 0.875rem;
     color: #b00020;
-    font-size: vw(12px);
+    font-size: 0.75rem;
     @include layout-mobile() {
       bottom: mvw(-20px);
       left: vw(14px);
@@ -204,7 +205,7 @@ export default {
   }
   &__icon {
     position: absolute;
-    right: vw(20px);
+    right: 1.25rem;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
@@ -214,7 +215,7 @@ export default {
       animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
     img {
-      width: vw(20px);
+      width: 1.25rem;
       @include layout-mobile() {
         width: mvw(20px);
       }

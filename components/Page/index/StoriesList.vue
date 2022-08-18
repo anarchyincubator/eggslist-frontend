@@ -37,14 +37,14 @@ export default {
   &__top {
     display: flex;
     align-items: baseline;
-    margin-bottom: vw(48px);
+    margin-bottom: 3rem;
     h2 {
       margin-right: auto;
     }
     a {
-      font-size: vw(16px);
-      line-height: vw(24px);
-      padding-bottom: vw(1px);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      padding-bottom: 0.0625rem;
       font-weight: 600;
       border-bottom: 2px solid $primary-marigold;
       height: min-content;
@@ -72,7 +72,7 @@ export default {
     flex-direction: column;
   }
   &__item {
-    margin-right: vw(30px);
+    margin-right: 1.875rem;
     &:nth-child(3) {
       margin-right: 0;
     }

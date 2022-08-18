@@ -71,10 +71,10 @@ export default {
     }
   }
   &__background {
-    width: vw(300px);
-    height: vw(300px);
-    border-radius: vw(30px);
-    margin-bottom: vw(16px);
+    width: 18.75rem;
+    height: 18.75rem;
+    border-radius: 1.875rem;
+    margin-bottom: 1rem;
     background-color: $neutral-70;
     background-size: cover;
     @include layout-mobile() {
@@ -89,23 +89,23 @@ export default {
     align-items: center;
     justify-content: center;
     border: 1px solid $neutral-70;
-    border-radius: vw(100px);
-    padding: vw(8px) vw(12px);
+    border-radius: 6.25rem;
+    padding: 0.5rem 0.75rem;
     width: min-content;
-    margin-top: vw(13px);
+    margin-top: 0.8125rem;
     span {
-      font-size: vw(14px);
-      line-height: vw(16px);
+      font-size: 0.875rem;
+      line-height: 1rem;
       font-weight: 600;
     }
     img {
-      margin-left: vw(5px);
+      margin-left: 0.3125rem;
     }
     &--verified {
-      width: vw(15px);
+      width: 0.9375rem;
     }
     &--like {
-      width: vw(13px);
+      width: 0.8125rem;
     }
     @include layout-mobile() {
       display: none;

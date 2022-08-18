@@ -43,10 +43,10 @@ export default {
 <style lang="scss" scoped>
 .blog-item {
   h6 {
-    font-size: vw(14px);
+    font-size: 0.875rem;
     font-weight: 500;
-    line-height: vw(16px);
-    margin-bottom: vw(16px);
+    line-height: 1rem;
+    margin-bottom: 1rem;
     @include layout-mobile() {
       font-size: mvw(12px);
       font-weight: 600;
@@ -54,9 +54,9 @@ export default {
     }
   }
   h3 {
-    margin: vw(16px) 0;
-    height: vw(64px);
-    width: vw(410px);
+    margin: 1rem 0;
+    height: 4rem;
+    width: 25.625rem;
     @include layout-mobile() {
       height: auto;
       margin: mvw(8px) 0 0 0;
@@ -64,10 +64,10 @@ export default {
     }
   }
   &__background {
-    width: vw(410px);
-    height: vw(270px);
-    border-radius: vw(30px);
-    margin-bottom: vw(24px);
+    width: 25.625rem;
+    height: 16.875rem;
+    border-radius: 1.875rem;
+    margin-bottom: 1.5rem;
     background-size: cover;
     background-color: $neutral-70;
     @include layout-mobile() {
@@ -78,8 +78,8 @@ export default {
     }
   }
   &__author {
-    font-size: vw(14px);
-    line-height: vw(16px);
+    font-size: 0.875rem;
+    line-height: 1rem;
     font-weight: 500;
     @include layout-mobile() {
       font-size: mvw(14px);

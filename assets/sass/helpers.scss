@@ -8,8 +8,8 @@ body,
 }
 
 h1 {
-  font-size: vw(60px);
-  line-height: vw(64px);
+  font-size: 3.75rem;
+  line-height: 4rem;
   font-weight: 600;
   margin: 0;
 
@@ -20,8 +20,8 @@ h1 {
 
 }
 h2 {
-  font-size: vw(42px);
-  line-height: vw(48px);
+  font-size: 2.625rem;
+  line-height: 3rem;
   font-weight: 600;
   margin: 0;
 
@@ -32,8 +32,8 @@ h2 {
 }
 
 h3 {
-  font-size: vw(26px);
-  line-height: vw(32px);
+  font-size: 1.625rem;
+  line-height: 2rem;
   font-weight: 600;
   margin: 0;
 
@@ -43,8 +43,8 @@ h3 {
   }
 }
 h4 {
-  font-size: vw(20px);
-  line-height: vw(24px);
+  font-size: 1.25rem;
+  line-height: 1.5rem;
   font-weight: 600;
   margin: 0;
 
@@ -55,8 +55,8 @@ h4 {
 }
 
 .body-1 {
-  font-size: vw(20px);
-  line-height: vw(32px);
+  font-size: 1.25rem;
+  line-height: 2rem;
   font-weight: 400;
   margin: 0;
 
@@ -67,9 +67,9 @@ h4 {
 }
 
 .subtitle-1 {
-  font-size: vw(16px);
+  font-size: 1rem;
   font-weight: 400;
-  line-height: vw(24px);
+  line-height: 1.5rem;
 
   @include layout-mobile() {
     font-size: mvw(16px);
@@ -79,8 +79,8 @@ h4 {
 
 .menu-1 {
   font-weight: 600;
-  font-size: vw(16px);
-  line-height: vw(24px);
+  font-size: 1rem;
+  line-height: 1.5rem;
 
   @include layout-mobile() {
     font-size: mvw(16px);
@@ -89,9 +89,9 @@ h4 {
 }
 
 .button-2 {
-  font-size: vw(16px);
+  font-size: 1rem;
   font-weight: 600;
-  line-height: vw(32px);
+  line-height: 2rem;
 
   @include layout-mobile() {
     font-size: mvw(16px);
@@ -100,9 +100,9 @@ h4 {
 }
 
 .button-2 {
-  font-size: vw(14px);
+  font-size: 0.875rem;
   font-weight: bold;
-  line-height: vw(16px);
+  line-height: 1rem;
 
   @include layout-mobile() {
     font-size: mvw(14px);
@@ -111,10 +111,15 @@ h4 {
 }
 
 .page-container {
-  padding: 0 vw(195px);
+  //padding: 0 12.1875rem;
+  padding: 0 $padding-with-width;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 
   @include layout-mobile() {
     padding: 0 mvw(20px);
+    width: auto;
   }
 
 }
@@ -124,11 +129,14 @@ h4 {
       border: none !important;
       display: flex;
       align-items: center;
-      font-size: vw(20px);
+      font-size: 1.25rem;
     }
   }
 }
 
+#__layout {
+  background: $primary-white;
+}
 a, a:hover, a:focus, a:active {
   text-decoration: none;
   color: inherit;

@@ -101,9 +101,9 @@ export default {
   width: 100%;
   display: flex;
   background: #fef3e1;
-  border-radius: vw(12px);
-  padding: vw(15px) vw(15px) vw(15px) vw(15px);
-  height: vw(56px);
+  border-radius: 0.75rem;
+  padding: 0.9375rem 0.9375rem 0.9375rem 0.9375rem;
+  height: 3.5rem;
   &__first,
   &__second {
     display: flex;
@@ -111,13 +111,13 @@ export default {
     align-items: center;
   }
   &__first {
-    width: vw(458px);
+    width: 28.625rem;
     @include layout-mobile() {
       width: 100%;
     }
   }
   &__second {
-    width: vw(175px) !important;
+    width: 10.9375rem !important;
     margin-right: auto;
     @include layout-mobile() {
       margin: 0;
@@ -125,17 +125,17 @@ export default {
     }
   }
   &__line {
-    width: vw(2px);
+    width: 0.125rem;
     height: 100%;
-    margin-right: vw(20px);
+    margin-right: 1.25rem;
     background-color: $neutral-70;
     @include layout-mobile() {
       display: none;
     }
   }
   &__button {
-    width: vw(166px);
-    font-size: vw(16px);
+    width: 10.375rem;
+    font-size: 1rem;
     @include layout-mobile() {
       width: 100%;
       font-size: mvw(14px);
@@ -155,8 +155,8 @@ export default {
 }
 .icon {
   position: absolute;
-  left: vw(0px);
-  width: vw(18px);
+  left: 0;
+  width: 1.125rem;
   z-index: 5;
   top: 50%;
   transform: translateY(-50%);

@@ -78,18 +78,18 @@ export default {
   .header-container {
     background-image: url("@/assets/images/homepage.jpg");
     background-size: cover;
-    padding-top: vw(150px);
-    padding-bottom: vw(80px);
+    padding-top: 9.375rem;
+    padding-bottom: 5rem;
     width: 100vw;
-    margin-left: vw(-195px);
-    margin-bottom: vw(50px);
+    margin-left: calc(0rem - $padding-with-width);
+    margin-bottom: 3.125rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     h1 {
       color: $primary-marigold;
-      margin-bottom: vw(32px);
+      margin-bottom: 2rem;
       @include layout-mobile() {
         margin-top: mvw(64px);
         margin-bottom: mvw(16px);
@@ -97,8 +97,8 @@ export default {
       }
     }
     &__search {
-      width: vw(822px);
-      margin-bottom: vw(75px);
+      width: 51.375rem;
+      margin-bottom: 4.6875rem;
       @include layout-mobile() {
         width: 100%;
       }
@@ -107,7 +107,7 @@ export default {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: vw(35px);
+      height: 1.5rem;
       background-size: cover;
       @include layout-mobile() {
         height: mvw(60px);
@@ -124,13 +124,13 @@ export default {
     }
   }
   &__popular {
-    margin: vw(128px) 0;
+    margin: 8rem 0;
     @include layout-mobile() {
       margin: mvw(64px) 0;
     }
   }
   &__stories {
-    margin-bottom: vw(128px);
+    margin-bottom: 8rem;
   }
 }
 </style>

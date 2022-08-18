@@ -92,13 +92,13 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: vw(64px);
+  height: 4rem;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   position: fixed;
-  margin-left: -$padding-left;
-  padding: 0 $padding-left;
+  margin-left: calc(0rem - $padding-with-width);
+  padding: 0 $padding-with-width;
   z-index: 500;
   align-items: center;
   color: $primary-cream;
@@ -108,8 +108,8 @@ export default {
     color: #282220;
   }
   &__logo {
-    width: vw(120px);
-    margin-right: vw(48px);
+    width: 7.5rem;
+    margin-right: 3rem;
     display: flex;
     align-items: center;
     img {
@@ -125,23 +125,23 @@ export default {
     margin-right: auto;
   }
   &__link {
-    margin-right: vw(30px);
+    margin-right: 1.875rem;
   }
   &__side {
     display: flex;
     align-items: center;
     &--login {
-      margin-right: vw(24px);
+      margin-right: 1.5rem;
       cursor: pointer;
     }
   }
   &__auth {
     display: flex;
     align-items: center;
-    margin-right: vw(24px);
+    margin-right: 1.5rem;
     &__like {
-      height: vw(20px);
-      margin-right: vw(26px);
+      height: 1.25rem;
+      margin-right: 1.625rem;
     }
     &__avatar {
       height: 100%;
@@ -152,8 +152,8 @@ export default {
         border-radius: 50%;
         cursor: pointer;
         object-fit: contain;
-        width: vw(32px);
-        height: vw(32px);
+        width: 2rem;
+        height: 2rem;
       }
     }
   }
