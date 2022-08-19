@@ -86,7 +86,7 @@ export default {
 
   &__loader {
     display: inline-block;
-    width: vw(14px);
+    width: 0.875rem;
 
     @include layout-mobile() {
       width: mvw(14px);
@@ -96,10 +96,10 @@ export default {
   &__loader:after {
     content: " ";
     display: block;
-    width: vw(18px);
-    height: vw(18px);
+    width: 1.125rem;
+    height: 1.125rem;
     border-radius: 50%;
-    border: vw(3px) solid #fff;
+    border: 0.1875rem solid #fff;
     border-color: #fff transparent #fff transparent;
     animation: loader-animation 1.2s linear infinite;
 
