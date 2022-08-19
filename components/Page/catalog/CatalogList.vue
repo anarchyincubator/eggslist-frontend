@@ -62,7 +62,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   &__item {
-    margin-right: 1.875rem;
+    margin-right: 1.8125rem;
     margin-bottom: 3.5rem;
 
     @include layout-mobile() {
