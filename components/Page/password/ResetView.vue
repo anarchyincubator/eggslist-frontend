@@ -132,14 +132,14 @@ export default {
 <style lang="scss" scoped>
 .reset {
   h1 {
-    margin-bottom: vw(48px);
+    margin-bottom: 3rem;
     @include layout-mobile() {
       margin-bottom: mvw(32px);
     }
   }
   &__create {
-    margin-bottom: vw(48px);
-    margin-top: vw(24px);
+    margin-bottom: 3rem;
+    margin-top: 1.5rem;
     display: flex;
     align-items: center;
     @include layout-mobile() {
@@ -150,15 +150,15 @@ export default {
     }
   }
   &__sent {
-    margin-top: vw(24px);
+    margin-top: 1.5rem;
     display: flex;
     align-items: center;
     a {
-      font-size: vw(14px);
-      line-height: vw(24px);
+      font-size: 0.875rem;
+      line-height: 1.5rem;
       cursor: pointer;
       font-weight: 600;
-      margin-left: vw(4px);
+      margin-left: 0.25rem;
       border-bottom: 2px solid $primary-marigold;
       @include layout-mobile() {
         font-size: mvw(14px);
@@ -174,7 +174,7 @@ export default {
     }
   }
   &__h3 {
-    margin-bottom: vw(24px);
+    margin-bottom: 1.5rem;
     @include layout-mobile() {
       font-size: mvw(18px);
       margin-bottom: mvw(16px);
@@ -182,10 +182,10 @@ export default {
   }
   &__form {
     &--button {
-      width: vw(216px);
+      width: 13.5rem;
       font-weight: bold;
-      height: vw(56px);
-      margin-top: vw(48px);
+      height: 3.5rem;
+      margin-top: 3rem;
       @include layout-mobile() {
         height: mvw(48px);
         width: 100%;
@@ -193,7 +193,7 @@ export default {
       }
     }
     &--password {
-      margin-bottom: vw(32px);
+      margin-bottom: 2rem;
       @include layout-mobile() {
         margin-bottom: mvw(32px);
       }

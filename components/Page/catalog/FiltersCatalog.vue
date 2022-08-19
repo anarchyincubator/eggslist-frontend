@@ -265,23 +265,23 @@ export default {
 
 <style lang="scss" scoped>
 .filter-container {
-  width: vw(300px);
+  width: 18.75rem;
   flex-shrink: 0;
   &__header {
     display: flex;
     align-items: center;
-    margin-bottom: vw(32px);
+    margin-bottom: 2rem;
     &--button {
-      height: vw(40px);
-      font-size: vw(12px);
+      height: 2.5rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      padding: 0 vw(12px);
+      padding: 0 0.75rem;
       margin-left: auto;
     }
   }
   &__reset {
-    font-size: vw(16px);
-    line-height: vw(24px);
+    font-size: 1rem;
+    line-height: 1.5rem;
     text-decoration-line: underline;
     align-self: center;
     cursor: pointer;
@@ -293,8 +293,8 @@ export default {
     position: relative;
     &--icon {
       position: absolute;
-      left: vw(14px);
-      width: vw(12px);
+      left: 0.875rem;
+      width: 0.75rem;
       z-index: 5;
       top: 50%;
       transform: translateY(-50%);
@@ -305,28 +305,28 @@ export default {
     }
   }
   h6 {
-    margin-top: vw(48px);
-    font-size: vw(12px);
-    line-height: vw(16px);
-    letter-spacing: vw(1.2px);
+    margin-top: 3rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    letter-spacing: 0.075rem;
     text-transform: uppercase;
   }
   &__category {
-    margin-top: vw(20px);
+    margin-top: 1.25rem;
   }
   &__price {
     display: flex;
     align-items: center;
-    margin-top: vw(16px);
+    margin-top: 1rem;
     p {
-      font-size: vw(16px);
-      line-height: vw(24px);
-      margin: 0 vw(16px);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      margin: 0 1rem;
     }
   }
   &__search {
-    margin-top: vw(16px);
-    margin-bottom: vw(24px);
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
     position: relative;
   }
   &__line {
@@ -337,8 +337,8 @@ export default {
 }
 .icon {
   position: absolute;
-  left: vw(13px);
-  width: vw(12px);
+  left: 0.8125rem;
+  width: 0.75rem;
   z-index: 5;
   top: 50%;
   transform: translateY(-50%);

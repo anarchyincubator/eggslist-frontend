@@ -5,9 +5,20 @@
       <SearchCity :cities="cities" class="header-container__search" />
       <PatternTop class="header-container__bottom" />
     </div>
-    <CategoriesList :categories="categories"></CategoriesList>
-    <PopularList class="page__popular" :products="products"></PopularList>
-    <StoriesList class="page__stories" :stories="blogs"></StoriesList>
+    <CategoriesList
+      :loading="loadingCategories"
+      :categories="categories"
+    ></CategoriesList>
+    <PopularList
+      :loading="loadingProducts"
+      class="page__popular"
+      :products="products"
+    ></PopularList>
+    <StoriesList
+      :loading="loadingBlogs"
+      class="page__stories"
+      :stories="blogs"
+    ></StoriesList>
     <TheFooter
       :is-additive="true"
       :is-non-auth="!isAuthenticated"
@@ -38,6 +49,9 @@ export default {
       blogs: [],
       products: [],
       quotes: [],
+      loadingProducts: true,
+      loadingBlogs: true,
+      loadingCategories: true,
     };
   },
   computed: {
@@ -58,13 +72,17 @@ export default {
   },
 
   async mounted() {
-    this.$store.dispatch("categories/getCategories");
+    this.$store.dispatch("categories/getCategories").then(({}) => {
+      this.loadingCategories = false;
+    });
     this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
       this.blogs.push(...blogs);
+      this.loadingBlogs = false;
     });
 
     this.$store.dispatch("products/getProductsPopular").then(({ products }) => {
       this.products.push(...products);
+      this.loadingProducts = false;
     });
 
     this.$store.dispatch("quotes/getQuotes").then(({ quotes }) => {

@@ -58,13 +58,13 @@ export default {
   display: flex;
   align-items: flex-end;
   position: relative;
-  padding-left: vw(25px);
-  margin-bottom: vw(13px);
+  padding-left: 1.5625rem;
+  margin-bottom: 0.8125rem;
   cursor: pointer;
   font-weight: 500;
   color: $neutral-30;
-  line-height: vw(16px);
-  font-size: vw(14px);
+  line-height: 1rem;
+  font-size: 0.875rem;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -94,8 +94,8 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  height: vw(13px);
-  width: vw(13px);
+  height: 0.8125rem;
+  width: 0.8125rem;
   border: 2px solid $neutral-30;
   border-radius: 1px;
   svg {

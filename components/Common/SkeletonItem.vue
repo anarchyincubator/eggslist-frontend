@@ -45,9 +45,9 @@ export default {
         };
 
       return {
-        height: `${(this.height * this.windowWidth) / 1680}px`,
-        width: `${(this.width * this.windowWidth) / 1680}px`,
-        "border-radius": `${(this.border * this.windowWidth) / 1680}px`,
+        height: `${this.height}rem`,
+        width: `${this.width}rem`,
+        "border-radius": `${this.border}rem`,
       };
     },
     windowWidth() {

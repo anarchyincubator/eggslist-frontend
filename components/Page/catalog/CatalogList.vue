@@ -62,8 +62,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   &__item {
-    margin-right: vw(30px);
-    margin-bottom: vw(56px);
+    margin-right: 1.875rem;
+    margin-bottom: 3.5rem;
 
     @include layout-mobile() {
       margin-right: mvw(20px);

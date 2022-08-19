@@ -10,7 +10,7 @@ export const state = () => ({
   currentCity: null,
 });
 export const getters = {
-  isMobile: (state) => state.windowWidth <= 1119,
+  isMobile: (state) => state.windowWidth <= 860,
   cities: (state) => state.cities,
   currentCity: (state) => state.currentCity && City(state.currentCity),
 };

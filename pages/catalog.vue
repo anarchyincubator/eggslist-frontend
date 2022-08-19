@@ -96,7 +96,7 @@ export default {
       startQuery: {},
       sort: "price",
       query: "",
-      totalPage: 0,
+      totalPage: 1,
       sortOptions: [
         { name: "Price up", key: "price" },
         { name: "Price down", key: "-price" },
@@ -179,7 +179,7 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  padding-bottom: vw(120px);
+  padding-bottom: 7.5rem;
 
   &__container {
     display: flex;
@@ -194,7 +194,7 @@ export default {
       align-items: center;
       display: flex;
       flex-direction: column;
-      margin-left: vw(30px);
+      margin-left: 1.875rem;
       z-index: 8;
       @include layout-mobile() {
         margin-left: 0;
@@ -208,7 +208,7 @@ export default {
       cursor: pointer;
     }
     &__lists {
-      margin-bottom: vw(32px);
+      margin-bottom: 2rem;
       display: flex;
       justify-content: space-between;
 
@@ -217,8 +217,8 @@ export default {
         margin-top: mvw(16px);
       }
       p {
-        font-size: vw(16px);
-        line-height: vw(24px);
+        font-size: 1rem;
+        line-height: 1.5rem;
         @include layout-mobile() {
           font-size: mvw(16px);
           line-height: mvw(24px);
@@ -231,9 +231,9 @@ export default {
       }
     }
     &__not {
-      margin-top: vw(120px);
+      margin-top: 7.5rem;
       display: flex;
-      width: vw(514px);
+      width: 32.125rem;
       align-items: center;
       text-align: center;
       flex-direction: column;
@@ -242,8 +242,8 @@ export default {
         margin-top: mvw(50px);
       }
       p {
-        margin-top: vw(16px);
-        margin-bottom: vw(32px);
+        margin-top: 1rem;
+        margin-bottom: 2rem;
         @include layout-mobile() {
           margin-top: mvw(16px);
           margin-bottom: mvw(32px);
@@ -251,7 +251,7 @@ export default {
       }
       &-button {
         font-weight: 600;
-        height: vw(56px);
+        height: 3.5rem;
         @include layout-mobile() {
           height: mvw(56px);
           width: mvw(270px);
@@ -262,11 +262,11 @@ export default {
   }
   .header-container {
     background-color: $primary-black;
-    padding-top: vw(169px);
-    padding-bottom: vw(80px);
+    padding-top: 10.5625rem;
+    padding-bottom: 5rem;
     width: 100vw;
-    margin-left: vw(-195px);
-    margin-bottom: vw(50px);
+    margin-left: calc(0rem - $padding-with-width);
+    margin-bottom: 3.125rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -278,7 +278,7 @@ export default {
     }
     h1 {
       color: $primary-marigold;
-      margin-bottom: vw(32px);
+      margin-bottom: 2rem;
       @include layout-mobile() {
         width: mvw(280px);
         margin-top: mvw(64px);
@@ -290,7 +290,7 @@ export default {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: vw(35px);
+      height: 1.5rem;
       background-size: cover;
       @include layout-mobile() {
         height: mvw(40px);

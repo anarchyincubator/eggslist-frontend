@@ -148,20 +148,20 @@ export default {
 <style lang="scss" scoped>
 .login {
   h2 {
-    margin-bottom: vw(16px);
+    margin-bottom: 1rem;
     @include layout-mobile() {
       margin-bottom: mvw(16px);
     }
   }
   &__create {
-    margin-bottom: vw(48px);
+    margin-bottom: 3rem;
     display: flex;
     align-items: center;
     cursor: pointer;
     span {
-      font-size: vw(16px);
-      line-height: vw(24px);
-      margin-right: vw(8px);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      margin-right: 0.5rem;
       @include layout-mobile() {
         font-size: mvw(16px);
         line-height: mvw(24px);
@@ -170,9 +170,9 @@ export default {
     }
     a {
       font-weight: 600;
-      margin-bottom: vw(8px);
-      font-size: vw(16px);
-      line-height: vw(24px);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
       border-bottom: 2px solid $primary-marigold;
       @include layout-mobile() {
         margin-bottom: 0;
@@ -187,7 +187,7 @@ export default {
     }
   }
   &__h3 {
-    margin-bottom: vw(24px);
+    margin-bottom: 1.5rem;
     @include layout-mobile() {
       font-size: mvw(18px);
       margin-bottom: mvw(16px);
@@ -197,25 +197,25 @@ export default {
     &--button {
       width: 100%;
       font-weight: bold;
-      height: vw(56px);
+      height: 3.5rem;
       @include layout-mobile() {
         height: mvw(48px);
       }
     }
     &--password {
-      margin: vw(28px) 0 vw(32px) 0;
+      margin: 1.75rem 0 2rem 0;
       @include layout-mobile() {
         margin: mvw(20px) 0 mvw(20px) 0;
       }
     }
     &--forgot {
       border-bottom: 2px solid $primary-marigold;
-      margin-bottom: vw(48px);
-      padding-bottom: vw(4px);
+      margin-bottom: 3rem;
+      padding-bottom: 0.25rem;
       cursor: pointer;
       width: fit-content;
-      font-size: vw(16px);
-      line-height: vw(24px);
+      font-size: 1rem;
+      line-height: 1.5rem;
       font-weight: 600;
 
       @include layout-mobile() {
@@ -231,9 +231,9 @@ export default {
     }
   }
   &__border {
-    height: vw(1px);
+    height: 0.0625rem;
     background-color: $neutral-70;
-    margin: vw(48px) 0;
+    margin: 3rem 0;
     @include layout-mobile() {
       margin: mvw(32px) 0;
       height: mvw(1px);
@@ -241,21 +241,21 @@ export default {
   }
   &__bottom {
     &--h3 {
-      margin-bottom: vw(48px);
+      margin-bottom: 3rem;
       @include layout-mobile() {
         margin-bottom: mvw(30px);
       }
     }
     &--button {
       width: 100%;
-      margin-bottom: vw(16px);
+      margin-bottom: 1rem;
       font-weight: 600;
-      height: vw(56px);
+      height: 3.5rem;
       display: flex;
       align-items: center;
       img {
-        width: vw(18px);
-        margin-right: vw(11px);
+        width: 1.125rem;
+        margin-right: 0.6875rem;
         @include layout-mobile() {
           margin-right: mvw(11px);
           width: mvw(18px);

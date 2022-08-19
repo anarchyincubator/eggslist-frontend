@@ -4,7 +4,7 @@
       <h2>Featured Stories</h2>
       <nuxt-link tabindex="-1" to="/">View All Stories</nuxt-link>
     </div>
-    <div class="list">
+    <div v-if="!loading" class="list">
       <BlogItem
         v-for="(story, index) in stories"
         :key="index"
@@ -15,18 +15,30 @@
         :author-config="story.author"
       ></BlogItem>
     </div>
+    <div v-else class="list">
+      <SkeletonBlogItem
+        v-for="(item, index) in 3"
+        :key="index"
+        class="list__item"
+      ></SkeletonBlogItem>
+    </div>
   </div>
 </template>
 
 <script>
 import BlogItem from "../../Common/BlogItem";
+import SkeletonBlogItem from "../../Common/SkeletonBlogItem";
 export default {
   name: "StoriesList",
-  components: { BlogItem },
+  components: { SkeletonBlogItem, BlogItem },
   props: {
     stories: {
       type: Array,
       default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
 };
@@ -72,7 +84,7 @@ export default {
     flex-direction: column;
   }
   &__item {
-    margin-right: 1.875rem;
+    margin-right: 1.8125rem;
     &:nth-child(3) {
       margin-right: 0;
     }

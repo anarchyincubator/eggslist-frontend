@@ -95,10 +95,10 @@ export default {
 
   &__icon {
     position: absolute;
-    width: vw(11px);
+    width: 0.6875rem;
     top: 50%;
     transform: translateY(-50%);
-    left: vw(-16px);
+    left: -1rem;
     @include layout-mobile() {
       width: mvw(11px);
       left: mvw(-16px);
@@ -110,8 +110,8 @@ export default {
     align-items: center;
     justify-content: space-between;
     p {
-      font-size: vw(16px);
-      line-height: vw(24px);
+      font-size: 1rem;
+      line-height: 1.5rem;
       color: $neutral-30;
       font-weight: 500;
       @include layout-mobile() {
@@ -126,8 +126,8 @@ export default {
     }
     &--arrow {
       cursor: pointer;
-      width: vw(32px);
-      height: vw(32px);
+      width: 2rem;
+      height: 2rem;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -143,7 +143,7 @@ export default {
         opacity: 0.8;
       }
       img {
-        width: vw(10px);
+        width: 0.625rem;
         transition: transform 0.5s;
         @include layout-mobile() {
           width: mvw(11px);
@@ -157,9 +157,9 @@ export default {
     }
   }
   &__main {
-    margin-top: vw(18px);
+    margin-top: 1.125rem;
     &--checkbox {
-      margin-bottom: vw(20px);
+      margin-bottom: 1.25rem;
     }
   }
 }

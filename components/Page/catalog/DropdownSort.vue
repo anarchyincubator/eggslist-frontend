@@ -76,16 +76,16 @@ export default {
     display: flex;
     align-items: center;
     span {
-      font-size: vw(16px);
-      line-height: vw(24px);
+      font-size: 1rem;
+      line-height: 1.5rem;
       @include layout-mobile() {
         font-size: mvw(16px);
         line-height: mvw(24px);
       }
     }
     img {
-      width: vw(12px);
-      margin-left: vw(10px);
+      width: 0.75rem;
+      margin-left: 0.625rem;
       transform: rotate(180deg);
       transition: 0.25s transform;
       @include layout-mobile() {
@@ -102,17 +102,17 @@ export default {
 
   &__opened {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 0.5rem);
     width: 100%;
     &--item {
       width: 100%;
       display: flex;
       align-items: center;
-      padding-left: vw(12px);
-      height: vw(40px);
+      padding-left: 0.75rem;
+      height: 2.5rem;
       background-color: $primary-white;
-      font-size: vw(16px);
-      line-height: vw(24px);
+      font-size: 1rem;
+      line-height: 1.5rem;
       @include layout-mobile() {
         font-size: mvw(12px);
         line-height: mvw(24px);

@@ -90,10 +90,10 @@ export default {
     left: 50%;
     top: 50%;
     z-index: 1000;
-    width: vw(525px);
-    padding: vw(48px);
+    width: 32.8125rem;
+    padding: 3rem;
     box-sizing: border-box;
-    border-radius: vw(12px);
+    border-radius: 0.75rem;
     background-color: $primary-white;
     @include layout-mobile() {
       width: 100%;
@@ -106,10 +106,10 @@ export default {
   }
   &__close {
     position: absolute;
-    width: vw(18px);
-    top: vw(18px);
+    width: 1.125rem;
+    top: 1.125rem;
     cursor: pointer;
-    right: vw(-42px);
+    right: -2.625rem;
     &:hover {
       opacity: 0.7;
     }

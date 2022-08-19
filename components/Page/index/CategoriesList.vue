@@ -1,7 +1,7 @@
 <template>
   <section class="categories">
     <h2>Explore Categories</h2>
-    <div class="categories__list">
+    <div v-if="!loading" class="categories__list">
       <div
         v-for="(element, index) in categories"
         :key="index"
@@ -12,18 +12,32 @@
         <h3>{{ element.name }}</h3>
       </div>
     </div>
+    <div v-else class="categories__list">
+      <SkeletonCategoryItem
+        v-for="(item, index) in 4"
+        :key="index"
+        class="categories__list__item"
+      ></SkeletonCategoryItem>
+    </div>
   </section>
 </template>
 
 <script>
+import SkeletonCategoryItem from "../../Common/SkeletonCategoryItem";
 export default {
   name: "CategoriesList",
+  components: { SkeletonCategoryItem },
   props: {
     categories: {
       type: Array,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   methods: {
     getBackgroundStyle(path) {
       return {
@@ -47,6 +61,20 @@ export default {
     display: flex;
     margin-top: 3rem;
     flex-wrap: wrap;
+    &__item {
+      margin-right: auto;
+      cursor: pointer;
+      &:nth-child(4) {
+        margin-right: 0;
+      }
+      @include layout-mobile() {
+        margin-right: mvw(20px);
+        margin-top: mvw(24px);
+        &:nth-child(2n) {
+          margin-right: 0;
+        }
+      }
+    }
     &--element {
       margin-right: auto;
       cursor: pointer;

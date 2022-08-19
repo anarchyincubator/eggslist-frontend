@@ -5,7 +5,7 @@
         <h2>Popular Near You</h2>
         <nuxt-link tabindex="-1" to="/catalog">View All Listings</nuxt-link>
       </div>
-      <div class="list">
+      <div v-show="!loading" class="list">
         <div v-swiper:swiperInstance="swiperOptionsInner" class="fake">
           <div v-swiper:swiperInstance="swiperOptionsInner" class="list-cards">
             <div class="swiper-wrapper">
@@ -39,19 +39,31 @@
           </div>
         </div>
       </div>
+      <div v-show="loading" class="list-loading">
+        <SkeletonCardItem
+          v-for="(item, index) in 4"
+          :key="index"
+          class="list-loading__item"
+        ></SkeletonCardItem>
+      </div>
     </div>
   </client-only>
 </template>
 
 <script>
+import SkeletonCardItem from "../../Common/SkeletonCardItem";
 import CardItem from "../../Common/CardItem";
 export default {
   name: "PopularList",
-  components: { CardItem },
+  components: { CardItem, SkeletonCardItem },
   props: {
     products: {
       type: Array,
       default: () => [],
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -66,7 +78,7 @@ export default {
         slidesPerView: 2,
         allowTouchMove: false,
         breakpoints: {
-          1120: {
+          860: {
             slidesPerView: 4,
             spaceBetween: 30,
           },
@@ -157,6 +169,15 @@ export default {
     @include layout-mobile() {
       flex-direction: column;
       margin-bottom: mvw(32px);
+    }
+  }
+}
+.list-loading {
+  display: flex;
+  &__item {
+    margin-right: 1.875rem;
+    @include layout-mobile() {
+      margin-right: mvw(20px);
     }
   }
 }

@@ -125,15 +125,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: vw(40px);
-    height: vw(40px);
+    width: 2.5rem;
+    height: 2.5rem;
     font-weight: 600;
-    font-size: vw(16px);
-    line-height: vw(24px);
+    font-size: 1rem;
+    line-height: 1.5rem;
     box-sizing: border-box;
     border-radius: 50%;
     cursor: pointer;
-    margin-right: vw(12px);
+    margin-right: 0.75rem;
     @include layout-mobile() {
       width: mvw(30px);
       height: mvw(30px);
@@ -153,12 +153,12 @@ export default {
   }
   &__dots {
     font-weight: 600;
-    font-size: vw(16px);
-    line-height: vw(24px);
+    font-size: 1rem;
+    line-height: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: vw(12px);
+    margin-right: 0.75rem;
 
     @include layout-mobile() {
       font-size: mvw(14px);
@@ -168,9 +168,9 @@ export default {
   }
 
   &__button {
-    width: vw(8px);
+    width: 0.5rem;
     cursor: pointer;
-    margin-right: vw(25px);
+    margin-right: 1.5625rem;
 
     @include layout-mobile() {
       width: mvw(8px);
@@ -178,7 +178,7 @@ export default {
       margin-right: mvw(10px);
     }
     &--right {
-      margin-left: vw(25px);
+      margin-left: 1.5625rem;
       margin-right: 0;
       @include layout-mobile() {
         margin-left: mvw(10px);
