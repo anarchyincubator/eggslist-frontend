@@ -15,6 +15,7 @@
                 class="swiper-slide list__slide"
                 :style="{ 'margin-right': marginRight }"
                 :title="product.title"
+                :slug="product.slug"
                 :price="product.price"
                 :background="product.image"
                 :author-config="product.seller"

@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import PatternTop from "../components/Page/index/PatternTop";
-import FiltersCatalog from "../components/Page/catalog/FiltersCatalog";
-import CatalogList from "../components/Page/catalog/CatalogList";
-import ThePagination from "../components/Common/ThePagination";
-import CustomButton from "../components/Common/CustomButton";
-import DropdownSort from "../components/Page/catalog/DropdownSort";
-import FiltersCatalogMobile from "../components/Page/catalog/FiltersCatalogMobile";
+import PatternTop from "../../components/Page/index/PatternTop";
+import FiltersCatalog from "../../components/Page/catalog/FiltersCatalog";
+import CatalogList from "../../components/Page/catalog/CatalogList";
+import ThePagination from "../../components/Common/ThePagination";
+import CustomButton from "../../components/Common/CustomButton";
+import DropdownSort from "../../components/Page/catalog/DropdownSort";
+import FiltersCatalogMobile from "../../components/Page/catalog/FiltersCatalogMobile";
 
 export default {
   name: "CatalogPage",
@@ -112,12 +112,23 @@ export default {
     isMobile() {
       return this.$store.getters["isMobile"];
     },
+    actualQuery() {
+      return (
+        this.query + `&page=${this.currentPage}` + `&ordering=${this.sort}`
+      );
+    },
   },
   async mounted() {
     this.loading = true;
+    this.sort = this.$route.query.ordering
+      ? this.$route.query.ordering
+      : "price";
     this.$store.dispatch("categories/getCategories").then(() => {
-      if (this.$route.query) {
+      if (Object.keys(this.$route.query).length !== 0) {
         this.startQuery = this.$route.query;
+      } else {
+        let query = `&page=${this.currentPage}` + `&ordering=${this.sort}`;
+        this.$router.push(`/catalog?${query}`);
       }
     });
     const resp = await this.$store.dispatch(
@@ -147,22 +158,25 @@ export default {
       if (val === this.query) return;
 
       this.query = val;
-      this.$router.push(`/catalog?${val}`);
+      this.$router.push(`/catalog?${this.actualQuery}`);
       await this.getProducts();
     },
 
     async handleChangeCity(val) {
       this.query = val;
-      this.$router.push(`/catalog?${val}`);
+      this.$router.push(`/catalog?${this.actualQuery}`);
       await this.getProducts();
     },
     async changeSort(val) {
       await this.getProducts();
+      this.$router.push(`/catalog?${this.actualQuery}`);
     },
     async getProducts(page = 1) {
       this.loading = true;
-      const q = this.query + `&page=${page}` + `&ordering=${this.sort}`;
-      const resp = await this.$store.dispatch("products/getProducts", q);
+      const resp = await this.$store.dispatch(
+        "products/getProducts",
+        this.actualQuery
+      );
       this.totalPage = resp.totalPage;
       this.countItems = resp.count;
       this.products.splice(0, this.products.length);
@@ -172,6 +186,7 @@ export default {
     async handleChangePagination() {
       window.scrollTo(0, 0);
       await this.getProducts(this.currentPage);
+      this.$router.push(`/catalog?${this.actualQuery}`);
     },
   },
 };

@@ -1,4 +1,5 @@
-import Product from "@/utils/adapters/Product";
+import Product from "../utils/adapters/Product";
+import BigProduct from "../utils/adapters/BigProduct";
 export const state = () => ({});
 export const getters = {};
 export const actions = {
@@ -6,6 +7,12 @@ export const actions = {
     try {
       const response = await this.$axios.$get("/store/products/popular");
       return { products: response?.results.map(Product) };
+    } catch (e) {}
+  },
+  async getProduct({}, slug) {
+    try {
+      const response = await this.$axios.$get(`/store/products/${slug}`);
+      return { product: BigProduct(response) };
     } catch (e) {}
   },
   async getProducts({ commit }, query) {
