@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes">
+  <div :class="classes" @click="handleClick">
     <div class="card__background" :style="backgroundStyle"></div>
     <h4>{{ title }}</h4>
     <div class="body-1">${{ price }}</div>
@@ -35,6 +35,10 @@ export default {
       type: String,
       default: "",
     },
+    slug: {
+      type: String,
+      default: "",
+    },
     authorConfig: {
       type: Object,
       default: null,
@@ -59,11 +63,17 @@ export default {
       ];
     },
   },
+  methods: {
+    handleClick() {
+      this.$router.push(`/catalog/${this.slug}`);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .card {
+  cursor: pointer;
   h4 {
     @include layout-mobile() {
       font-size: mvw(16px);
@@ -77,6 +87,9 @@ export default {
     margin-bottom: 1rem;
     background-color: $neutral-70;
     background-size: cover;
+    &:hover {
+      opacity: 0.8;
+    }
     @include layout-mobile() {
       width: mvw(130px);
       height: mvw(130px);

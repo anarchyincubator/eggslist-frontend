@@ -7,6 +7,7 @@
       :background="item.image"
       :price="item.price"
       :author-config="item.seller"
+      :slug="item.slug"
       class="catalog__item"
       :is-big-height="getIfHeight(index)"
     ></CardItem>
