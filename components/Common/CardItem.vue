@@ -65,7 +65,10 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$router.push(`/catalog/${this.slug}`);
+      this.$router.push({
+        path: `/catalog/product`,
+        query: { slug: this.slug },
+      });
     },
   },
 };

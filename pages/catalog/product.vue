@@ -118,11 +118,24 @@ export default {
       product: {},
     };
   },
-
+  watch: {
+    "$route.query": {
+      async handler(val) {
+        window.scrollTo(0, 0);
+        this.loading = true;
+        const { product } = await this.$store.dispatch(
+          "products/getProduct",
+          val?.slug
+        );
+        this.product = product;
+        this.loading = false;
+      },
+    },
+  },
   async mounted() {
     const { product } = await this.$store.dispatch(
       "products/getProduct",
-      this.$route.params.id
+      this.$route.query.slug
     );
     this.product = product;
     this.loading = false;

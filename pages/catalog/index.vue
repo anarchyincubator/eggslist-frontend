@@ -135,6 +135,9 @@ export default {
       "products/getProducts",
       window.location.search.replace("?", "")
     );
+    this.currentPage = this.$route.query.page
+      ? Number(this.$route.query.page)
+      : 1;
     this.totalPage = resp.totalPage;
     this.countItems = resp.count;
     this.products.push(...resp?.products);
