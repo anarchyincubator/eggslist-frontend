@@ -9,9 +9,15 @@
       <TheHamburger v-model="opened" />
     </div>
     <div v-if="opened" class="navbar-container-opened">
-      <nuxt-link class="ceil menu-1" to="/catalog"> Market </nuxt-link>
-      <nuxt-link class="ceil menu-1" to="/about"> About </nuxt-link>
-      <nuxt-link class="ceil menu-1" to="/stories"> Our stories </nuxt-link>
+      <nuxt-link class="ceil menu-1" to="/catalog" @click.native="handleClose">
+        Market
+      </nuxt-link>
+      <nuxt-link class="ceil menu-1" to="/about" @click.native="handleClose">
+        About
+      </nuxt-link>
+      <nuxt-link class="ceil menu-1" to="/stories" @click.native="handleClose">
+        Our stories
+      </nuxt-link>
       <div
         v-if="!isAuthenticated"
         class="ceil menu-1"
@@ -21,7 +27,11 @@
       </div>
       <nuxt-link v-else class="ceil menu-1" to="">Favorite Farmers</nuxt-link>
       <div v-if="isAuthenticated" class="navbar-container__line" />
-      <div v-if="isAuthenticated" class="navbar-container__avatar ceil">
+      <div
+        v-if="isAuthenticated"
+        class="navbar-container__avatar ceil"
+        @click="handleProfile"
+      >
         <img :src="user.avatar" alt="" />
         <span class="menu-1"> {{ user.firstName }}</span>
       </div>
@@ -68,6 +78,13 @@ export default {
     },
     handleGoMain() {
       this.$router.push("/");
+    },
+    handleClose() {
+      this.opened = false;
+    },
+    handleProfile() {
+      this.$router.push("/profile");
+      this.handleClose();
     },
   },
 };

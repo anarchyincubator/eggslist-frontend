@@ -23,7 +23,11 @@
         </div>
         <div class="modal-profile__phone">phone number</div>
         <div class="modal-profile__phone-number">{{ phoneNumber }}</div>
-        <CustomButton class="modal-profile__button" theme="primary">
+        <CustomButton
+          class="modal-profile__button"
+          theme="primary"
+          @click="handleView"
+        >
           View Profile
         </CustomButton>
         <CustomButton v-if="true" class="modal-profile__view" theme="secondary">
@@ -83,6 +87,9 @@ export default {
     },
     handleClose() {
       this.isShow = false;
+    },
+    handleView() {
+      this.$router.push(`/profile?id=${this.seller.id}`);
     },
   },
 };

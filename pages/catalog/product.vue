@@ -287,8 +287,10 @@ export default {
     p {
       margin: 0 0 0.5rem;
       font-weight: 700;
+      text-transform: uppercase;
       font-size: 0.75rem;
       line-height: 1rem;
+      letter-spacing: 1.2px;
       @include layout-mobile() {
         padding-bottom: mvw(8px);
         font-size: mvw(14px);

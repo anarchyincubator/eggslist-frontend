@@ -137,8 +137,6 @@ export default {
     }
     a {
       span {
-        border-bottom: 2px solid $primary-marigold;
-        padding-bottom: 0.0625rem;
         font-size: 1rem;
         line-height: 1.5rem;
         font-weight: 600;

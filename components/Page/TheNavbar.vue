@@ -20,13 +20,9 @@
         </div>
       </template>
       <div v-else class="navbar__auth">
-        <img
-          alt="like"
-          class="navbar__auth__like"
-          src="@/assets/images/icons/like.svg"
-        />
-        <div class="navbar__auth__avatar">
-          <img :src="user.avatar" alt="" />
+        <img alt="like" class="navbar__auth__like" :src="likeLink" />
+        <div class="navbar__auth__avatar" @click="handleGoToProfile">
+          <img :src="user?.avatar" alt="" />
         </div>
       </div>
       <CustomButton theme="primary" :is-large="false">
@@ -37,6 +33,8 @@
 </template>
 
 <script>
+import like from "@/assets/images/icons/like.svg";
+import likeDark from "@/assets/images/icons/like_dark.svg";
 import logo from "@/assets/images/icons/logo.svg";
 import logoDark from "@/assets/images/icons/logo_dark.svg";
 import throttle from "lodash.throttle";
@@ -68,6 +66,9 @@ export default {
     logoLink() {
       return !this.isUserScrolling && !this.isStatic ? logo : logoDark;
     },
+    likeLink() {
+      return !this.isUserScrolling && !this.isStatic ? like : likeDark;
+    },
   },
   mounted() {
     if (this.isStatic) return;
@@ -82,6 +83,9 @@ export default {
     handleClickLogin() {
       // this.$store.dispatch("auth/setToken", "3213131");
       this.$store.commit("setAuthComponent", true);
+    },
+    handleGoToProfile() {
+      this.$router.push("/profile");
     },
     handleScroll: throttle(function (e) {
       this.isUserScrolling = window.scrollY > 0;

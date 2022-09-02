@@ -1,7 +1,7 @@
 <template>
   <div class="page-container" :class="{ 'page-container__index': isMainPage }">
     <client-only>
-      <TheNavbar v-if="!isMobile" :is-static="!isMainPage" />
+      <TheNavbar v-if="!isMobile" :is-static="!isMainPage && !isProfile" />
       <MobileNavbar v-else />
     </client-only>
     <transition name="fade">
@@ -36,6 +36,9 @@ export default {
     },
     isMainPage() {
       return this.$route.path === "/";
+    },
+    isProfile() {
+      return this.$route.path === "/profile";
     },
     isAuthComponent() {
       return this.$store.state.authComponentShow;

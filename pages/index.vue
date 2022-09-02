@@ -93,6 +93,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page {
+  width: 100%;
   .header-container {
     background-image: url("@/assets/images/homepage.jpg");
     background-size: cover;

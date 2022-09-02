@@ -48,6 +48,7 @@ export default {
   modules: [
     "@nuxtjs/axios",
     "cookie-universal-nuxt",
+    "@nuxtjs/dayjs",
     "@nuxtjs/style-resources",
     "@nuxtjs/proxy",
     ["vue-currency-input/nuxt", { globalOptions: { currency: "USD" } }],

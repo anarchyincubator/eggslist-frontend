@@ -133,7 +133,7 @@ export default {
     });
     const resp = await this.$store.dispatch(
       "products/getProducts",
-      window.location.search.replace("?", "")
+      this.actualQuery
     );
     this.currentPage = this.$route.query.page
       ? Number(this.$route.query.page)
