@@ -7,5 +7,6 @@ export default function (seller) {
     phoneNumber: seller.phone_number,
     location: seller.location,
     avatar: seller.avatar,
+    id: seller.id,
   };
 }

@@ -1,9 +1,9 @@
 <template>
   <div class="skeleton-card">
     <SkeletonItem
-      :height="18.75"
+      :height="small ? 11.875 : 18.75"
       :height-mobile="130"
-      :width="18.75"
+      :width="small ? 11.875 : 18.75"
       :width-mobile="130"
       :border="1.875"
       :border-mobile="12"
@@ -36,7 +36,12 @@ import SkeletonItem from "./SkeletonItem";
 export default {
   name: "SkeletonCardItem",
   components: { SkeletonItem },
-  props: {},
+  props: {
+    small: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 

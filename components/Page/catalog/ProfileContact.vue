@@ -24,7 +24,7 @@
       @click="handleClickButton"
       >Contact</CustomButton
     >
-    <nuxt-link to="/">View profile</nuxt-link>
+    <nuxt-link :to="`/profile?id=${author.id}`">View profile</nuxt-link>
   </div>
 </template>
 
@@ -105,7 +105,6 @@ export default {
   &__button {
     width: 100%;
     margin-bottom: 1rem;
-    font-weight: 700;
     margin-top: 2.5rem;
     height: 3.5rem;
     @include layout-mobile() {

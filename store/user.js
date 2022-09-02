@@ -19,6 +19,17 @@ export const actions = {
       }
     });
   },
+  async getUserInfo({ commit, dispatch }, id) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$get(`/users/profile/${id}`);
+        resolve(User(response));
+      } catch (e) {
+        reject(e.response.data.error);
+      }
+    });
+  },
 };
 export const mutations = {
   setUser(state, user) {

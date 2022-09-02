@@ -1,0 +1,337 @@
+<template>
+  <div class="profile">
+    <div class="profile__main">
+      <div class="profile__main__avatar">
+        <img v-if="user.avatar" :src="user.avatar" />
+        <h1 v-else>{{ user.firstName && user.firstName[0] }}</h1>
+      </div>
+      <div class="profile__main__name">
+        <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+        <img
+          v-if="!user.isVerified"
+          src="@/assets/images/icons/verified_dark.svg"
+        />
+      </div>
+      <div v-if="user.location" class="profile__main__location">
+        <img src="@/assets/images/icons/map.svg" />
+        <span
+          >{{ user.location?.zip_code }}, {{ user.location.city }},
+          {{ user.location.state }}</span
+        >
+      </div>
+      <div class="profile__main__date">
+        Joined on {{ $dayjs(user.dateJoined).format("MM/DD/YY") }}
+      </div>
+      <nuxt-link
+        v-if="isAuth"
+        class="profile__main__edit button-1"
+        to="/profile/edit"
+        >Edit Profile</nuxt-link
+      >
+      <nuxt-link v-else to="" class="profile__main__stories">
+        <span class="button-1">My Stories</span>
+        <p><img src="@/assets/images/icons/arrow-forward.svg" /></p>
+      </nuxt-link>
+      <div
+        v-if="user.phone || user.bio || !isAuth"
+        class="profile__main__border"
+      />
+      <div v-if="user.phone" class="profile__main__phone">
+        <p>phone number</p>
+        <span>{{ phoneNumber }}</span>
+      </div>
+      <div v-if="user.bio" class="profile__main__bio">
+        <p>bio</p>
+        <span>{{ user.bio }}</span>
+      </div>
+      <CustomButton v-if="!isAuth" class="profile__main__add" theme="primary">
+        <img
+          src="@/assets/images/icons/favourite.svg"
+          class="profile__main__add--icon"
+        />
+        Add To Favorites
+      </CustomButton>
+    </div>
+    <div v-if="isAuth" class="profile__verified">
+      <div class="profile__verified__border" />
+      <h4>Become a verified seller!</h4>
+      <span class="body-2"
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span
+      >
+      <a class="profile__verified__edit button-1">Get verified</a>
+    </div>
+    <div v-if="isAuth" class="profile__story">
+      <div class="profile__story__border" />
+      <h4>Tell the community about your farm!</h4>
+      <span class="body-2"
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span
+      >
+      <a class="profile__story__edit button-1">Write a story</a>
+    </div>
+  </div>
+</template>
+
+<script>
+import CustomButton from "../../Common/CustomButton";
+export default {
+  name: "ProfileCard",
+  components: { CustomButton },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+    isAuth: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  computed: {
+    phoneNumber() {
+      let number = this.user.phone;
+      return (
+        number.slice(0, 2) +
+        " (" +
+        number.slice(2, 5) +
+        ") " +
+        number.slice(5, 8) +
+        " " +
+        number.slice(8, 10) +
+        " " +
+        number.slice(10, 12)
+      );
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.profile {
+  width: 20.625rem;
+  z-index: 20;
+  @include layout-mobile() {
+    width: 100%;
+    z-index: 1;
+  }
+  &__main {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: #f2e2ca;
+    align-items: center;
+    border-radius: 0.75rem;
+    @include layout-mobile() {
+      border-radius: 0;
+      padding: mvw(32px);
+    }
+    &__avatar {
+      width: 8.125rem;
+      height: 8.125rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $neutral-70;
+      h1 {
+      }
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+      }
+      @include layout-mobile() {
+        width: mvw(80px);
+        position: relative;
+        z-index: 50;
+        height: mvw(80px);
+        margin-top: mvw(-70px);
+      }
+    }
+    &__name {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+      position: relative;
+      img {
+        width: 1rem;
+        margin-left: 0.5625rem;
+        @include layout-mobile() {
+          width: mvw(16px);
+          margin-left: auto;
+          position: absolute;
+          right: mvw(-25px);
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+      h4 {
+        text-align: center;
+      }
+      @include layout-mobile() {
+        margin-top: mvw(16px);
+        max-width: calc(100% - 2rem);
+      }
+    }
+    &__location {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.5rem;
+      img {
+        width: 0.6875rem;
+        margin-right: 0.375rem;
+        @include layout-mobile() {
+          width: mvw(9px);
+          margin-right: mvw(5px);
+        }
+      }
+      span {
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+        @include layout-mobile() {
+          font-size: mvw(12px);
+          line-height: mvw(16px);
+        }
+      }
+    }
+    &__edit {
+      padding-bottom: 0.125rem;
+      border-bottom: 2px solid $primary-marigold;
+      @include layout-mobile() {
+        margin-bottom: mvw(24px);
+      }
+    }
+    &__border {
+      width: 100%;
+      height: 1px;
+      background-color: $neutral-70;
+      margin: 2rem 0;
+      @include layout-mobile() {
+        margin: 0 0;
+      }
+    }
+    &__date {
+      font-size: 0.875rem;
+      line-height: 1.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1.5rem;
+      @include layout-mobile() {
+        font-size: mvw(12px);
+        line-height: mvw(16px);
+        margin: mvw(8px) 0;
+      }
+    }
+    &__phone,
+    &__bio {
+      align-self: baseline;
+      @include layout-mobile() {
+        align-self: center;
+        text-align: center;
+      }
+      p {
+        font-weight: 700;
+        font-size: 0.75rem;
+        letter-spacing: 1.2px;
+        line-height: 1rem;
+        text-transform: uppercase;
+        margin: 0;
+        margin-bottom: 0.25rem;
+        @include layout-mobile() {
+          font-size: mvw(12px);
+          line-height: mvw(16px);
+        }
+      }
+      span {
+        font-size: 1rem;
+        line-height: 1.5rem;
+        @include layout-mobile() {
+          font-size: mvw(16px);
+          line-height: mvw(24px);
+        }
+      }
+    }
+    &__phone {
+      @include layout-mobile() {
+        margin-top: mvw(24px);
+      }
+    }
+    &__bio {
+      margin-top: 2rem;
+      @include layout-mobile() {
+        margin-bottom: 0;
+        margin-top: mvw(30px);
+      }
+    }
+    &__add {
+      width: 100%;
+      height: 3.5rem;
+      margin-top: 2rem;
+      &--icon {
+        width: 1.25rem;
+        margin-right: 0.625rem;
+        @include layout-mobile() {
+          width: mvw(20px);
+          margin-right: mvw(10px);
+        }
+      }
+      @include layout-mobile() {
+        padding: 0 0;
+        height: mvw(56px);
+      }
+    }
+    &__stories {
+      display: flex;
+      align-items: center;
+      p {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        padding: 0.625rem;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        border: 2px solid $primary-marigold;
+        justify-content: center;
+        margin-left: 0.5rem;
+        img {
+          width: 1rem;
+        }
+      }
+      @include layout-mobile() {
+        margin-bottom: mvw(24px);
+      }
+    }
+  }
+  &__verified,
+  &__story {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: #f2e2ca;
+    align-items: center;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
+    &__edit {
+      padding-bottom: 0.125rem;
+      border-bottom: 2px solid $primary-marigold;
+    }
+    &__border {
+      width: 100%;
+      height: 1px;
+      background-color: $neutral-70;
+      display: none;
+      @include layout-mobile() {
+        display: inherit;
+        margin-bottom: mvw(24px);
+      }
+    }
+    span {
+      margin: 1rem 0;
+    }
+    @include layout-mobile() {
+      margin: 0;
+      padding: 0 mvw(32px) mvw(32px) mvw(32px);
+    }
+  }
+}
+</style>

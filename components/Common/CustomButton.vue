@@ -29,7 +29,7 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["primary", "secondary", "outlined"].includes(value);
+        return ["primary", "secondary", "outlined", "danger"].includes(value);
       },
     },
     isLoading: {
@@ -112,7 +112,8 @@ export default {
 
   &-primary,
   &-secondary,
-  &-outlined {
+  &-outlined,
+  &-danger {
     display: flex;
     justify-content: center;
     padding: 0.625rem 1.25rem;
@@ -152,6 +153,14 @@ export default {
   &-secondary {
     background: transparent;
     border: 1.5px solid $primary-marigold;
+  }
+  &-danger {
+    background-color: #b00020;
+    border: 1.5px solid $primary-black;
+    &:hover {
+      background: #b00020;
+      opacity: 0.9;
+    }
   }
   &-outlined {
     background: transparent;
