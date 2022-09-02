@@ -216,6 +216,7 @@ export default {
           "products/getRecentProducts"
         );
         this.$refs.tabs.scrollTo(this.getOffset(100), 0);
+        this.currentItems = [...products];
         this.loading = false;
         return;
       }
