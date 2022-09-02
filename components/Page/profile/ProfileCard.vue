@@ -133,6 +133,7 @@ export default {
       justify-content: center;
       background-color: $neutral-70;
       h1 {
+        text-transform: uppercase;
       }
       img {
         border-radius: 50%;
