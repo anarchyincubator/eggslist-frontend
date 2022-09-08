@@ -21,9 +21,13 @@
       </template>
       <div v-else class="navbar__auth">
         <img alt="like" class="navbar__auth__like" :src="likeLink" />
-        <div class="navbar__auth__avatar" @click="handleGoToProfile">
-          <img :src="user?.avatar" alt="" />
-        </div>
+        <AvatarCard
+          :avatar="user?.avatar"
+          class="navbar__auth__avatar"
+          @click.native="handleGoToProfile"
+        >
+          <h4>{{ user?.firstName[0] }}</h4>
+        </AvatarCard>
       </div>
       <CustomButton theme="primary" :is-large="false">
         Post A Listing</CustomButton
@@ -39,10 +43,12 @@ import logo from "@/assets/images/icons/logo.svg";
 import logoDark from "@/assets/images/icons/logo_dark.svg";
 import throttle from "lodash.throttle";
 import CustomButton from "~/components/Common/CustomButton.vue";
+import AvatarCard from "../Common/AvatarCard";
 
 export default {
   name: "NavBar",
   components: {
+    AvatarCard,
     CustomButton,
   },
   props: {
@@ -148,16 +154,11 @@ export default {
       margin-right: 1.625rem;
     }
     &__avatar {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      border-radius: 50%;
-      img {
-        border-radius: 50%;
-        cursor: pointer;
-        object-fit: contain;
-        width: 2rem;
-        height: 2rem;
+      width: 2rem;
+      cursor: pointer;
+      height: 2rem;
+      h4 {
+        color: #282220;
       }
     }
   }

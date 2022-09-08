@@ -8,6 +8,7 @@ export default function (user) {
     lastName: user.last_name,
     location: user.user_location,
     isEmail: user.is_email_verified,
+    isFavourite: user.is_favorite,
     phone: user.phone_number,
     dateJoined: user.date_joined,
     isVerified: user.is_verified_seller,

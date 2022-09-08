@@ -6,6 +6,7 @@
       :title="item.title"
       :background="item.image"
       :price="item.price"
+      :out-stock="item.isOut"
       :author-config="item.seller"
       :slug="item.slug"
       class="catalog__item"

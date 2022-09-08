@@ -15,7 +15,7 @@
         ]"
       />
       <div
-        v-if="isEdit && isHover"
+        v-if="!isMobile && isEdit && isHover"
         :class="[
           'card__background__edit',
           { 'card__background__edit--active': isEditActive },
@@ -135,6 +135,9 @@ export default {
           "card-edit": this.isEdit,
         },
       ];
+    },
+    isMobile() {
+      return this.$store.getters["isMobile"];
     },
   },
   methods: {

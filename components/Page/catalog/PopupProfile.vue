@@ -1,13 +1,18 @@
 <template>
   <transition name="fade">
     <div v-if="isShow" v-scroll-lock="isShow" class="modal">
-      <div class="modal__background"></div>
-      <div v-click-outside="handleClose" class="modal-profile">
+      <div class="modal__background" @click="handleClose"></div>
+      <div class="modal-profile">
         <div class="modal-profile__close" @click="handleClose">
           <img src="@/assets/images/icons/close_dark.svg" />
         </div>
         <div class="modal-profile__header">
-          <img :src="seller.avatar" class="modal-profile__header--avatar" />
+          <AvatarCard
+            class="modal-profile__header--avatar"
+            :avatar="seller.avatar"
+          >
+            <h2>{{ seller?.firstName[0] }}</h2>
+          </AvatarCard>
           <h3>
             {{ seller.firstName }} {{ seller.lastName }}
             <img
@@ -30,14 +35,26 @@
         >
           View Profile
         </CustomButton>
-        <CustomButton v-if="true" class="modal-profile__view" theme="secondary">
+        <CustomButton
+          v-if="!seller.isFavourite"
+          class="modal-profile__view"
+          theme="secondary"
+          :is-loading="loadingButton"
+          @click="handleAddFavourite"
+        >
           <img
             src="@/assets/images/icons/favourite.svg"
             class="modal-profile__view--icon"
           />
           Add To Favorites
         </CustomButton>
-        <CustomButton v-else class="modal-profile__view" theme="secondary">
+        <CustomButton
+          v-else
+          class="modal-profile__view"
+          :is-loading="loadingButton"
+          theme="secondary"
+          @click="handleAddFavourite"
+        >
           <img
             src="@/assets/images/icons/favourite-full.svg"
             class="modal-profile__view--icon"
@@ -51,9 +68,10 @@
 
 <script>
 import CustomButton from "../../Common/CustomButton";
+import AvatarCard from "../../Common/AvatarCard";
 export default {
   name: "PopupProfile",
-  components: { CustomButton },
+  components: { AvatarCard, CustomButton },
   props: {
     seller: {
       type: Object,
@@ -63,6 +81,7 @@ export default {
   data() {
     return {
       isShow: false,
+      loadingButton: false,
     };
   },
   computed: {
@@ -90,6 +109,14 @@ export default {
     },
     handleView() {
       this.$router.push(`/profile?id=${this.seller.id}`);
+    },
+    async handleAddFavourite() {
+      this.loadingButton = true;
+      try {
+        await this.$store.dispatch("user/changeFavouriteUser", this.seller.id);
+        this.$emit("changeFavorite");
+      } catch (e) {}
+      this.loadingButton = false;
     },
   },
 };
