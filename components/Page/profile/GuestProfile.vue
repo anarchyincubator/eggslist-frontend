@@ -5,6 +5,7 @@
       :is-auth="false"
       class="auth-profile__card"
       :user="user"
+      @changeFavorite="handleChangeFavourite"
     ></ProfileCard>
     <SkeletonItem
       v-else
@@ -79,6 +80,16 @@ export default {
     this.user = { ...user };
     this.currentItems = [...products];
     this.loading = false;
+  },
+  methods: {
+    async handleChangeFavourite() {
+      this.user.isFavourite = !this.user.isFavourite;
+      const { products } = await this.$store.dispatch(
+        "products/getSellerProducts",
+        this.user.id
+      );
+      this.currentItems = [...products];
+    },
   },
 };
 </script>

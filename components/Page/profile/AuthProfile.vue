@@ -36,7 +36,7 @@
           Recently viewed
         </div>
       </div>
-      <div v-if="loading || !isEmptyListings">
+      <div v-if="((loading || !isEmptyListings) && user.isEmail) || isRecently">
         <ListingsProfile
           class="auth-profile__listings"
           :loading="loading"
@@ -54,8 +54,24 @@
           @input="handleChangePagination"
         ></ThePagination>
       </div>
-      <div v-if="!loading">
-        <div v-if="false" class="auth-profile__content">
+      <div v-else>
+        <div v-if="!user.isEmail" class="auth-profile__content">
+          <div class="auth-profile__info">
+            <h3>Confirm your email</h3>
+            <span class="body-1"
+              >Confirm your email to access full Eggslist functionality.</span
+            >
+            <CustomButton
+              v-if="!sendVerify"
+              class="auth-profile__info--button"
+              theme="primary"
+              :is-loading="loadingButton"
+              @click="handleResendEmail"
+              >Resend email</CustomButton
+            >
+          </div>
+        </div>
+        <div v-else-if="false" class="auth-profile__content">
           <div class="auth-profile__info">
             <h3>Do you want to start selling?</h3>
             <span class="body-1">Add your contact info and location!</span>
@@ -64,7 +80,7 @@
             >
           </div>
         </div>
-        <div v-if="isEmptyListings" class="auth-profile__content">
+        <div v-else-if="isEmptyListings" class="auth-profile__content">
           <div class="auth-profile__info">
             <h3>{{ textNoListings }}</h3>
             <CustomButton
@@ -80,17 +96,6 @@
               @click="handleCatalog"
               >Give it a try!
             </CustomButton>
-          </div>
-        </div>
-        <div v-if="false" class="auth-profile__content">
-          <div class="auth-profile__info">
-            <h3>Confirm your email</h3>
-            <span class="body-1"
-              >Confirm your email to access full Eggslist functionality.</span
-            >
-            <CustomButton class="auth-profile__info--button" theme="primary"
-              >Resend email</CustomButton
-            >
           </div>
         </div>
       </div>
@@ -120,6 +125,8 @@ export default {
       totalPage: 0,
       loading: true,
       currentItems: [],
+      loadingButton: false,
+      sendVerify: false,
     };
   },
   computed: {
@@ -156,6 +163,16 @@ export default {
     },
     getOffset(size) {
       return (size * this.windowWidth) / 320;
+    },
+    async handleResendEmail() {
+      this.loadingButton = true;
+      try {
+        await this.$store.dispatch("auth/sendEmailVerify");
+        this.loadingButton = false;
+        this.sendVerify = true;
+      } catch (e) {
+        this.loadingButton = false;
+      }
     },
     async handleChangeTab(tab) {
       this.currentTab = tab;
@@ -323,6 +340,7 @@ export default {
     &--button {
       padding: 1rem 1.875rem;
       margin-top: 2rem;
+      min-width: 9.0625rem;
       @include layout-mobile() {
       }
     }

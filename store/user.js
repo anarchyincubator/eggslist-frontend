@@ -30,9 +30,25 @@ export const actions = {
       }
     });
   },
+  async changeFavouriteUser({ commit, dispatch }, id) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$post(
+          `users/${id}/change-favorite-status`
+        );
+        resolve(User(response));
+      } catch (e) {
+        reject(e.response.data.error);
+      }
+    });
+  },
 };
 export const mutations = {
   setUser(state, user) {
     state.user = user;
+  },
+  clearUser(state) {
+    state.user = {};
   },
 };

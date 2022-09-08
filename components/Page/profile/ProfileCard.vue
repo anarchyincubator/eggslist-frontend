@@ -1,14 +1,14 @@
 <template>
   <div class="profile">
     <div class="profile__main">
-      <div class="profile__main__avatar">
-        <img v-if="user.avatar" :src="user.avatar" />
-        <h1 v-else>{{ user.firstName && user.firstName[0] }}</h1>
-      </div>
+      <SettingsProfile v-if="isAuth" class="profile__main__settings" />
+      <AvatarCard :avatar="user.avatar" class="profile__main__avatar">
+        <h1>{{ user?.firstName[0] }}</h1>
+      </AvatarCard>
       <div class="profile__main__name">
         <h4>{{ user.firstName }} {{ user.lastName }}</h4>
         <img
-          v-if="!user.isVerified"
+          v-if="user.isVerified"
           src="@/assets/images/icons/verified_dark.svg"
         />
       </div>
@@ -44,12 +44,32 @@
         <p>bio</p>
         <span>{{ user.bio }}</span>
       </div>
-      <CustomButton v-if="!isAuth" class="profile__main__add" theme="primary">
+
+      <CustomButton
+        v-if="!isAuth && !user.isFavourite"
+        class="profile__main__add"
+        theme="primary"
+        :is-loading="loadingButton"
+        @click="handleAddFavourite"
+      >
         <img
           src="@/assets/images/icons/favourite.svg"
           class="profile__main__add--icon"
         />
         Add To Favorites
+      </CustomButton>
+      <CustomButton
+        v-if="!isAuth && user.isFavourite"
+        class="profile__main__add"
+        theme="primary"
+        :is-loading="loadingButton"
+        @click="handleAddFavourite"
+      >
+        <img
+          src="@/assets/images/icons/favourite-full.svg"
+          class="profile__main__add--icon"
+        />
+        Remove From Favorites
       </CustomButton>
     </div>
     <div v-if="isAuth" class="profile__verified">
@@ -73,9 +93,11 @@
 
 <script>
 import CustomButton from "../../Common/CustomButton";
+import SettingsProfile from "./SettingsProfile";
+import AvatarCard from "../../Common/AvatarCard";
 export default {
   name: "ProfileCard",
-  components: { CustomButton },
+  components: { AvatarCard, SettingsProfile, CustomButton },
   props: {
     user: {
       type: Object,
@@ -85,6 +107,11 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  data() {
+    return {
+      loadingButton: false,
+    };
   },
   computed: {
     phoneNumber() {
@@ -100,6 +127,16 @@ export default {
         " " +
         number.slice(10, 12)
       );
+    },
+  },
+  methods: {
+    async handleAddFavourite() {
+      this.loadingButton = true;
+      try {
+        await this.$store.dispatch("user/changeFavouriteUser", this.user.id);
+        this.$emit("changeFavorite");
+      } catch (e) {}
+      this.loadingButton = false;
     },
   },
 };
@@ -120,26 +157,20 @@ export default {
     background-color: #f2e2ca;
     align-items: center;
     border-radius: 0.75rem;
+    position: relative;
     @include layout-mobile() {
       border-radius: 0;
       padding: mvw(32px);
     }
+    &__settings {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+    }
     &__avatar {
       width: 8.125rem;
       height: 8.125rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: $neutral-70;
-      h1 {
-        text-transform: uppercase;
-      }
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-      }
+      flex-shrink: 0;
       @include layout-mobile() {
         width: mvw(80px);
         position: relative;

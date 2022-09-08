@@ -1,7 +1,13 @@
 <template>
   <div class="profile">
     <div class="profile-header">
-      <img :src="author.avatar" class="profile-header__avatar" />
+      <AvatarCard
+        :avatar="author.avatar"
+        :name="author.firstName"
+        class="profile-header__avatar"
+      >
+        <h3>{{ author?.firstName[0] }}</h3>
+      </AvatarCard>
       <div class="profile-header__name">
         <h4>
           {{ author.firstName }} {{ author.lastName }}
@@ -30,9 +36,10 @@
 
 <script>
 import CustomButton from "../../Common/CustomButton";
+import AvatarCard from "../../Common/AvatarCard";
 export default {
   name: "ProfileContact",
-  components: { CustomButton },
+  components: { AvatarCard, CustomButton },
   props: {
     author: {
       type: Object,
@@ -65,10 +72,12 @@ export default {
   &-header {
     display: flex;
     &__avatar {
-      border-radius: 50%;
       width: 3.5rem;
       height: 3.5rem;
       margin-right: 1rem;
+      h1 {
+        font-size: 3px !important;
+      }
       @include layout-mobile() {
         width: mvw(56px);
         height: mvw(56px);

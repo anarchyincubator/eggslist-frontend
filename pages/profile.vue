@@ -33,6 +33,16 @@ export default {
       return this.$store.getters["user/user"];
     },
   },
+  watch: {
+    "$route.query": {
+      async handler(val) {
+        window.scrollTo(0, 0);
+        const id = this.$route.query.id;
+        this.isAuth = !id || id === this.user?.id.toString();
+        this.loading = false;
+      },
+    },
+  },
   mounted() {
     const id = this.$route.query.id;
     this.isAuth = !id || id === this.user?.id.toString();

@@ -15,6 +15,8 @@ export default function (product) {
     sub: product.subcategory,
     slug: product.slug,
     title: product.title,
+    isOut: product.is_out_of_stock,
+    isHidden: product.is_hidden,
     alsoLike:
       product.you_may_also_like && product.you_may_also_like.map(Product),
   };

@@ -64,6 +64,30 @@ export const actions = {
       }
     });
   },
+  async sendEmailVerify() {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$post("/users/email-verify-request");
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
+  async verifyEmailVerify({}, code) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$post("/users/email-verify-confirm", {
+          code: code,
+        });
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
   setToken({ commit }, token) {
     this.$axios.setToken(token, "Bearer");
     commit("setToken", token);
