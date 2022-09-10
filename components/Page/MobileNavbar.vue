@@ -35,7 +35,11 @@
         <img :src="user.avatar" alt="" />
         <span class="menu-1"> {{ user.firstName }}</span>
       </div>
-      <CustomButton theme="primary" class="navbar-container__button button-2">
+      <CustomButton
+        theme="primary"
+        class="navbar-container__button button-2"
+        @click="handlePost"
+      >
         Post A Listing
       </CustomButton>
       <CustomButton
@@ -45,6 +49,10 @@
       >
         Write a Story
       </CustomButton>
+      <div v-if="isAuthenticated">
+        <ModalConfirmEmail ref="confirm" />
+        <ModalEditProfile ref="edit" />
+      </div>
     </div>
   </div>
 </template>
@@ -52,11 +60,15 @@
 <script>
 import CustomButton from "../Common/CustomButton.vue";
 import TheHamburger from "../Common/TheHamburger.vue";
+import ModalConfirmEmail from "./profile/ModalConfirmEmail";
+import ModalEditProfile from "./profile/ModalEditProfile";
 export default {
   name: "MobileNavbar",
   components: {
     TheHamburger,
     CustomButton,
+    ModalConfirmEmail,
+    ModalEditProfile,
   },
   data() {
     return {
@@ -85,6 +97,15 @@ export default {
     handleProfile() {
       this.$router.push("/profile");
       this.handleClose();
+    },
+    handlePost() {
+      if (!this.user.isEmail) {
+        this.$refs.confirm.show();
+        return;
+      }
+      if (!this.user.phone || !this.user.location) {
+        this.$refs.edit.show();
+      }
     },
   },
 };

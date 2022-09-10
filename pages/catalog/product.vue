@@ -24,6 +24,7 @@
             class="product-page__content--edit"
             @out="handleOut"
             @hide="handleHide"
+            @delete="handleDelete"
           />
           <transition name="fade">
             <div
@@ -225,6 +226,7 @@ export default {
     handleHide() {
       this.product.isHidden = !this.product.isHidden;
     },
+    handleDelete() {},
     async handleChangeFavourite() {
       this.product.seller.isFavourite = !this.product.seller.isFavourite;
       const { product } = await this.$store.dispatch(

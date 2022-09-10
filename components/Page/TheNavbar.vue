@@ -26,12 +26,14 @@
           class="navbar__auth__avatar"
           @click.native="handleGoToProfile"
         >
-          <h4>{{ user?.firstName[0] }}</h4>
+          <h4>{{ user?.firstName && user?.firstName[0] }}</h4>
         </AvatarCard>
       </div>
-      <CustomButton theme="primary" :is-large="false">
+      <CustomButton theme="primary" :is-large="false" @click="handlePost">
         Post A Listing</CustomButton
       >
+      <ModalConfirmEmail ref="confirm" />
+      <ModalEditProfile ref="edit" />
     </div>
   </header>
 </template>
@@ -44,10 +46,14 @@ import logoDark from "@/assets/images/icons/logo_dark.svg";
 import throttle from "lodash.throttle";
 import CustomButton from "~/components/Common/CustomButton.vue";
 import AvatarCard from "../Common/AvatarCard";
+import ModalConfirmEmail from "./profile/ModalConfirmEmail";
+import ModalEditProfile from "./profile/ModalEditProfile";
 
 export default {
   name: "NavBar",
   components: {
+    ModalEditProfile,
+    ModalConfirmEmail,
     AvatarCard,
     CustomButton,
   },
@@ -76,6 +82,13 @@ export default {
       return !this.isUserScrolling && !this.isStatic ? like : likeDark;
     },
   },
+  watch: {
+    $route(to, from) {
+      window.removeEventListener("scroll", this.handleScroll);
+      window.addEventListener("scroll", this.handleScroll);
+      this.handleScroll();
+    },
+  },
   mounted() {
     if (this.isStatic) return;
 
@@ -89,6 +102,15 @@ export default {
     handleClickLogin() {
       // this.$store.dispatch("auth/setToken", "3213131");
       this.$store.commit("setAuthComponent", true);
+    },
+    handlePost() {
+      if (!this.user.isEmail) {
+        this.$refs.confirm.show();
+        return;
+      }
+      if (!this.user.phone || !this.user.location) {
+        this.$refs.edit.show();
+      }
     },
     handleGoToProfile() {
       this.$router.push("/profile");

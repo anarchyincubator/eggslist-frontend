@@ -72,9 +72,15 @@ export default {
     &__cancel,
     &__delete {
       width: 12.5625rem;
+      @include layout-mobile() {
+        width: 100%;
+      }
     }
     &__cancel {
       margin-right: auto;
+      @include layout-mobile() {
+        display: none;
+      }
     }
   }
   span {

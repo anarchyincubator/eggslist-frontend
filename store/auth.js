@@ -88,6 +88,25 @@ export const actions = {
       }
     });
   },
+  async verifyUserVerify({}, data) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const formData = new FormData();
+
+        if (data.image) formData.append("image", data.image);
+
+        formData.append("text", data.text);
+        response = await this.$axios.$post(
+          "/users/become-verified-seller",
+          formData
+        );
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
   setToken({ commit }, token) {
     this.$axios.setToken(token, "Bearer");
     commit("setToken", token);

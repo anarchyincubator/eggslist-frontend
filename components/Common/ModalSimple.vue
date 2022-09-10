@@ -9,6 +9,9 @@
         <div class="modal-profile__header">
           <slot></slot>
         </div>
+        <span class="modal-profile__cancel button-1" @click="handleClose"
+          >Cancel</span
+        >
       </div>
     </div>
   </transition>
@@ -59,6 +62,10 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
+    @include layout-mobile() {
+      background-image: url("@/assets/images/noise.jpg");
+      background-size: 290%;
+    }
   }
   &-profile {
     width: 32.8125rem;
@@ -76,6 +83,8 @@ export default {
     @include layout-mobile() {
       border-radius: 0;
       width: 100%;
+      justify-content: center;
+      height: 100%;
       padding: mvw(32px) mvw(24px);
     }
 
@@ -96,8 +105,15 @@ export default {
       img {
         width: 0.875rem;
         @include layout-mobile() {
-          width: mvw(12px);
+          width: mvw(20px);
         }
+      }
+    }
+    &__cancel {
+      display: none;
+      @include layout-mobile() {
+        display: flex;
+        border-bottom: 2px solid $primary-marigold;
       }
     }
 

@@ -3,7 +3,7 @@
     <div class="profile__main">
       <SettingsProfile v-if="isAuth" class="profile__main__settings" />
       <AvatarCard :avatar="user.avatar" class="profile__main__avatar">
-        <h1>{{ user?.firstName[0] }}</h1>
+        <h1>{{ user?.firstName && user?.firstName[0] }}</h1>
       </AvatarCard>
       <div class="profile__main__name">
         <h4>{{ user.firstName }} {{ user.lastName }}</h4>
@@ -78,7 +78,9 @@
       <span class="body-2"
         >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span
       >
-      <a class="profile__verified__edit button-1">Get verified</a>
+      <nuxt-link to="/profile/verify" class="profile__verified__edit button-1"
+        >Get verified</nuxt-link
+      >
     </div>
     <div v-if="isAuth" class="profile__story">
       <div class="profile__story__border" />

@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import AuthProfile from "../components/Page/profile/AuthProfile";
-import PatternTop from "../components/Page/index/PatternTop";
-import GuestProfile from "../components/Page/profile/GuestProfile";
+import AuthProfile from "../../components/Page/profile/AuthProfile";
+import PatternTop from "../../components/Page/index/PatternTop";
+import GuestProfile from "../../components/Page/profile/GuestProfile";
 export default {
   name: "ProfilePage",
   components: {

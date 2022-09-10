@@ -71,11 +71,14 @@
             >
           </div>
         </div>
-        <div v-else-if="false" class="auth-profile__content">
+        <div v-else-if="isNeedInfo" class="auth-profile__content">
           <div class="auth-profile__info">
             <h3>Do you want to start selling?</h3>
             <span class="body-1">Add your contact info and location!</span>
-            <CustomButton class="auth-profile__info--button" theme="primary"
+            <CustomButton
+              class="auth-profile__info--button"
+              theme="primary"
+              @click="handleEditPush"
               >Edit profile</CustomButton
             >
           </div>
@@ -145,6 +148,9 @@ export default {
     isEmptyListings() {
       return this.currentItems.length === 0;
     },
+    isNeedInfo() {
+      return !this.user.phone || !this.user.location;
+    },
     textNoListings() {
       if (this.isMyListings) return "No listings yet.";
       if (this.isHidden) return "There are no hidden listings in your farm";
@@ -160,6 +166,9 @@ export default {
   methods: {
     handleDelete(item) {
       this.$refs["modal-delete"].show(item);
+    },
+    handleEditPush() {
+      this.$router.push("/profile/edit");
     },
     getOffset(size) {
       return (size * this.windowWidth) / 320;
