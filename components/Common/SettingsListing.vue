@@ -100,7 +100,7 @@ export default {
     display: flex;
     align-items: center;
     @include layout-mobile() {
-      width: mvw(78px);
+      width: mvw(68px);
       height: mvw(48px);
       border-radius: mvw(30px);
     }
@@ -151,8 +151,8 @@ export default {
       @include layout-mobile() {
         width: mvw(196px);
         padding: mvw(16px);
-        height: mvw(128px);
-        bottom: mvw(-144px);
+        height: mvw(156px);
+        bottom: mvw(-164px);
       }
       p {
         margin-bottom: 0.75rem;
@@ -162,7 +162,7 @@ export default {
         @include layout-mobile() {
           font-size: mvw(14px);
           line-height: mvw(16px);
-          margin-bottom: mvw(12px);
+          margin-bottom: mvw(18px);
         }
         &:hover {
           opacity: 0.8;

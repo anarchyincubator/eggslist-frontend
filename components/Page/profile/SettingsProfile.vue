@@ -46,10 +46,10 @@ export default {
     handleClose() {
       this.isOpened = false;
     },
-    handleLogout() {
-      this.$router.push("/");
-      this.$store.dispatch("auth/clearToken");
-      this.$store.commit("user/clearUser");
+    async handleLogout() {
+      await this.$router.push("/");
+      await this.$store.dispatch("auth/clearToken");
+      await this.$store.commit("user/clearUser");
     },
   },
 };

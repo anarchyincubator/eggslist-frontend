@@ -29,7 +29,13 @@ export default {
       type: String,
       required: true,
       validator(value) {
-        return ["primary", "secondary", "outlined", "danger"].includes(value);
+        return [
+          "primary",
+          "secondary",
+          "outlined",
+          "danger",
+          "disabled",
+        ].includes(value);
       },
     },
     isLoading: {
@@ -113,10 +119,11 @@ export default {
   &-primary,
   &-secondary,
   &-outlined,
-  &-danger {
+  &-danger,
+  &-disabled {
     display: flex;
     justify-content: center;
-    padding: 0.625rem 1.25rem;
+    padding: 0.9375rem 1.25rem;
     background: $primary-marigold;
     border: 1.5px solid #282220;
     border-radius: 0.75rem;
@@ -145,6 +152,7 @@ export default {
   &-small {
     font-size: 0.875rem;
     line-height: 1rem;
+    padding: 0.625rem 1.25rem;
     @include layout-mobile() {
       font-size: mvw(14px);
       line-height: mvw(16px);
