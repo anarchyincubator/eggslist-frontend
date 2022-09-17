@@ -346,7 +346,7 @@ export default {
         lastName: this.profile.lastName,
         email: this.profile.email,
         bio: this.profile.bio,
-        zip: this.profile.zipCode,
+        zipCode: this.profile.zipCode,
       };
 
       if (this.profile.phone)
