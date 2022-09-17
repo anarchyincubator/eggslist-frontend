@@ -179,6 +179,9 @@ export default {
           params: formData,
           slug: this.editProduct.slug,
         });
+        await this.$router.push(
+          `/catalog/product?slug=${this.editProduct.slug}`
+        );
       } catch (e) {}
 
       this.loadingSave = false;
