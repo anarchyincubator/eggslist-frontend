@@ -324,10 +324,12 @@ export default {
         firstName: this.profile.firstName,
         lastName: this.profile.lastName,
         email: this.profile.email,
-        phone: "+" + this.profile.phone.replace(/\D/g, ""),
         bio: this.profile.bio,
         zip: this.profile.zipCode,
       };
+
+      if (this.profile.phone)
+        data.phone = "+" + this.profile.phone.replace(/\D/g, "");
 
       if (this.profile.file) data.avatar = this.profile.file;
 
