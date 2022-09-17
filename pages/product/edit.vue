@@ -104,12 +104,16 @@ export default {
       let res = {};
       this.categories.forEach((item) => {
         item.subs.forEach((sub) => {
-          if (sub.name === this.editProduct.sub)
+          if (sub.slug === this.editProduct.sub) {
             this.formData.product.selectsCategory = {
               key: item.slug,
               value: item.name,
             };
-          this.formData.product.selectSub = { key: sub.slug, value: sub.name };
+            this.formData.product.selectSub = {
+              key: sub.slug,
+              value: sub.name,
+            };
+          }
         });
       });
     },
