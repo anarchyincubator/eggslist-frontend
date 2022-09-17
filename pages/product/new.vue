@@ -143,6 +143,7 @@ export default {
           "products/createProduct",
           data
         );
+        await this.$router.push(`/catalog/product?slug=${response.slug}`);
       } catch (e) {}
 
       this.loadingSave = false;

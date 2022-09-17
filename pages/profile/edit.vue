@@ -357,6 +357,7 @@ export default {
       try {
         await this.$store.dispatch("user/updateProfile", data);
         await this.$store.dispatch("user/getUserData");
+        await this.$router.push("/profile");
       } catch (e) {
         if (e.phone_number) {
           this.errorPhone = e.phone_number[0];
