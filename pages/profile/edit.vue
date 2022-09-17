@@ -101,6 +101,8 @@
           v-model="profile.phone"
           class="page__content__row--input"
           :mask="'+1(###)-###-####'"
+          :is-in-valid="Boolean(errorPhone)"
+          :error-text="errorPhone"
           placeholder="+1("
           ><span slot="label" class="page__content__row--label"
             >Phone Number
@@ -188,6 +190,7 @@ export default {
       errorLogin: "",
       errorCity: "",
       errorZip: "",
+      errorPhone: "",
       loadingSave: false,
       isChooseCity: false,
       isZipCode: false,
@@ -248,16 +251,31 @@ export default {
     handleFocusEmail() {
       this.errorLogin = null;
     },
+    validatePhone() {
+      let ph = new RegExp(
+        "^(1\\s?)?(\\d{3}|\\(\\d{3}\\))[\\s\\-]?\\d{3}[\\s\\-]?\\d{4}$"
+      );
+      let val = true;
+      if (
+        this.profile.phone &&
+        !ph.test(this.profile.phone.replace(/\D/g, ""))
+      ) {
+        this.errorPhone = "Phone is not valid";
+        val &= false;
+      }
+
+      if (val) this.errorPhone = null;
+      return val;
+    },
     validateLoginField(email) {
       this.errorLogin = null;
-
       let re = /\S+@\S+\.\S+/;
+      let val = true;
 
       if (!re.test(email)) {
         this.errorLogin = "Email is not valid";
-        return false;
+        val &= false;
       }
-
       this.errorLogin = null;
       return true;
     },
@@ -312,9 +330,12 @@ export default {
       this.searchZipCut = [...this.searchZip];
     },
     async handleUpdate() {
-      this.validateLoginField(this.profile.email);
-
-      if (!this.validateStateZip()) return;
+      if (
+        !this.validateLoginField(this.profile.email) ||
+        !this.validatePhone() ||
+        !this.validateStateZip()
+      )
+        return;
 
       if (!this.canSave) return;
 
@@ -336,7 +357,11 @@ export default {
       try {
         await this.$store.dispatch("user/updateProfile", data);
         await this.$store.dispatch("user/getUserData");
-      } catch (e) {}
+      } catch (e) {
+        if (e.phone_number) {
+          this.errorPhone = e.phone_number[0];
+        }
+      }
 
       this.loadingSave = false;
     },

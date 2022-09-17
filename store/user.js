@@ -68,7 +68,7 @@ export const actions = {
         response = await this.$axios.$patch(`/users/profile`, formData);
         resolve(User(response));
       } catch (e) {
-        reject(e.response.data.error);
+        reject(e.response.data);
       }
     });
   },
