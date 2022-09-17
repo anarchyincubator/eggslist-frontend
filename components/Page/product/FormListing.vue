@@ -135,7 +135,6 @@ export default {
         !this.dataValue.product.selectsCategory.obj
       )
         return [];
-
       return this.dataValue.product.selectsCategory.obj?.map((item) => ({
         key: item.slug,
         value: item.name,

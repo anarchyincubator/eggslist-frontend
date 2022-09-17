@@ -108,6 +108,7 @@ export default {
             this.formData.product.selectsCategory = {
               key: item.slug,
               value: item.name,
+              obj: item.subs,
             };
             this.formData.product.selectSub = {
               key: sub.slug,
