@@ -12,5 +12,6 @@ export default function (user) {
     phone: user.phone_number,
     dateJoined: user.date_joined,
     isVerified: user.is_verified_seller,
+    isVerifiedPending: user.is_verified_seller_pending,
   };
 }

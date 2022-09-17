@@ -1,12 +1,19 @@
 <template>
-  <div v-click-outside="handleClose" :class="classes">
+  <div :class="classes">
+    <div class="search-container__label">
+      <slot name="label"> </slot>
+    </div>
     <CustomInput
       v-model="inputData"
+      v-click-outside="handleClose"
       :placeholder="placeholder"
-      :padding-default="false"
+      :padding-default="isPadding"
       :is-small="isSmall"
+      :is-lock="isLock"
+      :is-in-valid="Boolean(isInValid)"
+      :error-text="errorText"
       @focus="handleFocus"
-      @focusout="$emit('focusout')"
+      @focusout="handleFocusOut"
     >
       <slot class="search-container__icon" name="icon"></slot>
     </CustomInput>
@@ -55,12 +62,29 @@ export default {
       type: Boolean,
       default: false,
     },
+    errorText: {
+      type: String,
+      default: "",
+    },
+    isInValid: {
+      type: Boolean,
+      default: false,
+    },
+    isPadding: {
+      type: Boolean,
+      default: false,
+    },
+    isLock: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["setupCity", "input", "changeInput", "focusout"],
 
   data() {
     return {
       isOpened: false,
+      isFocus: false,
       inputData: "",
     };
   },
@@ -85,7 +109,7 @@ export default {
   watch: {
     result: {
       handler(ne, ol) {
-        this.isOpened = true;
+        if (this.isFocus) this.isOpened = true;
       },
       deep: true,
     },
@@ -105,7 +129,12 @@ export default {
   },
   methods: {
     handleFocus() {
+      this.isFocus = true;
       if (this.result?.length > 0) this.isOpened = true;
+    },
+    handleFocusOut() {
+      this.isFocus = false;
+      this.$emit("focusout");
     },
     handleClose() {
       this.isOpened = false;
@@ -124,10 +153,17 @@ export default {
 .search-container {
   width: 100%;
   position: relative;
-
+  &__label {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    color: $primary-black;
+    @include layout-mobile() {
+      font-size: mvw(14px);
+      line-height: mvw(24px);
+    }
+  }
   &__results {
     z-index: 30;
-    position: relative;
     width: 100%;
     height: 11rem;
     top: calc(100% + 0.5rem);

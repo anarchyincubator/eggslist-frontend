@@ -50,7 +50,12 @@ export default {
     };
   },
   methods: {
-    handleEdit() {},
+    handleEdit() {
+      this.$router.push({
+        path: "/product/edit",
+        query: { slug: this.product.slug },
+      });
+    },
     async handleHide() {
       try {
         await this.$store.dispatch("products/updateProduct", {

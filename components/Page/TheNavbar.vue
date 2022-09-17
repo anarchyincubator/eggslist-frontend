@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     handleClickLogin() {
-      // this.$store.dispatch("auth/setToken", "3213131");
       this.$store.commit("setAuthComponent", true);
     },
     handlePost() {
@@ -111,6 +110,7 @@ export default {
       if (!this.user.phone || !this.user.location) {
         this.$refs.edit.show();
       }
+      this.$router.push("/product/new");
     },
     handleGoToProfile() {
       this.$router.push("/profile");

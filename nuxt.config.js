@@ -36,6 +36,7 @@ export default {
     { src: "~/plugins/vueSwiper.js", mode: "client" },
     { src: "~/plugins/v-scroll-lock.js", mode: "client" },
     { src: "~/plugins/nuxtClientInit.js", mode: "client" },
+    { src: "~/plugins/v-mask.js", mode: "client" },
   ],
 
   components: true,
