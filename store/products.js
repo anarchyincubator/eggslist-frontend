@@ -1,7 +1,14 @@
 import Product from "../utils/adapters/Product";
 import BigProduct from "../utils/adapters/BigProduct";
-export const state = () => ({});
-export const getters = {};
+import { generateFormDataProduct } from "../utils/data";
+
+export const state = () => ({
+  editProduct: null,
+});
+export const getters = {
+  editProduct: (state) =>
+    state.editProduct ? BigProduct(state.editProduct) : null,
+};
 export const actions = {
   async getProductsPopular({ commit }) {
     try {
@@ -12,6 +19,13 @@ export const actions = {
   async getProduct({}, slug) {
     try {
       const response = await this.$axios.$get(`/store/products/${slug}`);
+      return { product: BigProduct(response) };
+    } catch (e) {}
+  },
+  async getEditProduct({ commit }, slug) {
+    try {
+      const response = await this.$axios.$get(`/store/products/${slug}`);
+      commit("setEditProduct", response);
       return { product: BigProduct(response) };
     } catch (e) {}
   },
@@ -75,6 +89,20 @@ export const actions = {
       };
     } catch (e) {}
   },
+  async createProduct({}, data) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const response = await this.$axios.$post(
+          "store/products/create",
+          generateFormDataProduct(data)
+        );
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
   async deleteProduct({}, slug) {
     return new Promise(async (resolve, reject) => {
       let response;
@@ -100,5 +128,23 @@ export const actions = {
       }
     });
   },
+  async updateProductForm({}, params) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const response = await this.$axios.$patch(
+          `/store/products/${params.slug}`,
+          params.params
+        );
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
 };
-export const mutations = {};
+export const mutations = {
+  setEditProduct(state, product) {
+    state.editProduct = product;
+  },
+};

@@ -72,13 +72,26 @@
         Remove From Favorites
       </CustomButton>
     </div>
-    <div v-if="isAuth" class="profile__verified">
+    <div v-if="isVerifiedLabel" class="profile__verified">
       <div class="profile__verified__border" />
-      <h4>Become a verified seller!</h4>
-      <span class="body-2"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span
-      >
-      <nuxt-link to="/profile/verify" class="profile__verified__edit button-1"
+      <h4>
+        {{
+          user.isVerifiedPending
+            ? "Verification request pending."
+            : "Become a verified seller!"
+        }}
+      </h4>
+      <span class="body-2">
+        {{
+          user.isVerifiedPending
+            ? "We are reviewing your information."
+            : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        }}
+      </span>
+      <nuxt-link
+        v-if="!user.isVerifiedPending"
+        to="/profile/verify"
+        class="profile__verified__edit button-1"
         >Get verified</nuxt-link
       >
     </div>
@@ -129,6 +142,9 @@ export default {
         " " +
         number.slice(10, 12)
       );
+    },
+    isVerifiedLabel() {
+      return this.isAuth && !this.user.isVerified;
     },
   },
   methods: {

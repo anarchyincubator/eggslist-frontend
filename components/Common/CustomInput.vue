@@ -22,7 +22,7 @@
         @keyup.enter="$emit('enter')"
       />
       <input
-        v-else
+        v-else-if="!mask"
         ref="input"
         v-model="inputData"
         :type="type"
@@ -31,7 +31,28 @@
         :class="{
           'input-container__input--default': paddingDefault,
           'input-container__input--error': isInValid,
+          'input-container__input--lock': isLock,
         }"
+        :disabled="isLock"
+        :placeholder="placeholder"
+        @focusout="$emit('focusout')"
+        @focus="handleEmit"
+        @keyup.enter="$emit('enter')"
+      />
+      <input
+        v-else
+        ref="input"
+        v-model="inputData"
+        v-mask="mask"
+        type="tel"
+        min="0"
+        class="input-container__input subtitle-1"
+        :class="{
+          'input-container__input--default': paddingDefault,
+          'input-container__input--error': isInValid,
+          'input-container__input--lock': isLock,
+        }"
+        :disabled="isLock"
         :placeholder="placeholder"
         @focusout="$emit('focusout')"
         @focus="handleEmit"
@@ -81,6 +102,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    isLock: {
+      type: Boolean,
+      default: false,
+    },
+    mask: {
+      type: String,
+      default: "",
+    },
     errorText: {
       type: String,
       default: "",
@@ -115,6 +144,8 @@ export default {
   methods: {
     handleEmit() {
       setTimeout(() => {
+        if (this.type === "number") return;
+
         this.$refs.input.selectionStart = 10000;
         this.$refs.input.selectionEnd = 10000;
       }, 0);
@@ -146,7 +177,8 @@ export default {
     border: 1.5px solid #d5bb91;
     border-radius: 0.75rem;
     opacity: 1;
-    padding: 0.75rem 2rem;
+    height: 3rem;
+    padding: 0.625rem 2rem;
     background: $primary-white;
     color: $primary-black;
     box-sizing: border-box;
@@ -154,9 +186,10 @@ export default {
       border-radius: mvw(12px);
       padding: mvw(15px) 0 mvw(15px) mvw(47px);
       border: 1px solid #d5bb91;
+      height: mvw(48px);
     }
     &--default {
-      padding: 0.75rem;
+      padding: 0.625rem;
       @include layout-mobile() {
         padding: mvw(10px) mvw(10px);
       }
@@ -166,6 +199,12 @@ export default {
       @include layout-mobile() {
         border: 1px solid $error;
       }
+    }
+    &--lock {
+      cursor: not-allowed;
+      pointer-events: none;
+      background-color: #faf2e6;
+      border: 1.5px solid grey;
     }
     &::placeholder {
       color: #605139;

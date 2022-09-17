@@ -124,11 +124,11 @@ export default {
 
 .container {
   .checkmark {
-    border: 2px solid $primary-black;
+    border: 2px solid #907a56;
   }
 }
 .container input:checked ~ .checkmark {
-  background-color: $primary-black;
-  border: 2px solid $primary-black;
+  background-color: #907a56;
+  border: 2px solid #907a56;
 }
 </style>

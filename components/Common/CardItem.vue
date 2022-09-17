@@ -167,7 +167,10 @@ export default {
       this.$emit("delete");
     },
     handleEdit() {
-      this.$router.push("/product/edit");
+      this.$router.push({
+        path: "/product/edit",
+        query: { slug: this.slug },
+      });
     },
   },
 };

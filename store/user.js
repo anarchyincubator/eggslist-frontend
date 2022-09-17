@@ -43,6 +43,35 @@ export const actions = {
       }
     });
   },
+  async updateProfile({}, data) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const formData = new FormData();
+
+        if (data.avatar) formData.append("avatar", data.avatar);
+
+        if (data.firstName) formData.append("first_name", data.firstName);
+
+        if (data.email) formData.append("email", data.email);
+
+        if (data.phone) formData.append("phone_number", data.phone);
+
+        if (data.bio) formData.append("bio", data.bio);
+
+        if (data.zipCode) formData.append("zip_code", data.zipCode);
+
+        if (data.state) formData.append("state", data.state);
+
+        if (data.city) formData.append("city", data.city);
+
+        response = await this.$axios.$patch(`/users/profile`, formData);
+        resolve(User(response));
+      } catch (e) {
+        reject(e.response.data.error);
+      }
+    });
+  },
 };
 export const mutations = {
   setUser(state, user) {

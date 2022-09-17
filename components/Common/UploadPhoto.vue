@@ -1,8 +1,8 @@
 <template>
   <div class="upload">
-    <h4>Upload a photo of your farm!</h4>
+    <h4>{{ title }}</h4>
     <div class="body-2">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      {{ subtitle }}
     </div>
     <div class="upload__input">
       <input
@@ -25,8 +25,9 @@
         theme="secondary"
         for="file"
         @click="handleClick"
-        ><img src="@/assets/images/icons/upload.svg" /> Upload
-        Photo</CustomButton
+        ><img src="@/assets/images/icons/upload.svg" />{{
+          textButton
+        }}</CustomButton
       >
     </div>
   </div>
@@ -41,6 +42,18 @@ export default {
     value: {
       type: File,
       required: false,
+    },
+    title: {
+      type: String,
+      default: "Upload a photo of your farm!",
+    },
+    subtitle: {
+      type: String,
+      default: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    },
+    textButton: {
+      type: String,
+      default: "Upload Photo",
     },
   },
   data() {
@@ -113,6 +126,12 @@ export default {
       cursor: pointer;
       margin-top: 0;
       border-bottom: 2px solid $primary-marigold;
+      @include layout-mobile() {
+        text-overflow: ellipsis;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
     .upload__preview {
       opacity: 0;
