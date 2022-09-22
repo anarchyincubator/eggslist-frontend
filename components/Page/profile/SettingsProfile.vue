@@ -14,8 +14,8 @@
       <path d="M0 0L5 5L10 0H0Z" :fill="colorStyle" />
     </svg>
     <div v-if="isOpened" class="settings__popup">
-      <p class="button-1">Change Password</p>
-      <p class="button-1">Change Email</p>
+      <p class="button-1" @click="handleChangePassword">Change Password</p>
+      <p class="button-1" @click="handleChangeEmail">Change Email</p>
       <p class="button-1" @click="handleLogout">Sign out</p>
     </div>
   </div>
@@ -45,6 +45,12 @@ export default {
     },
     handleClose() {
       this.isOpened = false;
+    },
+    handleChangeEmail() {
+      this.$router.push("/profile/change-email");
+    },
+    handleChangePassword() {
+      this.$router.push("/profile/change-password");
     },
     async handleLogout() {
       await this.$router.push("/");

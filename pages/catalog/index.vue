@@ -94,10 +94,11 @@ export default {
       countItems: 0,
       loading: false,
       startQuery: {},
-      sort: "price",
+      sort: "relevance",
       query: "",
       totalPage: 1,
       sortOptions: [
+        { name: "Relevance", key: "relevance" },
         { name: "Price up", key: "price" },
         { name: "Price down", key: "-price" },
         { name: "Date down", key: "-date_created" },
@@ -122,7 +123,7 @@ export default {
     this.loading = true;
     this.sort = this.$route.query.ordering
       ? this.$route.query.ordering
-      : "price";
+      : "relevance";
     this.$store.dispatch("categories/getCategories").then(() => {
       if (Object.keys(this.$route.query).length !== 0) {
         this.startQuery = this.$route.query;

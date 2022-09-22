@@ -12,6 +12,7 @@
         v-model="profile.file"
         class="page__content__upload"
         title="Upload profile photo."
+        :preview="profile.preview"
         subtitle="Optimal size 1000x1000."
       />
       <div class="page__content__row">
@@ -46,18 +47,25 @@
             >Country
           </span></CustomDropdown
         >
-        <CustomDropdown
-          v-model="profile.selectedState"
+        <SearchComponent
+          v-model="selectedState"
           class="page__content__row--input"
-          :selects="selectsStates"
-          @input="handleChangeState"
+          :result="searchStates"
+          :is-padding="true"
+          placeholder="Search state"
+          no-text="No states"
+          :is-in-valid="Boolean(errorState)"
+          :error-text="errorState"
+          @setupCity="handleEmitState"
+          @changeInput="handleChangeState"
           ><span slot="label" class="page__content__row--label"
             >State
-          </span></CustomDropdown
+          </span></SearchComponent
         >
       </div>
       <div class="page__content__row">
         <SearchComponent
+          v-show="isState"
           v-model="selectedCity"
           :is-padding="true"
           :is-lock="!isState"
@@ -66,7 +74,7 @@
           :result="searchCities"
           :is-in-valid="Boolean(errorCity)"
           :error-text="errorCity"
-          class="page__content__row--input"
+          class="page__content__row--input page__content__row--input--half"
           @setupCity="handleEmitCity"
           @changeInput="handleChangeCity"
           ><span slot="label" class="page__content__row--label"
@@ -74,6 +82,7 @@
           </span></SearchComponent
         >
         <SearchComponent
+          v-show="isCity"
           v-model="selectedZip"
           :is-padding="true"
           :is-lock="!isState || !isCity"
@@ -82,7 +91,7 @@
           :is-in-valid="Boolean(errorZip)"
           :error-text="errorZip"
           :result="searchZipCut"
-          class="page__content__row--input"
+          class="page__content__row--input page__content__row--input--half"
           @setupCity="handleEmitZip"
           @changeInput="handleChangeZip"
           ><span slot="label" class="page__content__row--label"
@@ -106,19 +115,6 @@
           placeholder="+1("
           ><span slot="label" class="page__content__row--label"
             >Phone Number
-          </span></CustomInput
-        >
-      </div>
-      <div class="page__content__row">
-        <CustomInput
-          v-model="profile.email"
-          :is-in-valid="Boolean(errorLogin)"
-          :error-text="errorLogin"
-          class="page__content__row--input"
-          @focus="handleFocusEmail"
-          @focusout="validateLoginField(profile.email)"
-          ><span slot="label" class="page__content__row--label"
-            >Email
           </span></CustomInput
         >
       </div>
@@ -183,23 +179,27 @@ export default {
       selectsCountry: [{ key: "usa", value: "United States" }],
       states: [],
       searchCities: [],
+      searchStates: [],
       searchZip: [],
       searchZipCut: [],
       selectedZip: "",
       selectedCity: "",
+      selectedState: "",
       errorLogin: "",
       errorCity: "",
       errorZip: "",
+      errorState: "",
       errorPhone: "",
       loadingSave: false,
       isChooseCity: false,
+      isChooseState: false,
       isZipCode: false,
       profile: {
         file: null,
         firstName: "",
         lastName: "",
         selectedCountry: { key: "usa", value: "United States" },
-        selectedState: null,
+        selectedState: "",
         city: "",
         zipCode: "",
         bio: "",
@@ -215,14 +215,6 @@ export default {
     user() {
       return this.$store.getters["user/user"];
     },
-    selectsStates() {
-      return this.states.map((item) => {
-        return {
-          key: item.slug,
-          value: item.name,
-        };
-      });
-    },
     isCity() {
       return Boolean(this.profile.city);
     },
@@ -236,17 +228,19 @@ export default {
   async mounted() {
     this.setProfileData();
     this.states = await this.$store.dispatch("utils/getStates");
-    this.setAdditionalData();
+    await this.setAdditionalData();
   },
   methods: {
-    handleChangeState() {
-      this.selectedZip = "";
-      this.selectedCity = "";
-      this.profile.city = "";
-      this.profile.zipCode = "";
-      this.isChooseCity = true;
-      this.isZipCode = true;
-      this.handleChangeCity("");
+    handleChangeState(val) {
+      let valu = val.toLowerCase();
+
+      this.searchStates = this.states
+        .filter(({ name }) => {
+          return name.toLowerCase().includes(valu);
+        })
+        .map((item) => {
+          return { name: item.name, value: item.slug };
+        });
     },
     handleFocusEmail() {
       this.errorLogin = null;
@@ -282,13 +276,18 @@ export default {
     validateStateZip() {
       this.errorCity = null;
       this.errorZip = null;
+      this.errorState = null;
+
       if (!this.isChooseCity || !this.profile.city)
         this.errorCity = "Please fill out a city to update your location";
 
       if (!this.isZipCode || !this.profile.zipCode)
         this.errorZip = "Please fill out a zip code to update your location";
 
-      return !(this.errorZip || this.errorCity);
+      if (!this.isChooseState || !this.profile.selectedState)
+        this.errorState = "Please fill out a state to update your location";
+
+      return !this.errorCity && !this.errorZip && !this.errorState;
     },
     setProfileData() {
       this.profile.firstName = this.user.firstName;
@@ -296,6 +295,7 @@ export default {
       this.profile.email = this.user.email;
       this.profile.phone = this.user.phone;
       this.profile.bio = this.user.bio;
+      this.profile.preview = this.user.avatar;
     },
 
     async setAdditionalData() {
@@ -303,20 +303,32 @@ export default {
         (item) => item.name === this.user.location.state
       );
 
-      this.profile.selectedState = {
-        key: state.slug,
-        value: state.name,
-      };
+      this.profile.selectedState = state.slug;
       this.profile.zipCode = this.user.location.zip_code;
       this.profile.city = this.user.location.city;
       this.selectedZip = this.user.location.zip_code;
       this.selectedCity = this.user.location.city;
+      this.selectedState = this.user.location.state;
       this.isZipCode = true;
       this.isChooseCity = true;
+      this.isChooseState = true;
     },
 
     handleToProfile() {
       this.$router.push("/profile");
+    },
+    handleEmitState(val) {
+      this.isChooseState = true;
+      this.errorState = null;
+      this.profile.selectedState = val.value;
+      this.selectedState = val.name;
+      this.selectedZip = "";
+      this.selectedCity = "";
+      this.profile.city = "";
+      this.profile.zipCode = "";
+      this.isChooseCity = true;
+      this.isZipCode = true;
+      this.handleChangeCity("");
     },
     async handleEmitCity(val) {
       this.isChooseCity = true;
@@ -324,7 +336,7 @@ export default {
       this.profile.city = val.slug;
       this.searchZip = await this.$store.dispatch("utils/getZip", {
         city: this.profile.city,
-        state: this.profile.selectedState?.key,
+        state: this.profile.selectedState,
       });
       this.selectedZip = "";
       this.searchZipCut = [...this.searchZip];
@@ -389,7 +401,7 @@ export default {
       this.profile.zipCode = "";
       this.searchCities = await this.$store.dispatch("utils/getCities", {
         search: val,
-        state: this.profile.selectedState?.key,
+        state: this.profile.selectedState,
       });
     }, 300),
   },
@@ -503,6 +515,12 @@ export default {
         margin-right: 1.5rem;
         &:last-child {
           margin-right: 0;
+        }
+        &--half {
+          width: calc(50% - 0.75rem);
+          @include layout-mobile() {
+            width: 100%;
+          }
         }
       }
       &--label {
