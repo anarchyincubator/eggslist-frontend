@@ -88,7 +88,7 @@ export default {
     this.formData.product.title = this.editProduct.title;
     this.formData.product.preview = this.editProduct.image;
     this.formData.product.delivery = this.editProduct.allowDelivery;
-    this.formData.product.delivery = this.editProduct.allowPickup;
+    this.formData.product.pickup = this.editProduct.allowPickup;
     this.formData.product.price = Number(this.editProduct.price);
     this.formData.product.description = this.editProduct.description;
     await this.$store.dispatch("categories/getCategories");
