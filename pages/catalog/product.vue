@@ -54,7 +54,7 @@
         </div>
         <div class="product-page__description">
           <div class="product-page__description--cat">
-            {{ product.sub }}
+            {{ product.subName }}
           </div>
           <h2 class="product-page__description--title">
             {{ product.title }}

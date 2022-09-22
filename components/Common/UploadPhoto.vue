@@ -35,10 +35,15 @@
 
 <script>
 import CustomButton from "./CustomButton";
+
 export default {
   name: "UploadPhoto",
   components: { CustomButton },
   props: {
+    preview: {
+      type: String,
+      default: "",
+    },
     value: {
       type: File,
       required: false,
@@ -71,6 +76,22 @@ export default {
       set(value) {
         this.$emit("input", value);
       },
+    },
+  },
+  watch: {
+    async preview(val) {
+      const response = await fetch(val);
+      const blob = await response.blob();
+      let name = val.split("/");
+
+      if (name.length > 0) name = name.pop();
+      else name = "image.png";
+
+      this.inputData = new File([blob], name, {
+        type: blob.type,
+      });
+      this.url = val;
+      this.fileName = name;
     },
   },
   methods: {

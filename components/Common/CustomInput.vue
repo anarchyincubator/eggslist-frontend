@@ -237,7 +237,7 @@ export default {
     color: #b00020;
     font-size: 0.75rem;
     @include layout-mobile() {
-      bottom: mvw(-20px);
+      top: mvw(80px);
       left: mvw(14px);
       font-size: mvw(10px);
     }

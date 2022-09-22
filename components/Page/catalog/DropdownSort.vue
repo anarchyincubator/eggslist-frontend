@@ -104,6 +104,7 @@ export default {
     position: absolute;
     top: calc(100% + 0.5rem);
     width: 100%;
+    z-index: 40;
     &--item {
       width: 100%;
       display: flex;
