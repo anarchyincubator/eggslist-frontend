@@ -2,6 +2,7 @@
   <div>
     <UploadPhoto
       v-model="dataValue.product.file"
+      :preview="dataValue.product.preview"
       class="form__content__upload"
       title="Upload a photo of your product"
       subtitle="Optimal size 1000x1000."

@@ -43,6 +43,20 @@ export const actions = {
       }
     });
   },
+  async changePassword({ commit, dispatch }, password) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$post("users/password-change", {
+          password,
+        });
+        resolve(User(response));
+      } catch (e) {
+        reject(e.response.data.error);
+      }
+    });
+  },
+
   async updateProfile({}, data) {
     return new Promise(async (resolve, reject) => {
       let response;
@@ -52,6 +66,8 @@ export const actions = {
         if (data.avatar) formData.append("avatar", data.avatar);
 
         if (data.firstName) formData.append("first_name", data.firstName);
+
+        if (data.lastName) formData.append("last_name", data.lastName);
 
         if (data.email) formData.append("email", data.email);
 

@@ -55,7 +55,7 @@ export default {
     ["vue-currency-input/nuxt", { globalOptions: { currency: "USD" } }],
   ],
   axios: {
-    baseURL: "https://eggslist-dev.ferialabs.com/api",
+    baseURL: process.env.BACKEND_URL,
     credentials: true,
     proxyHeaders: false,
   },
