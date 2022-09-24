@@ -124,25 +124,27 @@ export default {
     this.sort = this.$route.query.ordering
       ? this.$route.query.ordering
       : "relevance";
-    this.$store.dispatch("categories/getCategories").then(() => {
+    this.$store.dispatch("categories/getCategories").then(async () => {
+      let start = false;
       if (Object.keys(this.$route.query).length !== 0) {
         this.startQuery = this.$route.query;
+        start = true;
       } else {
         let query = `&page=${this.currentPage}` + `&ordering=${this.sort}`;
         this.$router.push(`/catalog?${query}`);
       }
+      const resp = await this.$store.dispatch(
+        "products/getProducts",
+        start ? window.location.search?.replace("?", "") : this.actualQuery
+      );
+      this.currentPage = this.$route.query.page
+        ? Number(this.$route.query.page)
+        : 1;
+      this.totalPage = resp.totalPage;
+      this.countItems = resp.count;
+      this.products.push(...resp?.products);
+      this.loading = false;
     });
-    const resp = await this.$store.dispatch(
-      "products/getProducts",
-      this.actualQuery
-    );
-    this.currentPage = this.$route.query.page
-      ? Number(this.$route.query.page)
-      : 1;
-    this.totalPage = resp.totalPage;
-    this.countItems = resp.count;
-    this.products.push(...resp?.products);
-    this.loading = false;
   },
   methods: {
     async handleResetButton() {
