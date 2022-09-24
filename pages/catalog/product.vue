@@ -67,10 +67,10 @@
           <div class="product-page__options">
             <p>Delivery options</p>
             <span>
-              <img :src="getImgDeliver(product.allowDelivery)" /> Pickup</span
+              <img :src="getImgDeliver(product.allowPickup)" /> Pickup</span
             >
             <span>
-              <img :src="getImgDeliver(product.allowPickup)" /> Delivery</span
+              <img :src="getImgDeliver(product.allowDelivery)" /> Delivery</span
             >
           </div>
           <ProfileContact
@@ -140,6 +140,7 @@
         :loading="loading"
         title="More From This Farm"
         class="page__lists--more"
+        :link="`/profile?id=${product.seller?.id}`"
       ></ProductList>
       <ProductList
         :items="product.alsoLike || []"

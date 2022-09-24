@@ -25,7 +25,13 @@
       >
         Login
       </div>
-      <nuxt-link v-else class="ceil menu-1" to="">Favorite Farmers</nuxt-link>
+      <nuxt-link
+        v-else
+        class="ceil menu-1"
+        to="/favourites"
+        @click.native="handleClose"
+        >Favorite Farmers</nuxt-link
+      >
       <div v-if="isAuthenticated" class="navbar-container__line" />
       <div
         v-if="isAuthenticated"

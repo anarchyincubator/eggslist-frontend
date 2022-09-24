@@ -88,6 +88,17 @@ export const actions = {
       }
     });
   },
+  async getFavourites({ commit, dispatch }, id) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$get("/users/profile/favorite-farmers");
+        resolve(response.map(User));
+      } catch (e) {
+        reject(e.response.data.error);
+      }
+    });
+  },
 };
 export const mutations = {
   setUser(state, user) {
