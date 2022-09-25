@@ -20,7 +20,12 @@
         </div>
       </template>
       <div v-else class="navbar__auth">
-        <img alt="like" class="navbar__auth__like" :src="likeLink" />
+        <img
+          alt="like"
+          class="navbar__auth__like"
+          :src="likeLink"
+          @click="handleFavourites"
+        />
         <AvatarCard
           :avatar="user?.avatar"
           class="navbar__auth__avatar"
@@ -99,6 +104,10 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
+    handleFavourites() {
+      this.$router.push("/favourites");
+    },
+
     handleClickLogin() {
       this.$store.commit("setAuthComponent", true);
     },
@@ -174,6 +183,7 @@ export default {
     &__like {
       height: 1.25rem;
       margin-right: 1.625rem;
+      cursor: pointer;
     }
     &__avatar {
       width: 2rem;

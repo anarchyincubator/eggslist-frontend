@@ -90,6 +90,7 @@
               v-if="isMyListings"
               class="auth-profile__info--button"
               theme="primary"
+              @click="handlePostlisting"
               >Post a listing</CustomButton
             >
             <CustomButton
@@ -182,6 +183,9 @@ export default {
       } catch (e) {
         this.loadingButton = false;
       }
+    },
+    handlePostlisting() {
+      this.$router.push("/product/new");
     },
     async handleChangeTab(tab) {
       this.currentTab = tab;

@@ -103,7 +103,7 @@ export default {
   z-index: 5;
   flex-direction: column;
   &__logo {
-    width: 7.5rem;
+    width: 11.125rem;
     margin-right: 20rem;
     cursor: pointer;
     @include layout-mobile() {
