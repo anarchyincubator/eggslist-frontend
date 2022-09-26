@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     handleFavourites() {
-      this.$router.push("/favourites");
+      this.$router.push("/favorites");
     },
 
     handleClickLogin() {

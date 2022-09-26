@@ -78,7 +78,7 @@ export default {
       }
     }
     &--element {
-      margin-right: 1.875rem;
+      margin-right: 1.8rem;
       cursor: pointer;
       width: 18.75rem;
       margin-bottom: 1.875rem;
