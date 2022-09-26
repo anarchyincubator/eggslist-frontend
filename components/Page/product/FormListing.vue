@@ -65,7 +65,7 @@
         class="form__content__row--input"
         :is-in-valid="Boolean(dataValue.errors.description)"
         :error-text="dataValue.errors.description"
-        placeholder="Tell other farmers a bit about yourself."
+        placeholder="Details about your product."
         @focus="dataValue.errors.description = null"
         ><span slot="label" class="form__content__row--label"
           >Description <strong>*</strong>
