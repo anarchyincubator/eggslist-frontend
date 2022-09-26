@@ -1,11 +1,11 @@
 <template>
   <div class="page">
     <div class="header-container">
-      <h1>Favourite Farmers</h1>
+      <h1>Favorite Farmers</h1>
       <PatternTop class="header-container__bottom" />
     </div>
     <div>
-      <div v-if="!loading" class="page__container">
+      <div v-if="!loading && !isEmpty" class="page__container">
         <FavouriteCard
           v-for="(i, index) in users"
           :key="index"
@@ -13,34 +13,66 @@
           class="page__container__item"
         />
       </div>
-      <div v-else class="page__container">
+      <div v-else-if="loading" class="page__container">
         <SkeletonFavouriteCard
           v-for="i in 3"
           :key="i"
           class="page__container__item"
         />
       </div>
+      <div v-else class="page__container">
+        <div class="page__container__info">
+          <h3>You don't have any Favorite Farmers yet?</h3>
+          <span class="body-1"
+            >Add farmers to your favorites to start growing your virtual
+            farmer's market!</span
+          >
+          <CustomButton
+            class="page__container__info--button"
+            theme="primary"
+            @click="handleGoMarket"
+            >Market</CustomButton
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import CustomButton from "../components/Common/CustomButton";
 import PatternTop from "../components/Page/index/PatternTop";
 import FavouriteCard from "../components/favourites/FavouriteCard";
 import SkeletonFavouriteCard from "../components/favourites/SkeletonFavouriteCard";
 export default {
   name: "FavouritesPage",
-  components: { SkeletonFavouriteCard, FavouriteCard, PatternTop },
+  components: {
+    SkeletonFavouriteCard,
+    FavouriteCard,
+    PatternTop,
+    CustomButton,
+  },
   data() {
     return {
       users: [],
       loading: true,
     };
   },
+  computed: {
+    isEmpty() {
+      return this.users.length === 0;
+    },
+  },
+
   async mounted() {
     const users = await this.$store.dispatch("user/getFavourites");
     this.users = [...users];
     this.loading = false;
+  },
+  methods: {
+    handleGoMarket() {
+      this.$router.push("/catalog");
+    },
   },
 };
 </script>
@@ -101,6 +133,29 @@ export default {
         margin-right: 0;
         width: 100%;
         margin-bottom: mvw(32px);
+      }
+    }
+    &__info {
+      margin: 0 auto 0 auto;
+      width: 34.125rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      @include layout-mobile() {
+        width: auto;
+        box-sizing: border-box;
+      }
+      .body-1 {
+        margin-top: 1rem;
+        text-align: center;
+      }
+      &--button {
+        padding: 1rem 1.875rem;
+        margin-top: 2rem;
+        min-width: 9.0625rem;
+        @include layout-mobile() {
+        }
       }
     }
   }

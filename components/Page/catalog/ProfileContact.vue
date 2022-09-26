@@ -27,6 +27,7 @@
       class="profile__button"
       :is-large="true"
       theme="primary"
+      :is-loading="loading"
       @click="handleClickButton"
       >Contact</CustomButton
     >
@@ -45,11 +46,25 @@ export default {
       type: Object,
       required: true,
     },
+    slug: {
+      type: String,
+      required: true,
+    },
   },
   emits: ["contact-click"],
+  data() {
+    return {
+      loading: false,
+    };
+  },
   methods: {
-    handleClickButton() {
-      this.$emit("contact-click");
+    async handleClickButton() {
+      this.loading = true;
+      try {
+        await this.$store.dispatch("products/createContact", this.slug);
+        this.$emit("contact-click");
+      } catch (e) {}
+      this.loading = false;
     },
   },
 };

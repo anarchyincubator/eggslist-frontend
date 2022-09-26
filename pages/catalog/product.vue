@@ -53,7 +53,7 @@
           </transition>
         </div>
         <div class="product-page__description">
-          <div class="product-page__description--cat">
+          <div class="product-page__description--cat" @click="goToSlug">
             {{ product.subName }}
           </div>
           <h2 class="product-page__description--title">
@@ -74,6 +74,7 @@
             >
           </div>
           <ProfileContact
+            :slug="product.slug"
             :author="product.seller || {}"
             @contact-click="showModal"
           />
@@ -214,6 +215,9 @@ export default {
   methods: {
     getImgDeliver(val) {
       return val ? check : close;
+    },
+    goToSlug() {
+      this.$router.push(`/catalog?subcategory=${this.product.sub}`);
     },
     showModal() {
       this.$refs.modal.show();
@@ -473,6 +477,7 @@ export default {
       font-weight: 500;
       text-decoration-line: underline;
       margin-bottom: 0.5rem;
+      cursor: pointer;
       @include layout-mobile() {
         font-size: mvw(14px);
         margin-bottom: mvw(8px);
