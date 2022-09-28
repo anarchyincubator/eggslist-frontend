@@ -59,7 +59,7 @@ export default {
     border-radius: 0.75rem;
     background-size: cover;
     @include layout-mobile() {
-      width: 100%;
+      width: mvw(280px);
       height: mvw(261px);
       border-radius: mvw(12px);
     }
