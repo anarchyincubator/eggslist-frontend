@@ -11,7 +11,11 @@
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.
             </div>
           </div>
-          <CustomButton class="footer__additive__join--button" theme="primary">
+          <CustomButton
+            class="footer__additive__join--button"
+            theme="primary"
+            @click="handleClickLogin"
+          >
             Get Started
             <img slot="add" src="@/assets/images/icons/arrow-forward.svg" />
           </CustomButton>
@@ -87,6 +91,9 @@ export default {
   },
   methods: {
     handleShareClick(type) {},
+    handleClickLogin() {
+      this.$store.commit("setAuthComponent", true);
+    },
   },
 };
 </script>

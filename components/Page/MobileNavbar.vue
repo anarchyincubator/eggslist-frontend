@@ -28,7 +28,7 @@
       <nuxt-link
         v-else
         class="ceil menu-1"
-        to="/favourites"
+        to="/favorites"
         @click.native="handleClose"
         >Favorite Farmers</nuxt-link
       >

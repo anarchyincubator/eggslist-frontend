@@ -62,7 +62,8 @@ export default {
     margin-top: 3rem;
     flex-wrap: wrap;
     &__item {
-      margin-right: auto;
+      width: 18.75rem;
+      margin-right: 1.875rem;
       cursor: pointer;
       &:nth-child(4) {
         margin-right: 0;
@@ -70,14 +71,17 @@ export default {
       @include layout-mobile() {
         margin-right: mvw(20px);
         margin-top: mvw(24px);
+        width: mvw(130px);
         &:nth-child(2n) {
           margin-right: 0;
         }
       }
     }
     &--element {
-      margin-right: auto;
+      margin-right: 1.8rem;
       cursor: pointer;
+      width: 18.75rem;
+      margin-bottom: 1.875rem;
       &:nth-child(4) {
         margin-right: 0;
       }
@@ -105,6 +109,8 @@ export default {
       @include layout-mobile() {
         margin-right: mvw(20px);
         margin-top: mvw(24px);
+        margin-bottom: 0;
+        width: mvw(130px);
         &:nth-child(2n) {
           margin-right: 0;
         }

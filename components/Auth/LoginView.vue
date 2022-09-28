@@ -131,7 +131,7 @@ export default {
       this.loadingLogin = true;
       try {
         await this.$store.dispatch("auth/login", {
-          username: this.login,
+          email: this.login,
           password: this.password,
         });
         this.$store.commit("setAuthComponent", false);

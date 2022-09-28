@@ -36,7 +36,7 @@
             {{ isHidden ? "Unhide" : "Hide" }}
           </p>
           <p class="button-2" @click="handleOut">
-            {{ outStock ? "Mark “In Stock”" : "Mark as “Out of Stock”" }}
+            {{ outStock ? "Mark as “In Stock”" : "Mark as “Out of Stock”" }}
           </p>
           <strong class="button-2" @click="handleDelete">Delete</strong>
         </div>

@@ -80,6 +80,8 @@ export default {
   },
   watch: {
     async preview(val) {
+      if (!val) return;
+
       const response = await fetch(val);
       const blob = await response.blob();
       let name = val.split("/");

@@ -16,8 +16,6 @@ export const getters = {
 };
 export const actions = {
   async getCities({ commit, state }) {
-    if (!state.cities || state.cities.length !== 0) return;
-
     try {
       const response = await this.$axios.$get(
         "/site-configuration/location/cities"
@@ -82,7 +80,7 @@ export const mutations = {
     state.cities = [...cities];
   },
   setCurrentCity(state, city) {
-    localStorage.setItem(localStorageKeyCity, city);
+    //localStorage.setItem(localStorageKeyCity, city);
     state.currentCity = city;
   },
   setAuthComponent(state, show) {

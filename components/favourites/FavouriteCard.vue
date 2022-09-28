@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="goToProfile">
     <div class="card__avatar" :style="style">
       <h2 v-if="!seller.avatar">
         {{ seller.firstName && seller.firstName[0] }}

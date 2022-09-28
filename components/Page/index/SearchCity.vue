@@ -12,6 +12,7 @@
         class="search-clear"
         :padding-default="false"
         placeholder="Search for listings"
+        @keyup.enter.native="handleFindListings"
       >
       </CustomInput>
     </div>
@@ -23,6 +24,7 @@
       :result="resultCity"
       placeholder="Search city"
       no-text="No cities"
+      @keyup.enter.native="handleFindListings"
       @setupCity="handleEmitCity"
       @changeInput="handleChangeCity"
     >
@@ -38,7 +40,7 @@
       theme="primary"
       @click="handleFindListings"
     >
-      Find Farmers
+      Find Food
     </CustomButton>
   </div>
 </template>

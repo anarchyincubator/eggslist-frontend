@@ -142,6 +142,19 @@ export const actions = {
       }
     });
   },
+  async createContact({}, slug) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const response = await this.$axios.$post(
+          `store/products/${slug}/contact`
+        );
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
 };
 export const mutations = {
   setEditProduct(state, product) {
