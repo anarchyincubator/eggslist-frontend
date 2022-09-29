@@ -65,7 +65,7 @@ export default {
       width: 18.75rem;
       margin-right: 1.875rem;
       cursor: pointer;
-      &:nth-child(4) {
+      &:nth-child(4n) {
         margin-right: 0;
       }
       @include layout-mobile() {
@@ -82,7 +82,7 @@ export default {
       cursor: pointer;
       width: 18.75rem;
       margin-bottom: 1.875rem;
-      &:nth-child(4) {
+      &:nth-child(4n) {
         margin-right: 0;
       }
       div {
