@@ -16,7 +16,7 @@
       <SkeletonCategoryItem
         v-for="(item, index) in 4"
         :key="index"
-        class="categories__list__item"
+        class="categories__list--element"
       ></SkeletonCategoryItem>
     </div>
   </section>

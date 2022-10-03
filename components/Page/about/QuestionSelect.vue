@@ -77,6 +77,7 @@ export default {
       height: 2rem;
       display: flex;
       align-items: center;
+      flex-shrink: 0;
       border-radius: 50%;
       border: 1.5px solid $neutral-70;
       justify-content: center;

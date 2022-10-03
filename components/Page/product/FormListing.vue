@@ -5,7 +5,7 @@
       :preview="dataValue.product.preview"
       class="form__content__upload"
       title="Upload a photo of your product"
-      subtitle="Optimal size 1000x1000."
+      subtitle="Optimal size 1000x1000. Images will be cropped to a square."
     />
     <div class="form__content__row">
       <CustomInput

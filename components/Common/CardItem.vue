@@ -179,11 +179,18 @@ export default {
 <style lang="scss" scoped>
 .card {
   cursor: pointer;
+  max-width: 18.75rem;
   h4 {
     height: 3.5625rem;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
     @include layout-mobile() {
       font-size: mvw(16px);
-      height: mvw(57px);
+      height: mvw(45px);
+      margin-bottom: mvw(12px);
     }
   }
   &__background {

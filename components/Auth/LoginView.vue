@@ -8,7 +8,8 @@
     <h3 class="login__h3">Log in with email</h3>
     <div class="login__form">
       <custom-input
-        v-model="login"
+        v-model="email"
+        name="email"
         :is-in-valid="Boolean(errorLogin)"
         :error-text="errorLogin"
         tabindex="0"
@@ -72,7 +73,7 @@ export default {
   emits: ["regClick", "forgetClick"],
   data() {
     return {
-      login: "",
+      email: "",
       password: "",
       isShowPass: true,
       errorLogin: null,
@@ -124,7 +125,7 @@ export default {
     validateLogin() {
       let value = true;
 
-      value &= this.validateLoginField(this.login);
+      value &= this.validateLoginField(this.email);
       value &= this.validatePasswordField(this.password);
 
       return value;
@@ -165,7 +166,7 @@ export default {
       this.loadingLogin = true;
       try {
         await this.$store.dispatch("auth/login", {
-          email: this.login,
+          email: this.email,
           password: this.password,
         });
         this.$store.commit("setAuthComponent", false);

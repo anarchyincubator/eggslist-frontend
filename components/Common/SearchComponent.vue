@@ -3,7 +3,7 @@
     <div class="search-container__label">
       <slot name="label"> </slot>
     </div>
-    <div v-click-outside="handleClose">
+    <div v-click-outside="handleClose" class="search-container__div">
       <CustomInput
         v-model="inputData"
         :placeholder="placeholder"
@@ -162,6 +162,9 @@ export default {
       font-size: mvw(14px);
       line-height: mvw(24px);
     }
+  }
+  &__div {
+    width: 100%;
   }
   &__results {
     z-index: 30;
