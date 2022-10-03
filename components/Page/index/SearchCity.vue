@@ -120,7 +120,7 @@ export default {
     }
   }
   &__second {
-    width: 10.9375rem !important;
+    width: 20rem !important;
     margin-right: auto;
     @include layout-mobile() {
       margin: 0;
