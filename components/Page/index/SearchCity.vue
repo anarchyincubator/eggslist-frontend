@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { debounce } from "lodash";
 import SearchComponent from "@/components/Common/SearchComponent.vue";
 import CustomButton from "../../Common/CustomButton";
 import CustomInput from "../../Common/CustomInput";
@@ -82,7 +83,7 @@ export default {
         await this.$store.dispatch("saveCity", val);
       } catch (e) {}
     },
-    handleChangeCity(val) {
+    handleChangeCity: debounce(function (val) {
       this.resultCity = this.cities
         .filter(({ name }) => {
           return name.includes(val);
@@ -90,7 +91,7 @@ export default {
         .map((obj) => {
           return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
         });
-    },
+    }, 200),
     handleFindListings() {
       this.$router.push({ path: "catalog", query: { search: this.listing } });
     },
@@ -113,7 +114,7 @@ export default {
     align-items: center;
   }
   &__first {
-    width: 28.625rem;
+    width: 25.625rem;
     @include layout-mobile() {
       width: 100%;
     }

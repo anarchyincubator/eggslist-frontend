@@ -7,19 +7,20 @@
     </div>
     <h3 class="reg__h3">Sign up with email</h3>
     <div class="reg__form">
+      <custom-input v-model="firstName" class="reg__form--first" tabindex="1">
+        <label slot="label"
+          >First name (or the name of the farm)<strong>*</strong></label
+        >
+      </custom-input>
       <custom-input
-        v-model="login"
+        v-model="email"
+        name="email"
         :is-in-valid="Boolean(errorLogin)"
         :error-text="errorLogin"
         tabindex="0"
         @focus="handleFocusLogin"
       >
         <label slot="label">Email<strong>*</strong></label>
-      </custom-input>
-      <custom-input v-model="firstName" class="reg__form--first" tabindex="1">
-        <label slot="label"
-          >First name (or the name of the farm)<strong>*</strong></label
-        >
       </custom-input>
       <custom-input
         v-model="password"
@@ -75,7 +76,7 @@ export default {
   emits: ["loginClick"],
   data() {
     return {
-      login: "",
+      email: "",
       password: "",
       firstName: "",
       isShowPass: true,
@@ -124,7 +125,7 @@ export default {
     validateLogin() {
       let value = true;
 
-      value &= this.validateLoginField(this.login);
+      value &= this.validateLoginField(this.email);
       value &= this.validatePasswordField(this.password);
 
       return value;
@@ -165,7 +166,7 @@ export default {
       this.loadingReg = true;
       try {
         await this.$store.dispatch("auth/register", {
-          email: this.login,
+          email: this.email,
           first_name: this.firstName,
           password: this.password,
         });

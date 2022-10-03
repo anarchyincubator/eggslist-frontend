@@ -37,9 +37,8 @@ export default {
         number.slice(2, 5) +
         ") " +
         number.slice(5, 8) +
-        " " +
+        "-" +
         number.slice(8, 10) +
-        " " +
         number.slice(10, 12)
       );
     },

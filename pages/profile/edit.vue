@@ -11,9 +11,9 @@
       <UploadPhoto
         v-model="profile.file"
         class="page__content__upload"
-        title="Upload profile photo."
+        title="Upload a profile photo."
         :preview="profile.preview"
-        subtitle="Optimal size 1000x1000."
+        subtitle="Optimal size 1000x1000. Images will be cropped to a square"
       />
       <div class="page__content__row">
         <CustomInput
@@ -231,9 +231,8 @@ export default {
     await this.setAdditionalData();
   },
   methods: {
-    handleChangeState(val) {
+    handleChangeState: debounce(function (val) {
       let valu = val.toLowerCase();
-
       this.searchStates = this.states
         .filter(({ name }) => {
           return name.toLowerCase().includes(valu);
@@ -241,7 +240,7 @@ export default {
         .map((item) => {
           return { name: item.name, value: item.slug };
         });
-    },
+    }, 200),
     handleFocusEmail() {
       this.errorLogin = null;
     },

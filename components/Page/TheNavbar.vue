@@ -9,7 +9,7 @@
     <div class="navbar__links">
       <nuxt-link class="navbar__link menu-1" to="/catalog"> Market </nuxt-link>
       <nuxt-link class="navbar__link menu-1" to="/about"> About </nuxt-link>
-      <nuxt-link class="navbar__link menu-1" to="/stories">
+      <nuxt-link v-if="false" class="navbar__link menu-1" to="/stories">
         Our stories
       </nuxt-link>
     </div>

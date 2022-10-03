@@ -17,6 +17,7 @@
                 :title="product.title"
                 :slug="product.slug"
                 :price="product.price"
+                :out-stock="product.isOut"
                 :background="product.image"
                 :author-config="product.seller"
               ></CardItem>

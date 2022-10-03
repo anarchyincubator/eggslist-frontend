@@ -135,7 +135,13 @@
         </div>
       </div>
     </div>
-    <div class="page__lists">
+    <div
+      v-if="
+        (product.moreProduct && product.moreProduct.length > 0) ||
+        (product.alsoLike && product.alsoLike.length > 0)
+      "
+      class="page__lists"
+    >
       <ProductList
         :items="product.moreProduct || []"
         :loading="loading"
