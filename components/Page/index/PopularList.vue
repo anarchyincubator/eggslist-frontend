@@ -3,7 +3,7 @@
     <div class="popular">
       <div class="popular__top">
         <h2>Popular Near You</h2>
-        <nuxt-link tabindex="-1" to="/catalog">View All Listings</nuxt-link>
+        <a tabindex="-1" @click="pushCatalog">View All Listings</a>
       </div>
       <div v-show="!loading" class="list">
         <div v-swiper:swiperInstance="swiperOptionsInner" class="fake">
@@ -73,9 +73,7 @@ export default {
       mounted: false,
       isInButtonRight: false,
       isInButtonLeft: false,
-      resistance: false,
-      observer: true,
-      observeParents: true,
+      done: false,
       swiperOptionsInner: {
         slidesPerView: 2,
         allowTouchMove: false,
@@ -101,10 +99,10 @@ export default {
   },
   watch: {
     products() {
-      this.reCalcStyle();
+      if (!this.done) this.reCalcStyle();
     },
     windowWidth() {
-      this.reCalcWidth();
+      if (!this.done) this.reCalcWidth();
     },
   },
 
@@ -115,6 +113,12 @@ export default {
     }, 100);
   },
   methods: {
+    pushCatalog() {
+      console.log(this.marginRight);
+      this.done = true;
+      this.$router.push("/catalog");
+      console.log(this.marginRight);
+    },
     reCalcWidth() {
       this.swiperInstance.params.spaceBetween = this.isMobile
         ? (20 * this.windowWidth) / 320
@@ -156,6 +160,7 @@ export default {
       line-height: 1.5rem;
       padding-bottom: 0.0625rem;
       font-weight: 600;
+      cursor: pointer;
       border-bottom: 2px solid $primary-marigold;
       height: min-content;
       &:hover {

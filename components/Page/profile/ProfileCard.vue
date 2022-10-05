@@ -28,7 +28,7 @@
         to="/profile/edit"
         >Edit Profile</nuxt-link
       >
-      <nuxt-link v-else to="" class="profile__main__stories">
+      <nuxt-link v-if="false" to="" class="profile__main__stories">
         <span class="button-1">My Stories</span>
         <p><img src="@/assets/images/icons/arrow-forward.svg" /></p>
       </nuxt-link>
@@ -95,7 +95,7 @@
         >Get verified</nuxt-link
       >
     </div>
-    <div v-if="isAuth" class="profile__story">
+    <div v-if="isAuth && false" class="profile__story">
       <div class="profile__story__border" />
       <h4>Tell the community about your farm!</h4>
       <span class="body-2"

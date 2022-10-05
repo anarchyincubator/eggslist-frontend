@@ -17,9 +17,7 @@ export const getters = {
 export const actions = {
   async getCities({ commit, state }) {
     try {
-      const response = await this.$axios.$get(
-        "/site-configuration/location/cities"
-      );
+      const response = await fetch("cities.json").then((res) => res.json());
       commit("setCities", response);
       return { cities: response };
     } catch (e) {}
