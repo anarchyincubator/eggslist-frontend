@@ -46,7 +46,7 @@
       </div>
 
       <CustomButton
-        v-if="!isAuth && !user.isFavourite"
+        v-if="isAuth && !user.isFavourite"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -59,7 +59,7 @@
         Add To Favorites
       </CustomButton>
       <CustomButton
-        v-if="!isAuth && user.isFavourite"
+        v-if="isAuth && user.isFavourite"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
