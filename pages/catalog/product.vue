@@ -555,7 +555,7 @@ export default {
     }
   }
   @include layout-mobile() {
-    padding: mvw(64px) $padding-left-mobile;
+    padding: mvw(68px) $padding-left-mobile;
   }
 }
 </style>

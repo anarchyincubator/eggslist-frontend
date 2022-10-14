@@ -8,7 +8,7 @@
           <div>
             <h2>Join The Movement!</h2>
             <div class="body-1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.
+              Sign up start buying and selling local food with Egglist!
             </div>
           </div>
           <CustomButton

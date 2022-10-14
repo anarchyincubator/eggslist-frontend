@@ -51,7 +51,7 @@
         Post A Listing
       </CustomButton>
       <CustomButton
-        v-if="isAuthenticated"
+        v-if="false"
         theme="secondary"
         class="navbar-container__button--bottom button-2"
       >
@@ -115,7 +115,10 @@ export default {
       }
       if (!this.user.phone || !this.user.location) {
         this.$refs.edit.show();
+        return;
       }
+      this.$router.push("/product/new");
+      this.handleClose();
     },
   },
 };

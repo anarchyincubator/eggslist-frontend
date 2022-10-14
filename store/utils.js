@@ -27,6 +27,15 @@ export const actions = {
       }
     });
   },
+  getZipLocal({ commit }, param) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await fetch("/zip_codes.json").then((res) => res.json());
+        resolve(response);
+      } catch (e) {}
+    });
+  },
   getZip({ commit }, param) {
     return new Promise(async (resolve, reject) => {
       let response;

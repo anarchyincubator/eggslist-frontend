@@ -36,7 +36,7 @@
           View Profile
         </CustomButton>
         <CustomButton
-          v-if="!seller.isFavourite"
+          v-if="isAuth && !seller.isFavourite && seller.id !== user.id"
           class="modal-profile__view"
           theme="secondary"
           :is-loading="loadingButton"
@@ -85,6 +85,12 @@ export default {
     };
   },
   computed: {
+    user() {
+      return this.$store.getters["user/user"];
+    },
+    isAuth() {
+      return this.$store.getters["auth/isAuthenticated"];
+    },
     phoneNumber() {
       let number = this.seller.phoneNumber;
       return (

@@ -181,6 +181,7 @@ export default {
       searchCities: [],
       searchStates: [],
       searchZip: [],
+      zipCodes: [],
       searchZipCut: [],
       selectedZip: "",
       selectedCity: "",
@@ -224,10 +225,15 @@ export default {
     canSave() {
       return Boolean(!this.errorLogin && this.profile.firstName);
     },
+    cities() {
+      return this.$store.getters["cities"];
+    },
   },
   async mounted() {
     this.setProfileData();
+    await this.$store.dispatch("getCities");
     this.states = await this.$store.dispatch("utils/getStates");
+    this.zipCodes = await this.$store.dispatch("utils/getZipLocal");
     await this.setAdditionalData();
   },
   methods: {
@@ -299,8 +305,10 @@ export default {
 
     async setAdditionalData() {
       let state = this.states.find(
-        (item) => item.name === this.user.location.state
+        (item) => item.name === this.user.location?.state
       );
+
+      if (!state) return;
 
       this.profile.selectedState = state.slug;
       this.profile.zipCode = this.user.location.zip_code;
@@ -333,9 +341,11 @@ export default {
       this.isChooseCity = true;
       this.errorCity = null;
       this.profile.city = val.slug;
-      this.searchZip = await this.$store.dispatch("utils/getZip", {
-        city: this.profile.city,
-        state: this.profile.selectedState,
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return (
+          obj.city.includes(val.name) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
       });
       this.selectedZip = "";
       this.searchZipCut = [...this.searchZip];
@@ -398,11 +408,15 @@ export default {
       this.isZipCode = false;
       this.selectedZip = "";
       this.profile.zipCode = "";
-      this.searchCities = await this.$store.dispatch("utils/getCities", {
-        search: val,
-        state: this.profile.selectedState,
+
+      let city = val.toLowerCase().replace("-", " ");
+      this.searchCities = this.cities.filter((obj) => {
+        return (
+          obj.name.toLowerCase().includes(city) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
       });
-    }, 300),
+    }, 200),
   },
 };
 </script>

@@ -17,7 +17,7 @@ export const getters = {
 export const actions = {
   async getCities({ commit, state }) {
     try {
-      const response = await fetch("cities.json").then((res) => res.json());
+      const response = await fetch("/cities.json").then((res) => res.json());
       commit("setCities", response);
       return { cities: response };
     } catch (e) {}
@@ -28,7 +28,7 @@ export const actions = {
     return new Promise(async (resolve, reject) => {
       let response;
       try {
-        response = await this.$axios.$get("/users/locate?r=true");
+        response = await this.$axios.$get("/users/locate");
         const city = `${response.city}, ${response.state}`;
         commit("setCurrentCity", city);
         await resolve(city);
@@ -37,12 +37,13 @@ export const actions = {
       }
     });
   },
-  async saveCity({ commit }, { slug, name }) {
+  async saveCity({ commit }, { slug, name, radius = 20 }) {
     return new Promise(async (resolve, reject) => {
       let response;
       try {
         response = await this.$axios.$post("/users/set-location", {
           slug: slug,
+          lookup_radius: radius,
         });
         commit("setCurrentCity", name);
         await resolve(response);

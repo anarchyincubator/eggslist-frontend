@@ -36,7 +36,7 @@
       />
     </SearchComponent>
     <CustomButton
-      class="search-city__button button-2"
+      class="search-city__button"
       theme="primary"
       @click="handleFindListings"
     >
@@ -84,13 +84,18 @@ export default {
       } catch (e) {}
     },
     handleChangeCity: debounce(function (val) {
-      this.resultCity = this.cities
-        .filter(({ name }) => {
-          return name.includes(val);
-        })
-        .map((obj) => {
-          return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
-        });
+      let city = val.toLowerCase().replace("-", " ");
+      let states = [];
+      this.resultCity = this.cities.filter((obj) => {
+        if (obj.state_full_name.toLowerCase().includes(city)) states.push(obj);
+
+        return obj.name.toLowerCase().includes(city);
+      });
+
+      this.resultCity.push(...states);
+      this.resultCity = this.resultCity.map((obj) => {
+        return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
+      });
     }, 200),
     handleFindListings() {
       this.$router.push({ path: "catalog", query: { search: this.listing } });

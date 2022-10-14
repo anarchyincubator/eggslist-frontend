@@ -113,7 +113,7 @@ export default {
       width: mvw(212px);
       height: mvw(202px);
       border-radius: mvw(12px);
-      padding: mvw(32px);
+      padding: mvw(30px);
       left: mvw(-150px);
       top: mvw(64px);
     }

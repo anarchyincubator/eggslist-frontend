@@ -26,6 +26,7 @@
         :is-in-valid="Boolean(dataValue.errors.category)"
         :error-text="dataValue.errors.category"
         :selects="selectsCategory"
+        @input="handleChangeCategory"
         @focus="dataValue.errors.category = null"
         ><span slot="label" class="form__content__row--label"
           >Category <strong>*</strong>
@@ -143,6 +144,11 @@ export default {
     },
     isLockSub() {
       return this.dataValue.product.selectsCategory === null;
+    },
+  },
+  methods: {
+    handleChangeCategory() {
+      this.dataValue.product.selectSub = null;
     },
   },
 };

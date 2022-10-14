@@ -3,9 +3,9 @@
     <div class="header-container">
       <h1>About</h1>
       <div class="body-1">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam.
+        Egglist is your virtual Farmer’s Market, where you can buy, sell, and
+        connect with local farmers and gardeners to keep your food fresh and
+        local!
       </div>
       <PatternTop color="#FEF3E1" class="header-container__bottom" />
     </div>
