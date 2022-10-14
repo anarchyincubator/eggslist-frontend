@@ -49,7 +49,7 @@
           Add To Favorites
         </CustomButton>
         <CustomButton
-          v-else
+          v-else-if="seller.id !== user.id"
           class="modal-profile__view"
           :is-loading="loadingButton"
           theme="secondary"
