@@ -65,13 +65,11 @@
       </div>
       <div class="page__content__row">
         <SearchComponent
-          v-show="isState"
           v-model="selectedCity"
           :is-padding="true"
-          :is-lock="!isState"
           placeholder="Search city"
           no-text="No cities"
-          :result="searchCities"
+          :result="searchCitiesCut"
           :is-in-valid="Boolean(errorCity)"
           :error-text="errorCity"
           class="page__content__row--input page__content__row--input--half"
@@ -82,10 +80,8 @@
           </span></SearchComponent
         >
         <SearchComponent
-          v-show="isCity"
           v-model="selectedZip"
           :is-padding="true"
-          :is-lock="!isState || !isCity"
           placeholder="Search zip"
           no-text="No zip"
           :is-in-valid="Boolean(errorZip)"
@@ -179,6 +175,7 @@ export default {
       selectsCountry: [{ key: "usa", value: "United States" }],
       states: [],
       searchCities: [],
+      searchCitiesCut: [],
       searchStates: [],
       searchZip: [],
       zipCodes: [],
@@ -216,9 +213,6 @@ export default {
     user() {
       return this.$store.getters["user/user"];
     },
-    isCity() {
-      return Boolean(this.profile.city);
-    },
     theme() {
       return this.canSave ? "primary" : "disabled";
     },
@@ -246,6 +240,15 @@ export default {
         .map((item) => {
           return { name: item.name, value: item.slug };
         });
+      this.searchCities = [...this.cities];
+      this.searchCitiesCut = [...this.searchCities];
+      this.searchZip = [...this.zipCodes];
+      this.selectedZip = "";
+      this.searchZipCut = [...this.searchZip];
+      this.selectedCity = "";
+      this.isZipCode = false;
+      this.isChooseCity = false;
+      this.isChooseState = false;
     }, 200),
     handleFocusEmail() {
       this.errorLogin = null;
@@ -319,6 +322,12 @@ export default {
       this.isZipCode = true;
       this.isChooseCity = true;
       this.isChooseState = true;
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return (
+          obj.city.includes(this.profile.city) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
+      });
     },
 
     handleToProfile() {
@@ -333,20 +342,37 @@ export default {
       this.selectedCity = "";
       this.profile.city = "";
       this.profile.zipCode = "";
-      this.isChooseCity = true;
-      this.isZipCode = true;
-      this.handleChangeCity("");
+      this.isChooseCity = false;
+      this.isZipCode = false;
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return obj.state.toLowerCase() === this.profile.selectedState;
+      });
+      this.searchCities = this.cities.filter((obj) => {
+        return obj.state.toLowerCase() === this.profile.selectedState;
+      });
+      this.searchCitiesCut = [...this.searchCities];
+      this.selectedZip = "";
+      this.searchZipCut = [...this.searchZip];
     },
+
     async handleEmitCity(val) {
       this.isChooseCity = true;
       this.errorCity = null;
       this.profile.city = val.slug;
+      this.isChooseState = true;
+      this.errorState = null;
+      const state = this.states.find(({ name }) => {
+        return name === val.state;
+      });
+      this.profile.selectedState = state.slug;
+      this.selectedState = state.name;
       this.searchZip = this.zipCodes.filter((obj) => {
         return (
           obj.city.includes(val.name) &&
           obj.state.toLowerCase() === this.profile.selectedState
         );
       });
+      this.isZipCode = false;
       this.selectedZip = "";
       this.searchZipCut = [...this.searchZip];
     },
@@ -388,9 +414,37 @@ export default {
       this.loadingSave = false;
     },
     handleEmitZip(val) {
+      this.selectedState = " ";
       this.isZipCode = true;
       this.errorZip = null;
       this.profile.zipCode = val.slug;
+
+      const zip = this.zipCodes.find(({ slug }) => slug === val.slug);
+      const city = this.cities.find((obj) => {
+        return obj.name === zip.city;
+      });
+
+      this.isChooseCity = true;
+      this.errorCity = null;
+      this.profile.city = city.slug;
+      this.selectedCity = zip.city;
+
+      this.isChooseState = true;
+      this.errorState = null;
+      const state = this.states.find(({ name }) => {
+        return name === city.state;
+      });
+      this.profile.selectedState = state.slug;
+      this.selectedState = zip.state;
+      this.searchCities = this.cities.filter((obj) => {
+        return obj.state.toLowerCase() === this.profile.selectedState;
+      });
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return (
+          obj.city.includes(zip.city) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
+      });
     },
     handleChangeZip(val) {
       this.isZipCode = false;
@@ -410,11 +464,8 @@ export default {
       this.profile.zipCode = "";
 
       let city = val.toLowerCase().replace("-", " ");
-      this.searchCities = this.cities.filter((obj) => {
-        return (
-          obj.name.toLowerCase().includes(city) &&
-          obj.state.toLowerCase() === this.profile.selectedState
-        );
+      this.searchCitiesCut = this.searchCities.filter((obj) => {
+        return obj.name.toLowerCase().includes(city);
       });
     }, 200),
   },
