@@ -105,7 +105,6 @@ export default {
     },
     async onFileSelected(event) {
       let files = event.target.files;
-      this.inputData = event.target.files[0];
       const [file] = files;
       let fixRotation = require("fix-image-rotation");
       let f = await loadImage(
@@ -113,10 +112,11 @@ export default {
         { canvas: true, orientation: true } // Options
       );
       f.image.toBlob((blob) => {
+        this.fileName = event.target.value.replace(/^.*[\\\/]/, "");
         if (file) {
           this.url = URL.createObjectURL(blob);
+          this.inputData = new File([blob], this.fileName);
         }
-        this.fileName = event.target.value.replace(/^.*[\\\/]/, "");
       }, "image/jpeg");
     },
   },
