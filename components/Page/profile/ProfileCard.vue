@@ -46,7 +46,7 @@
       </div>
 
       <CustomButton
-        v-if="isAuth && !user.isFavourite"
+        v-if="isAuth && !user.isFavourite && mainUser.id !== user.id"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -59,7 +59,7 @@
         Add To Favorites
       </CustomButton>
       <CustomButton
-        v-if="isAuth && user.isFavourite"
+        v-if="isAuth && user.isFavourite && mainUser.id !== user.id"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -141,6 +141,9 @@ export default {
         number.slice(8, 10) +
         number.slice(10, 12)
       );
+    },
+    mainUser() {
+      return this.$store.getters["user/user"];
     },
     isVerifiedLabel() {
       return this.isAuth && !this.user.isVerified;
