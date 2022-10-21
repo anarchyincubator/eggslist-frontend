@@ -19,6 +19,7 @@
       :products="products"
     ></PopularList>
     <StoriesList
+      v-if="false"
       :loading="loadingBlogs"
       class="page__stories"
       :stories="blogs"

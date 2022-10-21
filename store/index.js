@@ -17,12 +17,8 @@ export const getters = {
 };
 export const actions = {
   async getCities({ commit, state }) {
-    if (!state.cities || state.cities.length !== 0) return;
-
     try {
-      const response = await this.$axios.$get(
-        "/site-configuration/location/cities"
-      );
+      const response = await fetch("/cities.json").then((res) => res.json());
       commit("setCities", response);
       return { cities: response };
     } catch (e) {}
@@ -34,7 +30,7 @@ export const actions = {
     return new Promise(async (resolve, reject) => {
       let response;
       try {
-        response = await this.$axios.$get("/users/locate?r=true");
+        response = await this.$axios.$get("/users/locate");
         const city = `${response.city}, ${response.state}`;
         commit("setCurrentCity", response);
         await resolve(city);
@@ -49,6 +45,7 @@ export const actions = {
       try {
         response = await this.$axios.$post("/users/set-location", {
           slug: slug,
+          lookup_radius: radius,
         });
         await dispatch("getLocate", true);
         await resolve(response);
@@ -87,7 +84,7 @@ export const mutations = {
     state.cities = [...cities];
   },
   setCurrentCity(state, city) {
-    localStorage.setItem(localStorageKeyCity, city);
+    //localStorage.setItem(localStorageKeyCity, city);
     state.currentCity = city;
   },
   setAuthComponent(state, show) {

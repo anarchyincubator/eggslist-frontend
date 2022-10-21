@@ -35,6 +35,8 @@
 
 <script>
 import CustomButton from "./CustomButton";
+import loadImage from "blueimp-load-image";
+import fixRotation from "fix-image-rotation";
 
 export default {
   name: "UploadPhoto",
@@ -54,7 +56,8 @@ export default {
     },
     subtitle: {
       type: String,
-      default: " Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      default:
+        "Show us a picture that lets us know your farm is the real deal in order to become verified.",
     },
     textButton: {
       type: String,
@@ -80,6 +83,8 @@ export default {
   },
   watch: {
     async preview(val) {
+      if (!val) return;
+
       const response = await fetch(val);
       const blob = await response.blob();
       let name = val.split("/");
@@ -98,14 +103,21 @@ export default {
     handleClick() {
       this.$refs.input.click();
     },
-    onFileSelected(event) {
+    async onFileSelected(event) {
       let files = event.target.files;
-      this.inputData = event.target.files[0];
       const [file] = files;
-      if (file) {
-        this.url = URL.createObjectURL(file);
-      }
-      this.fileName = event.target.value.replace(/^.*[\\\/]/, "");
+      let fixRotation = require("fix-image-rotation");
+      let f = await loadImage(
+        file,
+        { canvas: true, orientation: true } // Options
+      );
+      f.image.toBlob((blob) => {
+        this.fileName = event.target.value.replace(/^.*[\\\/]/, "");
+        if (file) {
+          this.url = URL.createObjectURL(blob);
+          this.inputData = new File([blob], this.fileName);
+        }
+      }, "image/jpeg");
     },
   },
 };

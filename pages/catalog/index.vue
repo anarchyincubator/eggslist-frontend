@@ -163,6 +163,7 @@ export default {
     async handleApplyFilter(val) {
       if (val === this.query) return;
 
+      this.currentPage = 1;
       this.query = val;
       this.$router.push(`/catalog?${this.actualQuery}`);
       await this.getProducts();

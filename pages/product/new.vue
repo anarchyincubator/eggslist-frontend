@@ -63,7 +63,7 @@ export default {
           pickup: false,
           selectsCategory: null,
           selectSub: null,
-          price: 0,
+          price: null,
           description: "",
         },
       },

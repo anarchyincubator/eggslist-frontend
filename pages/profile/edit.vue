@@ -11,9 +11,9 @@
       <UploadPhoto
         v-model="profile.file"
         class="page__content__upload"
-        title="Upload profile photo."
+        title="Upload a profile photo."
         :preview="profile.preview"
-        subtitle="Optimal size 1000x1000."
+        subtitle="Optimal size 1000x1000. Images will be cropped to a square"
       />
       <div class="page__content__row">
         <CustomInput
@@ -65,13 +65,11 @@
       </div>
       <div class="page__content__row">
         <SearchComponent
-          v-show="isState"
           v-model="selectedCity"
           :is-padding="true"
-          :is-lock="!isState"
           placeholder="Search city"
           no-text="No cities"
-          :result="searchCities"
+          :result="searchCitiesCut"
           :is-in-valid="Boolean(errorCity)"
           :error-text="errorCity"
           class="page__content__row--input page__content__row--input--half"
@@ -82,10 +80,8 @@
           </span></SearchComponent
         >
         <SearchComponent
-          v-show="isCity"
           v-model="selectedZip"
           :is-padding="true"
-          :is-lock="!isState || !isCity"
           placeholder="Search zip"
           no-text="No zip"
           :is-in-valid="Boolean(errorZip)"
@@ -179,8 +175,10 @@ export default {
       selectsCountry: [{ key: "usa", value: "United States" }],
       states: [],
       searchCities: [],
+      searchCitiesCut: [],
       searchStates: [],
       searchZip: [],
+      zipCodes: [],
       searchZipCut: [],
       selectedZip: "",
       selectedCity: "",
@@ -215,25 +213,26 @@ export default {
     user() {
       return this.$store.getters["user/user"];
     },
-    isCity() {
-      return Boolean(this.profile.city);
-    },
     theme() {
       return this.canSave ? "primary" : "disabled";
     },
     canSave() {
       return Boolean(!this.errorLogin && this.profile.firstName);
     },
+    cities() {
+      return this.$store.getters["cities"];
+    },
   },
   async mounted() {
     this.setProfileData();
+    await this.$store.dispatch("getCities");
     this.states = await this.$store.dispatch("utils/getStates");
+    this.zipCodes = await this.$store.dispatch("utils/getZipLocal");
     await this.setAdditionalData();
   },
   methods: {
-    handleChangeState(val) {
+    handleChangeState: debounce(function (val) {
       let valu = val.toLowerCase();
-
       this.searchStates = this.states
         .filter(({ name }) => {
           return name.toLowerCase().includes(valu);
@@ -241,7 +240,16 @@ export default {
         .map((item) => {
           return { name: item.name, value: item.slug };
         });
-    },
+      this.searchCities = [...this.cities];
+      this.searchCitiesCut = [...this.searchCities];
+      this.searchZip = [...this.zipCodes];
+      this.selectedZip = "";
+      this.searchZipCut = [...this.searchZip];
+      this.selectedCity = "";
+      this.isZipCode = false;
+      this.isChooseCity = false;
+      this.isChooseState = false;
+    }, 200),
     handleFocusEmail() {
       this.errorLogin = null;
     },
@@ -300,8 +308,10 @@ export default {
 
     async setAdditionalData() {
       let state = this.states.find(
-        (item) => item.name === this.user.location.state
+        (item) => item.name === this.user.location?.state
       );
+
+      if (!state) return;
 
       this.profile.selectedState = state.slug;
       this.profile.zipCode = this.user.location.zip_code;
@@ -312,6 +322,12 @@ export default {
       this.isZipCode = true;
       this.isChooseCity = true;
       this.isChooseState = true;
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return (
+          obj.city.includes(this.profile.city) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
+      });
     },
 
     handleToProfile() {
@@ -326,18 +342,37 @@ export default {
       this.selectedCity = "";
       this.profile.city = "";
       this.profile.zipCode = "";
-      this.isChooseCity = true;
-      this.isZipCode = true;
-      this.handleChangeCity("");
+      this.isChooseCity = false;
+      this.isZipCode = false;
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return obj.state.toLowerCase() === this.profile.selectedState;
+      });
+      this.searchCities = this.cities.filter((obj) => {
+        return obj.state.toLowerCase() === this.profile.selectedState;
+      });
+      this.searchCitiesCut = [...this.searchCities];
+      this.selectedZip = "";
+      this.searchZipCut = [...this.searchZip];
     },
+
     async handleEmitCity(val) {
       this.isChooseCity = true;
       this.errorCity = null;
       this.profile.city = val.slug;
-      this.searchZip = await this.$store.dispatch("utils/getZip", {
-        city: this.profile.city,
-        state: this.profile.selectedState,
+      this.isChooseState = true;
+      this.errorState = null;
+      const state = this.states.find(({ name }) => {
+        return name === val.state;
       });
+      this.profile.selectedState = state.slug;
+      this.selectedState = state.name;
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return (
+          obj.city.includes(val.name) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
+      });
+      this.isZipCode = false;
       this.selectedZip = "";
       this.searchZipCut = [...this.searchZip];
     },
@@ -379,9 +414,37 @@ export default {
       this.loadingSave = false;
     },
     handleEmitZip(val) {
+      this.selectedState = " ";
       this.isZipCode = true;
       this.errorZip = null;
       this.profile.zipCode = val.slug;
+
+      const zip = this.zipCodes.find(({ slug }) => slug === val.slug);
+      const city = this.cities.find((obj) => {
+        return obj.name === zip.city;
+      });
+
+      this.isChooseCity = true;
+      this.errorCity = null;
+      this.profile.city = city.slug;
+      this.selectedCity = zip.city;
+
+      this.isChooseState = true;
+      this.errorState = null;
+      const state = this.states.find(({ name }) => {
+        return name === city.state;
+      });
+      this.profile.selectedState = state.slug;
+      this.selectedState = zip.state;
+      this.searchCities = this.cities.filter((obj) => {
+        return obj.state.toLowerCase() === this.profile.selectedState;
+      });
+      this.searchZip = this.zipCodes.filter((obj) => {
+        return (
+          obj.city.includes(zip.city) &&
+          obj.state.toLowerCase() === this.profile.selectedState
+        );
+      });
     },
     handleChangeZip(val) {
       this.isZipCode = false;
@@ -399,11 +462,12 @@ export default {
       this.isZipCode = false;
       this.selectedZip = "";
       this.profile.zipCode = "";
-      this.searchCities = await this.$store.dispatch("utils/getCities", {
-        search: val,
-        state: this.profile.selectedState,
+
+      let city = val.toLowerCase().replace("-", " ");
+      this.searchCitiesCut = this.searchCities.filter((obj) => {
+        return obj.name.toLowerCase().includes(city);
       });
-    }, 300),
+    }, 200),
   },
 };
 </script>

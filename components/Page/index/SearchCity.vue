@@ -12,6 +12,7 @@
         class="search-clear"
         :padding-default="false"
         placeholder="Search for listings"
+        @keyup.enter.native="handleFindListings"
       >
       </CustomInput>
     </div>
@@ -23,6 +24,7 @@
       :result="resultCity"
       placeholder="Search city"
       no-text="No cities"
+      @keyup.enter.native="handleFindListings"
       @setupCity="handleEmitCity"
       @changeInput="handleChangeCity"
     >
@@ -34,16 +36,17 @@
       />
     </SearchComponent>
     <CustomButton
-      class="search-city__button button-2"
+      class="search-city__button"
       theme="primary"
       @click="handleFindListings"
     >
-      Find Farmers
+      Find Food
     </CustomButton>
   </div>
 </template>
 
 <script>
+import { debounce } from "lodash";
 import SearchComponent from "@/components/Common/SearchComponent.vue";
 import CustomButton from "../../Common/CustomButton";
 import CustomInput from "../../Common/CustomInput";
@@ -81,15 +84,20 @@ export default {
         this.$emit("save");
       } catch (e) {}
     },
-    handleChangeCity(val) {
-      this.resultCity = this.cities
-        .filter(({ name }) => {
-          return name.includes(val);
-        })
-        .map((obj) => {
-          return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
-        });
-    },
+    handleChangeCity: debounce(function (val) {
+      let city = val.toLowerCase().replace("-", " ");
+      let states = [];
+      this.resultCity = this.cities.filter((obj) => {
+        if (obj.state_full_name.toLowerCase().includes(city)) states.push(obj);
+
+        return obj.name.toLowerCase().includes(city);
+      });
+
+      this.resultCity.push(...states);
+      this.resultCity = this.resultCity.map((obj) => {
+        return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
+      });
+    }, 200),
     handleFindListings() {
       this.$router.push({ path: "catalog", query: { search: this.listing } });
     },
@@ -112,13 +120,13 @@ export default {
     align-items: center;
   }
   &__first {
-    width: 28.625rem;
+    width: 25.625rem;
     @include layout-mobile() {
       width: 100%;
     }
   }
   &__second {
-    width: 10.9375rem !important;
+    width: 20rem !important;
     margin-right: auto;
     @include layout-mobile() {
       margin: 0;

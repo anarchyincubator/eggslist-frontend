@@ -28,7 +28,7 @@
       <nuxt-link
         v-else
         class="ceil menu-1"
-        to="/favourites"
+        to="/favorites"
         @click.native="handleClose"
         >Favorite Farmers</nuxt-link
       >
@@ -38,7 +38,9 @@
         class="navbar-container__avatar ceil"
         @click="handleProfile"
       >
-        <img :src="user.avatar" alt="" />
+        <AvatarCard :avatar="user?.avatar" class="avatar">
+          <h4>{{ user?.firstName && user?.firstName[0] }}</h4>
+        </AvatarCard>
         <span class="menu-1"> {{ user.firstName }}</span>
       </div>
       <CustomButton
@@ -49,7 +51,7 @@
         Post A Listing
       </CustomButton>
       <CustomButton
-        v-if="isAuthenticated"
+        v-if="false"
         theme="secondary"
         class="navbar-container__button--bottom button-2"
       >
@@ -65,6 +67,7 @@
 
 <script>
 import CustomButton from "../Common/CustomButton.vue";
+import AvatarCard from "../Common/AvatarCard.vue";
 import TheHamburger from "../Common/TheHamburger.vue";
 import ModalConfirmEmail from "./profile/ModalConfirmEmail";
 import ModalEditProfile from "./profile/ModalEditProfile";
@@ -75,6 +78,7 @@ export default {
     CustomButton,
     ModalConfirmEmail,
     ModalEditProfile,
+    AvatarCard,
   },
   data() {
     return {
@@ -111,7 +115,10 @@ export default {
       }
       if (!this.user.phone || !this.user.location) {
         this.$refs.edit.show();
+        return;
       }
+      this.$router.push("/product/new");
+      this.handleClose();
     },
   },
 };
@@ -167,11 +174,14 @@ $padding-bottom: mvw(32px);
   }
   &__avatar {
     display: flex;
-    img {
-      width: mvw(24px);
-      border-radius: 50%;
-      height: mvw(24px);
+    .avatar {
+      width: mvw(32px);
+      cursor: pointer;
+      height: mvw(32px);
       margin-right: mvw(8px);
+      h4 {
+        color: #282220;
+      }
     }
   }
 }

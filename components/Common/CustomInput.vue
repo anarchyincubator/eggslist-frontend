@@ -25,6 +25,8 @@
         v-else-if="!mask"
         ref="input"
         v-model="inputData"
+        :autocomplete="Boolean(name) ? 'on' : 'off'"
+        :name="name"
         :type="type"
         min="0"
         class="input-container__input subtitle-1"
@@ -111,6 +113,10 @@ export default {
       default: "",
     },
     errorText: {
+      type: String,
+      default: "",
+    },
+    name: {
       type: String,
       default: "",
     },

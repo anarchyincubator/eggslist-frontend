@@ -5,7 +5,7 @@
       :preview="dataValue.product.preview"
       class="form__content__upload"
       title="Upload a photo of your product"
-      subtitle="Optimal size 1000x1000."
+      subtitle="Optimal size 1000x1000. Images will be cropped to a square."
     />
     <div class="form__content__row">
       <CustomInput
@@ -26,6 +26,7 @@
         :is-in-valid="Boolean(dataValue.errors.category)"
         :error-text="dataValue.errors.category"
         :selects="selectsCategory"
+        @input="handleChangeCategory"
         @focus="dataValue.errors.category = null"
         ><span slot="label" class="form__content__row--label"
           >Category <strong>*</strong>
@@ -65,7 +66,7 @@
         class="form__content__row--input"
         :is-in-valid="Boolean(dataValue.errors.description)"
         :error-text="dataValue.errors.description"
-        placeholder="Tell other farmers a bit about yourself."
+        placeholder="Details about your product."
         @focus="dataValue.errors.description = null"
         ><span slot="label" class="form__content__row--label"
           >Description <strong>*</strong>
@@ -143,6 +144,11 @@ export default {
     },
     isLockSub() {
       return this.dataValue.product.selectsCategory === null;
+    },
+  },
+  methods: {
+    handleChangeCategory() {
+      this.dataValue.product.selectSub = null;
     },
   },
 };
