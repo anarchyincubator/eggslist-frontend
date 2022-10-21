@@ -88,7 +88,7 @@ export default {
           value: "50 mi",
         },
         {
-          key: 50,
+          key: 100,
           value: "100 mi",
         },
       ],
@@ -157,6 +157,9 @@ export default {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    @include layout-mobile() {
+      margin-top: mvw(-32px);
+    }
     h2 {
       text-align: left;
     }

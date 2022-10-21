@@ -40,7 +40,7 @@
           class="filter-container__location button-1"
           @click="handleClickLocation"
         >
-          {{ city }}
+          {{ currentCity.city }}, {{ currentCity.radius }} mi
         </div>
         <div class="filter-container__line" />
         <PickupOptions
@@ -84,7 +84,6 @@
         </div>
       </div>
     </div>
-    <ModalSelectCity ref="modalCity" @send="handleAppleCity" />
   </div>
 </template>
 
@@ -93,13 +92,11 @@ import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
 import PickupOptions from "./PickupOptions";
 import CustomButton from "../../Common/CustomButton";
-import ModalSelectCity from "./ModalSelectCity";
 export default {
   name: "FiltersCatalogMobile",
   components: {
     CustomButton,
     PickupOptions,
-    ModalSelectCity,
     TheCategory,
     CustomInput,
   },
@@ -186,7 +183,7 @@ export default {
       // this.handleApplyFilter();
     },
     handleClickLocation() {
-      this.$refs.modalCity.show({ city: this.city, radius: this.radius });
+      this.$emit("showModal");
     },
     getFromQuery() {
       if (this.query.subcategory) {

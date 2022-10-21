@@ -5,5 +5,6 @@ export default function (city) {
     slug: city.slug,
     state: city.state,
     radius: city.lookup_radius,
+    isUndefined: city.is_undefined,
   };
 }

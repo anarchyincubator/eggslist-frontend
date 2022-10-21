@@ -12,7 +12,7 @@
         :query="startQuery"
         @reset="handleReset"
         @apply="handleApplyFilter"
-        @changeCity="handleChangeCity"
+        @showModal="handleClickLocation"
       ></FiltersCatalog>
       <FiltersCatalogMobile
         v-else
@@ -21,7 +21,7 @@
         :query="startQuery"
         @reset="handleReset"
         @apply="handleApplyFilter"
-        @changeCity="handleChangeCity"
+        @showModal="handleClickLocation"
       ></FiltersCatalogMobile>
       <div class="page__container__right">
         <div
@@ -63,6 +63,7 @@
           >
         </div>
       </div>
+      <ModalSelectCity :id="idModal" ref="modalCity" @send="handleChangeCity" />
     </div>
   </div>
 </template>
@@ -75,7 +76,7 @@ import ThePagination from "../../components/Common/ThePagination";
 import CustomButton from "../../components/Common/CustomButton";
 import DropdownSort from "../../components/Page/catalog/DropdownSort";
 import FiltersCatalogMobile from "../../components/Page/catalog/FiltersCatalogMobile";
-
+import ModalSelectCity from "../../components/Page/catalog/ModalSelectCity";
 export default {
   name: "CatalogPage",
   components: {
@@ -86,6 +87,7 @@ export default {
     CatalogList,
     FiltersCatalog,
     PatternTop,
+    ModalSelectCity,
   },
   data() {
     return {
@@ -107,6 +109,14 @@ export default {
     };
   },
   computed: {
+    idModal() {
+      return this.currentCity.isUndefined
+        ? "set-location-undefined"
+        : "set-location";
+    },
+    currentCity() {
+      return this.$store.getters["currentCity"];
+    },
     categories() {
       return this.$store.getters["categories/categories"];
     },
@@ -144,6 +154,9 @@ export default {
       this.countItems = resp.count;
       this.products.push(...resp?.products);
       this.loading = false;
+      if (this.currentCity?.isUndefined) {
+        this.handleClickLocation();
+      }
     });
   },
   methods: {
@@ -168,9 +181,11 @@ export default {
       this.$router.push(`/catalog?${this.actualQuery}`);
       await this.getProducts();
     },
-
-    async handleChangeCity(val) {
-      this.query = val;
+    handleClickLocation() {
+      this.$refs.modalCity.show();
+    },
+    async handleChangeCity() {
+      this.currentPage = 1;
       this.$router.push(`/catalog?${this.actualQuery}`);
       await this.getProducts();
     },

@@ -24,7 +24,7 @@
       class="filter-container__location button-1"
       @click="handleClickLocation"
     >
-      {{ city }}
+      {{ currentCity.city }}, {{ currentCity.radius }} mi
     </div>
     <div class="filter-container__line" />
     <PickupOptions
@@ -62,7 +62,6 @@
         @focusout="handleApplyFilter"
       ></CustomInput>
     </div>
-    <ModalSelectCity ref="modalCity" @send="handleAppleCity" />
   </div>
 </template>
 
@@ -70,11 +69,9 @@
 import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
 import PickupOptions from "./PickupOptions";
-import ModalSelectCity from "./ModalSelectCity";
 export default {
   name: "FiltersCatalog",
   components: {
-    ModalSelectCity,
     PickupOptions,
     TheCategory,
     CustomInput,
@@ -152,13 +149,13 @@ export default {
     async getCity() {
       this.city = await this.$store.dispatch("getLocate");
     },
-    handleClickLocation() {
-      this.$refs.modalCity.show({ city: this.city, radius: this.radius });
-    },
     handleChangeSelect(val, index) {
       this.selects = this.categories.map((item) => []);
       this.selects[index] = val;
       this.handleApplyFilter();
+    },
+    handleClickLocation() {
+      this.$emit("showModal");
     },
     getFromQuery() {
       if (this.query.subcategory) {
@@ -228,21 +225,6 @@ export default {
     },
     handleApplyFilter() {
       this.$emit("apply", this.generateQuery());
-    },
-    async handleEmitCity(val) {
-      try {
-        await this.$store.dispatch("saveCity", val);
-        this.handleAppleCity();
-      } catch (e) {}
-    },
-    handleChangeCity(val) {
-      this.resultCity = this.cities
-        .filter(({ name }) => {
-          return name.includes(val);
-        })
-        .map((obj) => {
-          return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
-        });
     },
     resetFilters() {
       this.selects = this.categories.map((item) => []);

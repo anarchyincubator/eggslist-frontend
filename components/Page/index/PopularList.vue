@@ -114,6 +114,7 @@ export default {
   },
   methods: {
     pushCatalog() {
+      window.scrollTo(0, 0);
       this.done = true;
       this.$router.push("/catalog");
     },

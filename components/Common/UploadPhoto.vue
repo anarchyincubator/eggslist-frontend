@@ -16,9 +16,9 @@
       />
       <div v-if="fileName" class="body-2" @click="handleClick">
         {{ fileName }}
-        <div class="upload__preview">
-          <img :src="url" />
-        </div>
+      </div>
+      <div class="upload__preview">
+        <img :src="url" />
       </div>
       <CustomButton
         class="button"
@@ -150,14 +150,18 @@ export default {
   &__input {
     display: flex;
     flex-direction: column;
+    position: relative;
     align-items: center;
     @include layout-mobile() {
       width: 100%;
     }
     .body-2 {
-      position: relative;
       cursor: pointer;
       margin-top: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 70%;
       border-bottom: 2px solid $primary-marigold;
       @include layout-mobile() {
         text-overflow: ellipsis;
@@ -170,7 +174,7 @@ export default {
       opacity: 0;
       position: absolute;
       width: 10rem;
-      right: -14rem;
+      right: -10rem;
       bottom: -5rem;
       border-radius: 0.75rem;
       border: 1px solid $neutral-70;
@@ -183,10 +187,11 @@ export default {
       }
       img {
         width: 100%;
+        height: 100%;
         object-fit: contain;
       }
     }
-    .body-2:hover .upload__preview {
+    .body-2:hover + .upload__preview {
       opacity: 1;
     }
   }
