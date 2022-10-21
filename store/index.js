@@ -8,6 +8,7 @@ export const state = () => ({
   authComponentShow: false,
   cities: [],
   currentCity: null,
+  currentRadius: null,
 });
 export const getters = {
   isMobile: (state) => state.windowWidth <= 860,
@@ -22,22 +23,23 @@ export const actions = {
       return { cities: response };
     } catch (e) {}
   },
-  async getLocate({ commit, state }) {
-    if (state.currentCity) return state.currentCity;
+  async getLocate({ commit, state }, force = false) {
+    if (!force && state.currentCity)
+      return `${state.currentCity.city}, ${state.currentCity.state}`;
 
     return new Promise(async (resolve, reject) => {
       let response;
       try {
         response = await this.$axios.$get("/users/locate");
         const city = `${response.city}, ${response.state}`;
-        commit("setCurrentCity", city);
+        commit("setCurrentCity", response);
         await resolve(city);
       } catch (e) {
         reject(e.response);
       }
     });
   },
-  async saveCity({ commit }, { slug, name, radius = 20 }) {
+  async saveCity({ commit, dispatch }, { slug, name, radius = 20 }) {
     return new Promise(async (resolve, reject) => {
       let response;
       try {
@@ -45,7 +47,7 @@ export const actions = {
           slug: slug,
           lookup_radius: radius,
         });
-        commit("setCurrentCity", name);
+        await dispatch("getLocate", true);
         await resolve(response);
       } catch (e) {
         reject(e.response);
@@ -67,6 +69,9 @@ export const actions = {
         console.log(e);
         await dispatch("auth/clearToken");
       }
+    }
+    if (!city) {
+      await dispatch("getLocate");
     }
   },
 };

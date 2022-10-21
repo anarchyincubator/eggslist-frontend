@@ -44,9 +44,8 @@
         <p>bio</p>
         <span>{{ user.bio }}</span>
       </div>
-
       <CustomButton
-        v-if="isAuth && !user.isFavourite && mainUser.id !== user.id"
+        v-if="isAuthenticated && !user.isFavourite && !isAuth"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -59,7 +58,7 @@
         Add To Favorites
       </CustomButton>
       <CustomButton
-        v-if="isAuth && user.isFavourite && mainUser.id !== user.id"
+        v-if="isAuthenticated && user.isFavourite && !isAuth"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -124,6 +123,7 @@ export default {
       default: true,
     },
   },
+
   data() {
     return {
       loadingButton: false,
@@ -147,6 +147,9 @@ export default {
     },
     isVerifiedLabel() {
       return this.isAuth && !this.user.isVerified;
+    },
+    isAuthenticated() {
+      return this.$store.getters["auth/isAuthenticated"];
     },
   },
   methods: {

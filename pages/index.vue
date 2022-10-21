@@ -2,7 +2,11 @@
   <div class="page">
     <div class="header-container">
       <h1>Find Farmers Near You</h1>
-      <SearchCity :cities="cities" class="header-container__search" />
+      <SearchCity
+        :cities="cities"
+        class="header-container__search"
+        @save="refreshData"
+      />
       <PatternTop class="header-container__bottom" />
     </div>
     <CategoriesList
@@ -76,10 +80,6 @@ export default {
     this.$store.dispatch("categories/getCategories").then(({}) => {
       this.loadingCategories = false;
     });
-    this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
-      this.blogs.push(...blogs);
-      this.loadingBlogs = false;
-    });
 
     this.$store.dispatch("products/getProductsPopular").then(({ products }) => {
       this.products.push(...products);
@@ -89,6 +89,20 @@ export default {
     this.$store.dispatch("quotes/getQuotes").then(({ quotes }) => {
       this.quotes.push(...quotes);
     });
+    /* this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
+      this.blogs.push(...blogs);
+      this.loadingBlogs = false;
+    });*/
+  },
+  methods: {
+    async refreshData() {
+      this.loadingProducts = true;
+      const { products } = await this.$store.dispatch(
+        "products/getProductsPopular"
+      );
+      this.products = [...products];
+      this.loadingProducts = false;
+    },
   },
 };
 </script>
