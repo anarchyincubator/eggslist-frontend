@@ -36,7 +36,7 @@
           View Profile
         </CustomButton>
         <CustomButton
-          v-if="isAuth && !seller.isFavourite && seller.id !== user.id"
+          v-if="isAuth && !seller.isFavourite && seller.id !== user?.id"
           class="modal-profile__view"
           theme="secondary"
           :is-loading="loadingButton"
@@ -49,7 +49,7 @@
           Add To Favorites
         </CustomButton>
         <CustomButton
-          v-else-if="seller.id !== user.id"
+          v-else-if="isAuth && seller.id !== user?.id"
           class="modal-profile__view"
           :is-loading="loadingButton"
           theme="secondary"
