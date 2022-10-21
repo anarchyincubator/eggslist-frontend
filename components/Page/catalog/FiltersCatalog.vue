@@ -20,6 +20,20 @@
         @focusout="handleApplyFilter"
       />
     </div>
+    <div
+      class="filter-container__location button-1"
+      @click="handleClickLocation"
+    >
+      {{ city }}
+    </div>
+    <div class="filter-container__line" />
+    <PickupOptions
+      v-model="pickupSelects"
+      :pickup="pickup"
+      :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
+      class="filter-container__category"
+      @input="handleApplyFilter"
+    ></PickupOptions>
     <h6>Category</h6>
     <TheCategory
       v-for="(category, index) in categories"
@@ -48,44 +62,20 @@
         @focusout="handleApplyFilter"
       ></CustomInput>
     </div>
-    <h6>Pickup</h6>
-    <SearchComponent
-      v-model="city"
-      class="filter-container__search"
-      :result="resultCity"
-      placeholder="Search city"
-      no-text="No cities"
-      @setupCity="handleEmitCity"
-      @changeInput="handleChangeCity"
-    >
-      <img
-        slot="icon"
-        class="icon"
-        src="@/assets/images/icons/map.svg"
-        alt="search"
-      />
-    </SearchComponent>
-    <div class="filter-container__line" />
-    <PickupOptions
-      v-model="pickupSelects"
-      :pickup="pickup"
-      :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
-      class="filter-container__category"
-      @input="handleApplyFilter"
-    ></PickupOptions>
+    <ModalSelectCity ref="modalCity" @send="handleAppleCity" />
   </div>
 </template>
 
 <script>
 import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
-import SearchComponent from "../../Common/SearchComponent";
 import PickupOptions from "./PickupOptions";
+import ModalSelectCity from "./ModalSelectCity";
 export default {
   name: "FiltersCatalog",
   components: {
+    ModalSelectCity,
     PickupOptions,
-    SearchComponent,
     TheCategory,
     CustomInput,
   },
@@ -105,6 +95,7 @@ export default {
     return {
       selects: [],
       city: "",
+      radius: "",
       searchInput: "",
       resultCity: [],
       pickupSelects: [],
@@ -160,6 +151,9 @@ export default {
   methods: {
     async getCity() {
       this.city = await this.$store.dispatch("getLocate");
+    },
+    handleClickLocation() {
+      this.$refs.modalCity.show({ city: this.city, radius: this.radius });
     },
     handleChangeSelect(val, index) {
       this.selects = this.categories.map((item) => []);
@@ -313,6 +307,13 @@ export default {
   }
   &__category {
     margin-top: 1.25rem;
+  }
+  &__location {
+    margin-bottom: 1.625rem;
+    margin-top: 3rem;
+    border-bottom: 2px solid $primary-marigold;
+    width: fit-content;
+    cursor: pointer;
   }
   &__price {
     display: flex;

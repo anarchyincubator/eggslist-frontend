@@ -2,7 +2,11 @@
   <transition name="fade">
     <div v-if="isShow" v-scroll-lock="isShow" class="modal">
       <div class="modal__background"></div>
-      <div v-click-outside="handleClose" class="modal-profile">
+      <div
+        v-click-outside="handleClose"
+        class="modal-profile"
+        :style="{ 'background-color': backColor }"
+      >
         <div class="modal-profile__close" @click="handleClose">
           <img :src="closeIcon" />
         </div>
@@ -22,6 +26,12 @@ import close from "@/assets/images/icons/close.svg";
 import closeDark from "@/assets/images/icons/close_dark.svg";
 export default {
   name: "ModalSimple",
+  props: {
+    backColor: {
+      default: "#FBECD5",
+      type: String,
+    },
+  },
   data() {
     return {
       isShow: false,
@@ -119,6 +129,7 @@ export default {
 
     &__header {
       display: flex;
+      width: 100%;
       align-items: center;
       flex-direction: column;
       @include layout-mobile() {

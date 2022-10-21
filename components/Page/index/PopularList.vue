@@ -114,6 +114,10 @@ export default {
     }, 100);
   },
   methods: {
+    pushCatalog() {
+      this.done = true;
+      this.$router.push("/catalog");
+    },
     reCalcWidth() {
       this.swiperInstance.params.spaceBetween = this.isMobile
         ? (20 * this.windowWidth) / 320

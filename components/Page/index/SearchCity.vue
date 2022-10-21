@@ -78,6 +78,7 @@ export default {
     async handleEmitCity(val) {
       try {
         await this.$store.dispatch("saveCity", val);
+        this.$emit("save");
       } catch (e) {}
     },
     handleChangeCity(val) {
