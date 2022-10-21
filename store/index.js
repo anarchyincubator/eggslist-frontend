@@ -57,10 +57,7 @@ export const actions = {
   async nuxtClientInit({ dispatch, commit }, { app }) {
     dispatch("getCities");
     const token = localStorage.getItem(localStorageKeyAuth);
-    const city = localStorage.getItem(localStorageKeyCity);
-    if (city) {
-      await commit("setCurrentCity", city);
-    }
+    await dispatch("getLocate");
     if (token) {
       try {
         await dispatch("auth/setToken", token);
@@ -69,9 +66,6 @@ export const actions = {
         console.log(e);
         await dispatch("auth/clearToken");
       }
-    }
-    if (!city) {
-      await dispatch("getLocate");
     }
   },
 };
