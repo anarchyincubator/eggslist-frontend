@@ -23,7 +23,7 @@
         <img src="@/assets/images/icons/drop-down-dark.svg" />
       </div>
       <transition name="fade">
-        <div v-if="isSelect" class="dropdown__select">
+        <div v-if="isSelect" v-scroll-lock="true" class="dropdown__select">
           <div
             v-for="(item, index) in selects"
             :key="index"
