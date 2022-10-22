@@ -65,10 +65,7 @@ export default {
       city: "",
       selectedCity: "",
       resultCity: [],
-      radius: {
-        key: 20,
-        value: "20 mi",
-      },
+      radius: {},
       loading: false,
       selectsRadius: [
         {
@@ -105,6 +102,10 @@ export default {
   methods: {
     show(data) {
       this.$refs.modal.show();
+      this.radius = this.selectsRadius.find(({ key }) => {
+        return this.currentCity.radius === key;
+      });
+
       this.city = `${this.currentCity.city}, ${this.currentCity.state}`;
       this.selectedCity = { slug: this.currentCity.slug };
     },
