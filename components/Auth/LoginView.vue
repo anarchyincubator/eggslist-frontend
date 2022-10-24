@@ -8,7 +8,8 @@
     <h3 class="login__h3">Log in with email</h3>
     <div class="login__form">
       <custom-input
-        v-model="login"
+        v-model="email"
+        name="email"
         :is-in-valid="Boolean(errorLogin)"
         :error-text="errorLogin"
         tabindex="0"
@@ -43,10 +44,20 @@
     </div>
     <div class="login__border"></div>
     <h3 class="login__bottom--h3">Log in with social</h3>
-    <CustomButton class="login__bottom--button" theme="secondary">
+    <CustomButton
+      class="login__bottom--button"
+      theme="secondary"
+      :is-loading="loadingGoogle"
+      @click="handleGoogle"
+    >
       <img src="@/assets/images/icons/google.svg" /> Continue with Google
     </CustomButton>
-    <CustomButton class="login__bottom--button" theme="secondary">
+    <CustomButton
+      class="login__bottom--button"
+      theme="secondary"
+      :is-loading="loadingFacebook"
+      @click="handleFacebook"
+    >
       <img src="@/assets/images/icons/fb.svg" /> Continue with Facebook
     </CustomButton>
   </div>
@@ -62,12 +73,14 @@ export default {
   emits: ["regClick", "forgetClick"],
   data() {
     return {
-      login: "",
+      email: "",
       password: "",
       isShowPass: true,
       errorLogin: null,
       errorPassword: null,
       loadingLogin: false,
+      loadingGoogle: false,
+      loadingFacebook: false,
       visibilityIcon,
     };
   },
@@ -112,7 +125,7 @@ export default {
     validateLogin() {
       let value = true;
 
-      value &= this.validateLoginField(this.login);
+      value &= this.validateLoginField(this.email);
       value &= this.validatePasswordField(this.password);
 
       return value;
@@ -126,12 +139,34 @@ export default {
     handleFocusPassword() {
       this.errorPassword = null;
     },
+    async handleGoogle() {
+      this.loadingGoogle = true;
+      try {
+        const response = await this.$axios.$post(
+          "/users/social/google/sign-in"
+        );
+        window.close();
+        window.open(response.social_url);
+      } catch (e) {}
+      this.loadingGoogle = false;
+    },
+    async handleFacebook() {
+      this.loadingFacebook = true;
+      try {
+        const response = await this.$axios.$post(
+          "/users/social/facebook/sign-in"
+        );
+        window.close();
+        window.open(response.social_url);
+      } catch (e) {}
+      this.loadingFacebook = false;
+    },
     async submitLogin() {
       if (!this.validateLogin()) return;
       this.loadingLogin = true;
       try {
         await this.$store.dispatch("auth/login", {
-          username: this.login,
+          email: this.email,
           password: this.password,
         });
         this.$store.commit("setAuthComponent", false);

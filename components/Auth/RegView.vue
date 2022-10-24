@@ -7,19 +7,20 @@
     </div>
     <h3 class="reg__h3">Sign up with email</h3>
     <div class="reg__form">
+      <custom-input v-model="firstName" class="reg__form--first" tabindex="1">
+        <label slot="label"
+          >First name (or the name of the farm)<strong>*</strong></label
+        >
+      </custom-input>
       <custom-input
-        v-model="login"
+        v-model="email"
+        name="email"
         :is-in-valid="Boolean(errorLogin)"
         :error-text="errorLogin"
         tabindex="0"
         @focus="handleFocusLogin"
       >
         <label slot="label">Email<strong>*</strong></label>
-      </custom-input>
-      <custom-input v-model="firstName" class="reg__form--first" tabindex="1">
-        <label slot="label"
-          >First name (or the name of the farm)<strong>*</strong></label
-        >
       </custom-input>
       <custom-input
         v-model="password"
@@ -46,10 +47,20 @@
     </div>
     <div class="reg__border"></div>
     <h3 class="reg__bottom--h3">Log in with social</h3>
-    <CustomButton class="reg__bottom--button" theme="secondary">
+    <CustomButton
+      class="reg__bottom--button"
+      :is-loading="loadingGoogle"
+      theme="secondary"
+      @click="handleGoogle"
+    >
       <img src="@/assets/images/icons/google.svg" /> Continue with Google
     </CustomButton>
-    <CustomButton class="reg__bottom--button" theme="secondary">
+    <CustomButton
+      class="reg__bottom--button"
+      :is-loading="loadingFacebook"
+      theme="secondary"
+      @click="handleFacebook"
+    >
       <img src="@/assets/images/icons/fb.svg" /> Continue with Facebook
     </CustomButton>
   </div>
@@ -65,13 +76,15 @@ export default {
   emits: ["loginClick"],
   data() {
     return {
-      login: "",
+      email: "",
       password: "",
       firstName: "",
       isShowPass: true,
       errorLogin: null,
       loadingReg: false,
       errorPassword: null,
+      loadingGoogle: false,
+      loadingFacebook: false,
       visibilityIcon,
     };
   },
@@ -112,7 +125,7 @@ export default {
     validateLogin() {
       let value = true;
 
-      value &= this.validateLoginField(this.login);
+      value &= this.validateLoginField(this.email);
       value &= this.validatePasswordField(this.password);
 
       return value;
@@ -126,12 +139,34 @@ export default {
     handleFocusPassword() {
       this.errorPassword = null;
     },
+    async handleGoogle() {
+      this.loadingGoogle = true;
+      try {
+        const response = await this.$axios.$post(
+          "/users/social/google/sign-in"
+        );
+        window.close();
+        window.open(response.social_url);
+      } catch (e) {}
+      this.loadingGoogle = false;
+    },
+    async handleFacebook() {
+      this.loadingFacebook = true;
+      try {
+        const response = await this.$axios.$post(
+          "/users/social/facebook/sign-in"
+        );
+        window.close();
+        window.open(response.social_url);
+      } catch (e) {}
+      this.loadingFacebook = false;
+    },
     async submitLogin() {
       if (!this.validateLogin()) return;
       this.loadingReg = true;
       try {
         await this.$store.dispatch("auth/register", {
-          email: this.login,
+          email: this.email,
           first_name: this.firstName,
           password: this.password,
         });

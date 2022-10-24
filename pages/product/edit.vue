@@ -175,7 +175,6 @@ export default {
       if (this.formData.product.file) data.image = this.formData.product.file;
 
       let formData = generateFormDataProduct(data);
-      console.log(formData);
       try {
         await this.$store.dispatch("products/updateProductForm", {
           params: formData,

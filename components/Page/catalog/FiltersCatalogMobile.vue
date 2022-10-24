@@ -36,6 +36,28 @@
             @click="handleClose"
           />
         </h2>
+        <div
+          class="filter-container__location button-1"
+          @click="handleClickLocation"
+        >
+          {{ currentCity.city }}, {{ currentCity.radius }} mi
+        </div>
+        <div class="filter-container__line" />
+        <PickupOptions
+          v-model="pickupSelects"
+          :pickup="pickup"
+          :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
+          class="filter-container__category filter-container__pickup"
+        ></PickupOptions>
+        <div class="filter-container__button-container">
+          <CustomButton
+            theme="primary"
+            class="filter-container__button button-2"
+            @click="handleApplyFilter"
+          >
+            Apply filters</CustomButton
+          >
+        </div>
         <h6>Category</h6>
         <TheCategory
           v-for="(category, index) in categories"
@@ -60,40 +82,6 @@
             type="number"
           ></CustomInput>
         </div>
-        <h6>Pickup</h6>
-        <SearchComponent
-          v-model="city"
-          :is-small="true"
-          class="filter-container__search"
-          :result="resultCity"
-          placeholder="Search city"
-          no-text="No cities"
-          @setupCity="handleEmitCity"
-          @changeInput="handleChangeCity"
-        >
-          <img
-            slot="icon"
-            class="icon"
-            src="@/assets/images/icons/map.svg"
-            alt="search"
-          />
-        </SearchComponent>
-        <div class="filter-container__line" />
-        <PickupOptions
-          v-model="pickupSelects"
-          :pickup="pickup"
-          :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
-          class="filter-container__category filter-container__pickup"
-        ></PickupOptions>
-        <div class="filter-container__button-container">
-          <CustomButton
-            theme="primary"
-            class="filter-container__button button-2"
-            @click="handleApplyFilter"
-          >
-            Apply filters</CustomButton
-          >
-        </div>
       </div>
     </div>
   </div>
@@ -102,7 +90,6 @@
 <script>
 import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
-import SearchComponent from "../../Common/SearchComponent";
 import PickupOptions from "./PickupOptions";
 import CustomButton from "../../Common/CustomButton";
 export default {
@@ -110,7 +97,6 @@ export default {
   components: {
     CustomButton,
     PickupOptions,
-    SearchComponent,
     TheCategory,
     CustomInput,
   },
@@ -130,6 +116,7 @@ export default {
     return {
       selects: [],
       city: "",
+      radius: "",
       searchInput: "",
       resultCity: [],
       pickupSelects: [],
@@ -186,7 +173,6 @@ export default {
   methods: {
     async getCity() {
       this.city = await this.$store.dispatch("getLocate");
-      console.log(this.city);
     },
     handleOpenCatalog() {
       this.isOpened = true;
@@ -195,6 +181,9 @@ export default {
       this.selects = this.categories.map((item) => []);
       this.selects[index] = val;
       // this.handleApplyFilter();
+    },
+    handleClickLocation() {
+      this.$emit("showModal");
     },
     getFromQuery() {
       if (this.query.subcategory) {
@@ -417,6 +406,13 @@ export default {
       letter-spacing: mvw(1.2px);
     }
   }
+  &__location {
+    margin-bottom: 1.625rem;
+    margin-top: 3rem;
+    border-bottom: 2px solid $primary-marigold;
+    width: fit-content;
+    cursor: pointer;
+  }
   &__category {
     margin-top: vw(20px);
 
@@ -428,7 +424,7 @@ export default {
     display: flex;
     align-items: center;
     margin-top: vw(16px);
-
+    margin-bottom: mvw(140px);
     @include layout-mobile() {
       margin-top: mvw(16px);
     }
@@ -455,7 +451,6 @@ export default {
     background-color: $neutral-70;
   }
   &__pickup {
-    margin-bottom: mvw(120px);
   }
   &__button-container {
     background-color: $primary-cream;

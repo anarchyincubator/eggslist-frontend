@@ -263,6 +263,7 @@ export default {
     width: calc(100% + #{$padding-left-mobile} * 2);
     margin-left: -$padding-left-mobile;
     flex-direction: column;
+    background-color: #f2e2ca;
   }
   &__card {
     flex-shrink: 0;

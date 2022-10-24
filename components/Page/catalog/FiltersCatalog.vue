@@ -20,6 +20,20 @@
         @focusout="handleApplyFilter"
       />
     </div>
+    <div
+      class="filter-container__location button-1"
+      @click="handleClickLocation"
+    >
+      {{ currentCity.city }}, {{ currentCity.radius }} mi
+    </div>
+    <div class="filter-container__line" />
+    <PickupOptions
+      v-model="pickupSelects"
+      :pickup="pickup"
+      :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
+      class="filter-container__category"
+      @input="handleApplyFilter"
+    ></PickupOptions>
     <h6>Category</h6>
     <TheCategory
       v-for="(category, index) in categories"
@@ -48,44 +62,17 @@
         @focusout="handleApplyFilter"
       ></CustomInput>
     </div>
-    <h6>Pickup</h6>
-    <SearchComponent
-      v-model="city"
-      class="filter-container__search"
-      :result="resultCity"
-      placeholder="Search city"
-      no-text="No cities"
-      @setupCity="handleEmitCity"
-      @changeInput="handleChangeCity"
-    >
-      <img
-        slot="icon"
-        class="icon"
-        src="@/assets/images/icons/map.svg"
-        alt="search"
-      />
-    </SearchComponent>
-    <div class="filter-container__line" />
-    <PickupOptions
-      v-model="pickupSelects"
-      :pickup="pickup"
-      :open-start="Boolean(query.allow_pickup || query.allow_delivery)"
-      class="filter-container__category"
-      @input="handleApplyFilter"
-    ></PickupOptions>
   </div>
 </template>
 
 <script>
 import CustomInput from "../../Common/CustomInput";
 import TheCategory from "./TheCategory";
-import SearchComponent from "../../Common/SearchComponent";
 import PickupOptions from "./PickupOptions";
 export default {
   name: "FiltersCatalog",
   components: {
     PickupOptions,
-    SearchComponent,
     TheCategory,
     CustomInput,
   },
@@ -105,6 +92,7 @@ export default {
     return {
       selects: [],
       city: "",
+      radius: "",
       searchInput: "",
       resultCity: [],
       pickupSelects: [],
@@ -165,6 +153,9 @@ export default {
       this.selects = this.categories.map((item) => []);
       this.selects[index] = val;
       this.handleApplyFilter();
+    },
+    handleClickLocation() {
+      this.$emit("showModal");
     },
     getFromQuery() {
       if (this.query.subcategory) {
@@ -235,21 +226,6 @@ export default {
     handleApplyFilter() {
       this.$emit("apply", this.generateQuery());
     },
-    async handleEmitCity(val) {
-      try {
-        await this.$store.dispatch("saveCity", val);
-        this.handleAppleCity();
-      } catch (e) {}
-    },
-    handleChangeCity(val) {
-      this.resultCity = this.cities
-        .filter(({ name }) => {
-          return name.includes(val);
-        })
-        .map((obj) => {
-          return { name: `${obj.name}, ${obj.state}`, slug: obj.slug };
-        });
-    },
     resetFilters() {
       this.selects = this.categories.map((item) => []);
       this.searchInput = "";
@@ -313,6 +289,13 @@ export default {
   }
   &__category {
     margin-top: 1.25rem;
+  }
+  &__location {
+    margin-bottom: 1.625rem;
+    margin-top: 3rem;
+    border-bottom: 2px solid $primary-marigold;
+    width: fit-content;
+    cursor: pointer;
   }
   &__price {
     display: flex;

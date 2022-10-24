@@ -21,6 +21,7 @@
         :title="item.title"
         :background="item.image"
         :price="item.price"
+        :out-stock="item.isOut"
         :author-config="item.seller"
         :slug="item.slug"
         :is-big-height="getIfHeight(index)"
@@ -141,6 +142,10 @@ export default {
         line-height: 1.5rem;
         font-weight: 600;
         height: min-content;
+        @include layout-mobile() {
+          font-size: mvw(16px);
+          line-height: mvw(24px);
+        }
       }
       &:hover {
         opacity: 0.75;

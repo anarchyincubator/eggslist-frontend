@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" @click="goToProfile">
     <div class="card__avatar" :style="style">
       <h2 v-if="!seller.avatar">
         {{ seller.firstName && seller.firstName[0] }}
@@ -37,9 +37,8 @@ export default {
         number.slice(2, 5) +
         ") " +
         number.slice(5, 8) +
-        " " +
+        "-" +
         number.slice(8, 10) +
-        " " +
         number.slice(10, 12)
       );
     },

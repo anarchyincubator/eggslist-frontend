@@ -3,32 +3,33 @@
     <div class="search-container__label">
       <slot name="label"> </slot>
     </div>
-    <CustomInput
-      v-model="inputData"
-      v-click-outside="handleClose"
-      :placeholder="placeholder"
-      :padding-default="isPadding"
-      :is-small="isSmall"
-      :is-lock="isLock"
-      :is-in-valid="Boolean(isInValid)"
-      :error-text="errorText"
-      @focus="handleFocus"
-      @focusout="handleFocusOut"
-    >
-      <slot class="search-container__icon" name="icon"></slot>
-    </CustomInput>
-
-    <div
-      v-if="isOpened && result && result.length !== 0"
-      class="search-container__results"
-    >
-      <div
-        v-for="(ceil, index) in result"
-        :key="index"
-        class="search-container__results--ceil subtitle-1"
-        @click="handleClickCeil(ceil)"
+    <div v-click-outside="handleClose" class="search-container__div">
+      <CustomInput
+        v-model="inputData"
+        :placeholder="placeholder"
+        :padding-default="isPadding"
+        :is-small="isSmall"
+        :is-lock="isLock"
+        :is-in-valid="Boolean(isInValid)"
+        :error-text="errorText"
+        @focus="handleFocus"
+        @focusout="handleFocusOut"
       >
-        {{ ceil.name }}
+        <slot class="search-container__icon" name="icon"></slot>
+      </CustomInput>
+
+      <div
+        v-if="isOpened && result && result.length !== 0"
+        class="search-container__results"
+      >
+        <div
+          v-for="(ceil, index) in result"
+          :key="index"
+          class="search-container__results--ceil subtitle-1"
+          @click="handleClickCeil(ceil)"
+        >
+          {{ ceil.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -161,6 +162,9 @@ export default {
       font-size: mvw(14px);
       line-height: mvw(24px);
     }
+  }
+  &__div {
+    width: 100%;
   }
   &__results {
     z-index: 30;

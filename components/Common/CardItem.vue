@@ -36,7 +36,7 @@
             {{ isHidden ? "Unhide" : "Hide" }}
           </p>
           <p class="button-2" @click="handleOut">
-            {{ outStock ? "Mark “In Stock”" : "Mark as “Out of Stock”" }}
+            {{ outStock ? "Mark as “In Stock”" : "Mark as “Out of Stock”" }}
           </p>
           <strong class="button-2" @click="handleDelete">Delete</strong>
         </div>
@@ -179,11 +179,18 @@ export default {
 <style lang="scss" scoped>
 .card {
   cursor: pointer;
+  max-width: 18.75rem;
   h4 {
     height: 3.5625rem;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    overflow: hidden;
     @include layout-mobile() {
       font-size: mvw(16px);
-      height: mvw(57px);
+      height: mvw(45px);
+      margin-bottom: mvw(12px);
     }
   }
   &__background {
@@ -355,7 +362,7 @@ export default {
     border: 1px solid $neutral-70;
     border-radius: 6.25rem;
     padding: 0.5rem 0.75rem;
-    width: min-content;
+    width: max-content;
     margin-top: 0.8125rem;
     color: $neutral-30;
     span {

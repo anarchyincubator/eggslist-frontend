@@ -8,10 +8,14 @@
           <div>
             <h2>Join The Movement!</h2>
             <div class="body-1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed.
+              Sign up start buying and selling local food with Egglist!
             </div>
           </div>
-          <CustomButton class="footer__additive__join--button" theme="primary">
+          <CustomButton
+            class="footer__additive__join--button"
+            theme="primary"
+            @click="handleClickLogin"
+          >
             Get Started
             <img slot="add" src="@/assets/images/icons/arrow-forward.svg" />
           </CustomButton>
@@ -21,13 +25,13 @@
         <img class="footer__logo" src="@/assets/images/icons/logo.svg" />
         <div class="footer__top-center">
           <div class="footer__top-center--first">
-            <p>Market</p>
-            <p>About</p>
-            <p>Our stories</p>
+            <nuxt-link to="/catalog">Market</nuxt-link>
+            <nuxt-link to="/about">About</nuxt-link>
+            <nuxt-link v-if="false" to="">Our stories</nuxt-link>
           </div>
           <div class="footer__top-center--second">
-            <p>Account</p>
-            <p>Contact us</p>
+            <nuxt-link to="">Account</nuxt-link>
+            <nuxt-link to="">Contact us</nuxt-link>
           </div>
         </div>
         <div class="footer__top-icons">
@@ -87,6 +91,9 @@ export default {
   },
   methods: {
     handleShareClick(type) {},
+    handleClickLogin() {
+      this.$store.commit("setAuthComponent", true);
+    },
   },
 };
 </script>
@@ -188,7 +195,7 @@ export default {
     &-center {
       display: flex;
       margin-right: auto;
-      p {
+      a {
         margin-bottom: 1.5rem;
         font-size: 0.875rem;
         line-height: 1rem;
@@ -199,8 +206,14 @@ export default {
           margin-bottom: mvw(24px);
         }
       }
+      &--second {
+        display: flex;
+        flex-direction: column;
+      }
       &--first {
         margin-right: vw(220px);
+        display: flex;
+        flex-direction: column;
         @include layout-mobile() {
           margin-right: mvw(50px);
         }

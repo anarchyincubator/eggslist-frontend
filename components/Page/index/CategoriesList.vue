@@ -16,7 +16,7 @@
       <SkeletonCategoryItem
         v-for="(item, index) in 4"
         :key="index"
-        class="categories__list__item"
+        class="categories__list--element"
       ></SkeletonCategoryItem>
     </div>
   </section>
@@ -62,23 +62,27 @@ export default {
     margin-top: 3rem;
     flex-wrap: wrap;
     &__item {
-      margin-right: auto;
+      width: 18.75rem;
+      margin-right: 1.875rem;
       cursor: pointer;
-      &:nth-child(4) {
+      &:nth-child(4n) {
         margin-right: 0;
       }
       @include layout-mobile() {
         margin-right: mvw(20px);
         margin-top: mvw(24px);
+        width: mvw(130px);
         &:nth-child(2n) {
           margin-right: 0;
         }
       }
     }
     &--element {
-      margin-right: auto;
+      margin-right: 1.8rem;
       cursor: pointer;
-      &:nth-child(4) {
+      width: 18.75rem;
+      margin-bottom: 1.875rem;
+      &:nth-child(4n) {
         margin-right: 0;
       }
       div {
@@ -105,6 +109,8 @@ export default {
       @include layout-mobile() {
         margin-right: mvw(20px);
         margin-top: mvw(24px);
+        margin-bottom: 0;
+        width: mvw(130px);
         &:nth-child(2n) {
           margin-right: 0;
         }

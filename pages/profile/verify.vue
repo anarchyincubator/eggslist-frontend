@@ -9,7 +9,11 @@
     <transition name="fade">
       <div v-if="!send" class="page__content">
         <h1>Get verified</h1>
-        <UploadPhoto v-model="file" />
+        <UploadPhoto
+          v-model="file"
+          title="Upload a farm photo."
+          subtitle="Optimal size 1000x1000. Images will be cropped to a square"
+        />
         <div class="page__content__subtitle">Tell us about your farm</div>
         <CustomTextarea v-model="description" />
         <div class="page__content__buttons">

@@ -28,7 +28,7 @@
         to="/profile/edit"
         >Edit Profile</nuxt-link
       >
-      <nuxt-link v-else to="" class="profile__main__stories">
+      <nuxt-link v-if="false" to="" class="profile__main__stories">
         <span class="button-1">My Stories</span>
         <p><img src="@/assets/images/icons/arrow-forward.svg" /></p>
       </nuxt-link>
@@ -44,9 +44,8 @@
         <p>bio</p>
         <span>{{ user.bio }}</span>
       </div>
-
       <CustomButton
-        v-if="!isAuth && !user.isFavourite"
+        v-if="isAuthenticated && !user.isFavourite && !isAuth"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -59,7 +58,7 @@
         Add To Favorites
       </CustomButton>
       <CustomButton
-        v-if="!isAuth && user.isFavourite"
+        v-if="isAuthenticated && user.isFavourite && !isAuth"
         class="profile__main__add"
         theme="primary"
         :is-loading="loadingButton"
@@ -85,7 +84,7 @@
         {{
           user.isVerifiedPending
             ? "We are reviewing your information."
-            : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            : "Trust is important to us! We need some extra information to verify that you’re a real farm."
         }}
       </span>
       <nuxt-link
@@ -95,11 +94,12 @@
         >Get verified</nuxt-link
       >
     </div>
-    <div v-if="isAuth" class="profile__story">
+    <div v-if="isAuth && false" class="profile__story">
       <div class="profile__story__border" />
       <h4>Tell the community about your farm!</h4>
       <span class="body-2"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span
+        >We want to grow our virtual farmers market - tell us a little about
+        what makes you special as a farm.</span
       >
       <a class="profile__story__edit button-1">Write a story</a>
     </div>
@@ -123,6 +123,7 @@ export default {
       default: true,
     },
   },
+
   data() {
     return {
       loadingButton: false,
@@ -132,19 +133,23 @@ export default {
     phoneNumber() {
       let number = this.user.phone;
       return (
-        number.slice(0, 2) +
-        " (" +
+        "(" +
         number.slice(2, 5) +
         ") " +
         number.slice(5, 8) +
-        " " +
+        "-" +
         number.slice(8, 10) +
-        " " +
         number.slice(10, 12)
       );
     },
+    mainUser() {
+      return this.$store.getters["user/user"];
+    },
     isVerifiedLabel() {
       return this.isAuth && !this.user.isVerified;
+    },
+    isAuthenticated() {
+      return this.$store.getters["auth/isAuthenticated"];
     },
   },
   methods: {
@@ -167,6 +172,8 @@ export default {
   @include layout-mobile() {
     width: 100%;
     z-index: 1;
+    background-image: url("@/assets/images/noise.jpg");
+    background-size: contain;
   }
   &__main {
     display: flex;
@@ -179,6 +186,7 @@ export default {
     @include layout-mobile() {
       border-radius: 0;
       padding: mvw(32px);
+      background-color: transparent;
     }
     &__settings {
       position: absolute;
@@ -257,6 +265,7 @@ export default {
       margin: 2rem 0;
       @include layout-mobile() {
         margin: 0 0;
+        background-color: transparent;
       }
     }
     &__date {
@@ -380,6 +389,7 @@ export default {
     }
     @include layout-mobile() {
       margin: 0;
+      background-color: transparent;
       padding: 0 mvw(32px) mvw(32px) mvw(32px);
     }
   }

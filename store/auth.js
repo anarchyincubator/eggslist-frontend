@@ -113,7 +113,7 @@ export const actions = {
   },
   clearToken({ commit }) {
     this.$axios.setToken(false);
-    localStorage.setItem(localStorageKeyAuth, null);
+    localStorage.removeItem(localStorageKeyAuth);
     commit("clearToken");
   },
 };

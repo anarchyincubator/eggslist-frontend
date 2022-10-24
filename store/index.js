@@ -8,6 +8,7 @@ export const state = () => ({
   authComponentShow: false,
   cities: [],
   currentCity: null,
+  currentRadius: null,
 });
 export const getters = {
   isMobile: (state) => state.windowWidth <= 860,
@@ -16,39 +17,37 @@ export const getters = {
 };
 export const actions = {
   async getCities({ commit, state }) {
-    if (!state.cities || state.cities.length !== 0) return;
-
     try {
-      const response = await this.$axios.$get(
-        "/site-configuration/location/cities"
-      );
+      const response = await fetch("/cities.json").then((res) => res.json());
       commit("setCities", response);
       return { cities: response };
     } catch (e) {}
   },
-  async getLocate({ commit, state }) {
-    if (state.currentCity) return state.currentCity;
+  async getLocate({ commit, state }, force = false) {
+    if (!force && state.currentCity)
+      return `${state.currentCity.city}, ${state.currentCity.state}`;
 
     return new Promise(async (resolve, reject) => {
       let response;
       try {
-        response = await this.$axios.$get("/users/locate?r=true");
+        response = await this.$axios.$get("/users/locate");
         const city = `${response.city}, ${response.state}`;
-        commit("setCurrentCity", city);
+        commit("setCurrentCity", response);
         await resolve(city);
       } catch (e) {
         reject(e.response);
       }
     });
   },
-  async saveCity({ commit }, { slug, name }) {
+  async saveCity({ commit, dispatch }, { slug, name, radius = 20 }) {
     return new Promise(async (resolve, reject) => {
       let response;
       try {
         response = await this.$axios.$post("/users/set-location", {
           slug: slug,
+          lookup_radius: radius,
         });
-        commit("setCurrentCity", name);
+        await dispatch("getLocate", true);
         await resolve(response);
       } catch (e) {
         reject(e.response);
@@ -58,10 +57,7 @@ export const actions = {
   async nuxtClientInit({ dispatch, commit }, { app }) {
     dispatch("getCities");
     const token = localStorage.getItem(localStorageKeyAuth);
-    const city = localStorage.getItem(localStorageKeyCity);
-    if (city) {
-      await commit("setCurrentCity", city);
-    }
+    await dispatch("getLocate");
     if (token) {
       try {
         await dispatch("auth/setToken", token);
@@ -82,7 +78,7 @@ export const mutations = {
     state.cities = [...cities];
   },
   setCurrentCity(state, city) {
-    localStorage.setItem(localStorageKeyCity, city);
+    //localStorage.setItem(localStorageKeyCity, city);
     state.currentCity = city;
   },
   setAuthComponent(state, show) {
