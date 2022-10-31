@@ -58,8 +58,8 @@
       <div class="footer__bottom">
         <span>© 2022 Eggslist. All rights reserved.</span>
         <div class="footer__bottom-right">
-          <span>Terms of Service</span>
-          <span>Privacy Policy</span>
+          <nuxt-link to="/terms">Terms of Service</nuxt-link>
+          <nuxt-link to="/privacy">Privacy Policy</nuxt-link>
         </div>
       </div>
     </footer>
@@ -254,7 +254,8 @@ export default {
   &__bottom {
     margin: 5rem auto 0 auto;
     display: flex;
-    span {
+    span,
+    a {
       font-size: 0.75rem;
       line-height: 1rem;
       margin-right: 0.9375rem;
