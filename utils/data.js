@@ -1,7 +1,12 @@
 export const localStorageKeyCity = "eggslist:city";
 export const localStorageKeyAuth = "eggslist:token";
+export const localStorageCookies = "eggslist:cookie";
 
-export default { localStorageKeyCity, localStorageKeyAuth };
+export default {
+  localStorageKeyCity,
+  localStorageKeyAuth,
+  localStorageCookies,
+};
 
 export function generateFormDataProduct(data) {
   const formData = new FormData();

@@ -6,14 +6,22 @@
         <a tabindex="-1" @click="pushCatalog">View All Listings</a>
       </div>
       <div v-show="!loading" class="list">
-        <div v-swiper:swiperInstance="swiperOptionsInner" class="fake">
-          <div v-swiper:swiperInstance="swiperOptionsInner" class="list-cards">
-            <div class="swiper-wrapper">
+        <vueper-slides
+          ref="myVueperSlides"
+          class="no-shadow"
+          :visible-slides="4"
+          :arrows="false"
+          :fixed-height="true"
+          slide-multiple
+          :gap="1"
+          :slide-ratio="1 / 4"
+          :bullets="false"
+          :breakpoints="{ 860: { visibleSlides: 2, 'slide-ratio': 1 / 2 } }"
+        >
+          <vueper-slide v-for="(product, index) in products" :key="index">
+            <template #content>
               <CardItem
-                v-for="(product, index) in products"
-                :key="index"
                 class="swiper-slide list__slide"
-                :style="{ 'margin-right': marginRight }"
                 :title="product.title"
                 :slug="product.slug"
                 :price="product.price"
@@ -21,9 +29,9 @@
                 :background="product.image"
                 :author-config="product.seller"
               ></CardItem>
-            </div>
-          </div>
-        </div>
+            </template>
+          </vueper-slide>
+        </vueper-slides>
         <div class="list__buttons">
           <div
             class="list__buttons__button list__buttons__button--left"
@@ -53,11 +61,13 @@
 </template>
 
 <script>
+import { VueperSlides, VueperSlide } from "vueperslides";
+import "vueperslides/dist/vueperslides.css";
 import SkeletonCardItem from "../../Common/SkeletonCardItem";
 import CardItem from "../../Common/CardItem";
 export default {
   name: "PopularList",
-  components: { CardItem, SkeletonCardItem },
+  components: { CardItem, SkeletonCardItem, VueperSlides, VueperSlide },
   props: {
     products: {
       type: Array,
@@ -93,59 +103,31 @@ export default {
     windowWidth() {
       return this.$store.state.windowWidth;
     },
-    marginRight() {
-      return `${(30 * this.windowWidth) / 1680}px`;
-    },
   },
-  watch: {
-    products() {
-      if (!this.done) this.reCalcStyle();
-    },
-    windowWidth() {
-      if (!this.done) this.reCalcWidth();
-    },
-  },
+  watch: {},
 
-  mounted() {
-    setTimeout(() => {
-      this.reCalcStyle();
-      this.reCalcWidth();
-    }, 100);
-  },
   methods: {
     pushCatalog() {
-      window.scrollTo(0, 0);
       this.done = true;
       this.$router.push("/catalog");
     },
-    reCalcWidth() {
-      this.swiperInstance.params.spaceBetween = this.isMobile
-        ? (20 * this.windowWidth) / 320
-        : (30 * this.windowWidth) / 1680;
-    },
-    reCalcStyle() {
-      this.isInButtonRight =
-        this.swiperInstance.realIndex + (this.isMobile ? 2 : 4) >=
-        this.products.length;
-      this.isInButtonLeft = this.swiperInstance.realIndex === 0;
-    },
     slidePrev() {
-      if (this.swiperInstance) {
-        this.swiperInstance.slidePrev();
-        this.reCalcStyle();
-      }
+      this.$refs.myVueperSlides.previous();
     },
     slideNext() {
-      if (this.swiperInstance) {
-        this.swiperInstance.slideNext();
-        this.reCalcStyle();
-      }
+      this.$refs.myVueperSlides.next();
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.vueperslides--fixed-height {
+  height: 30rem;
+  @include layout-mobile() {
+    height: mvw(220px);
+  }
+}
 .popular {
   &__top {
     display: flex;
