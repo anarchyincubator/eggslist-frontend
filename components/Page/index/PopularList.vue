@@ -6,22 +6,18 @@
         <a tabindex="-1" @click="pushCatalog">View All Listings</a>
       </div>
       <div v-show="!loading" class="list">
-        <vueper-slides
-          ref="myVueperSlides"
-          class="no-shadow"
-          :visible-slides="4"
-          :arrows="false"
-          :fixed-height="true"
-          slide-multiple
-          :gap="1"
-          :slide-ratio="1 / 4"
-          :bullets="false"
-          :breakpoints="{ 860: { visibleSlides: 2, 'slide-ratio': 1 / 2 } }"
+        <div
+          v-swiper:swiperInstance="swiperOptionsInner"
+          :style="cssVars"
+          class="fake"
         >
-          <vueper-slide v-for="(product, index) in products" :key="index">
-            <template #content>
+          <div v-swiper:swiperInstance="swiperOptionsInner" class="list-cards">
+            <div class="swiper-wrapper">
               <CardItem
+                v-for="(product, index) in products"
+                :key="index"
                 class="swiper-slide list__slide"
+                :style="{ marginRight: marginRight }"
                 :title="product.title"
                 :slug="product.slug"
                 :price="product.price"
@@ -29,9 +25,9 @@
                 :background="product.image"
                 :author-config="product.seller"
               ></CardItem>
-            </template>
-          </vueper-slide>
-        </vueper-slides>
+            </div>
+          </div>
+        </div>
         <div class="list__buttons">
           <div
             class="list__buttons__button list__buttons__button--left"
@@ -61,13 +57,11 @@
 </template>
 
 <script>
-import { VueperSlides, VueperSlide } from "vueperslides";
-import "vueperslides/dist/vueperslides.css";
 import SkeletonCardItem from "../../Common/SkeletonCardItem";
 import CardItem from "../../Common/CardItem";
 export default {
   name: "PopularList",
-  components: { CardItem, SkeletonCardItem, VueperSlides, VueperSlide },
+  components: { CardItem, SkeletonCardItem },
   props: {
     products: {
       type: Array,
@@ -87,6 +81,7 @@ export default {
       swiperOptionsInner: {
         slidesPerView: 2,
         allowTouchMove: false,
+        spaceBetween: 30,
         breakpoints: {
           860: {
             slidesPerView: 4,
@@ -103,31 +98,66 @@ export default {
     windowWidth() {
       return this.$store.state.windowWidth;
     },
-  },
-  watch: {},
+    marginRight() {
+      let rig = this.isMobile
+        ? (20 * this.windowWidth) / 320
+        : (30 * this.windowWidth) / 1680;
 
+      return `${rig}px`;
+    },
+    cssVars() {
+      return {
+        "--margin": this.marginRight,
+      };
+    },
+  },
+  watch: {
+    products() {
+      if (!this.done) this.reCalcStyle();
+    },
+    windowWidth() {
+      if (!this.done) this.reCalcWidth();
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.reCalcStyle();
+      this.reCalcWidth();
+    }, 100);
+  },
   methods: {
     pushCatalog() {
       this.done = true;
       this.$router.push("/catalog");
     },
+    reCalcWidth() {
+      this.swiperInstance.params.spaceBetween = this.isMobile
+        ? (20 * this.windowWidth) / 320
+        : (30 * this.windowWidth) / 1680;
+    },
+    reCalcStyle() {
+      this.isInButtonRight =
+        this.swiperInstance.realIndex + (this.isMobile ? 2 : 4) >=
+        this.products.length;
+      this.isInButtonLeft = this.swiperInstance.realIndex === 0;
+    },
     slidePrev() {
-      this.$refs.myVueperSlides.previous();
+      if (this.swiperInstance) {
+        this.swiperInstance.slidePrev();
+        this.reCalcStyle();
+      }
     },
     slideNext() {
-      this.$refs.myVueperSlides.next();
+      if (this.swiperInstance) {
+        this.swiperInstance.slideNext();
+        this.reCalcStyle();
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.vueperslides--fixed-height {
-  height: 30rem;
-  @include layout-mobile() {
-    height: mvw(220px);
-  }
-}
 .popular {
   &__top {
     display: flex;
@@ -171,6 +201,11 @@ export default {
 }
 .list {
   position: relative;
+  &__slide {
+    margin-right: var(--margin);
+    @include layout-mobile() {
+    }
+  }
   &__buttons {
     &__button {
       position: absolute;
@@ -217,7 +252,6 @@ export default {
           background: transparent;
         }
       }
-
       @include layout-mobile() {
         width: mvw(48px);
         height: mvw(48px);
