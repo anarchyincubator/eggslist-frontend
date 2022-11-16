@@ -29,9 +29,15 @@ html.dark {
     background-color: theme('colors.slate.400');
   }
 }
+.swiper-container{
+  width: 100%;
+}
+.swiper-wrapper {
+  width: 50%;
+}
 
 // transitions
-.page-enter-active {
+/*.page-enter-active {
   transition: all 0.1s ease-out;
 }
 .page-leave-active {
@@ -41,16 +47,5 @@ html.dark {
 .page-leave-to {
   transform: translateY(20px);
   opacity: 0;
-}
+}*/
 
-.layout-enter-active {
-  transition: all 0.1s ease-out;
-}
-.layout-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.layout-enter-from,
-.layout-leave-to {
-  transform: translateY(-20px);
-  opacity: 0;
-}

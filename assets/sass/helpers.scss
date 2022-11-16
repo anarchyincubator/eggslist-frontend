@@ -173,16 +173,6 @@ a, a:hover, a:focus, a:active {
   opacity: 0;
 }
 
-.layout-enter-active {
-  transition: all 0.1s ease-out;
-}
-.layout-leave-active {
-  transition: all 0.3s;
-}
-.layout-enter-from,
-.layout-leave-to {
-  opacity: 0;
-}
 
 .fade-enter-active,
 .fade-leave-active {

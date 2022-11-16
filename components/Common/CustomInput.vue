@@ -63,6 +63,7 @@
       <div
         v-if="icon || isInValid"
         class="input-container__icon"
+        :style="styleIcon"
         :class="{ 'input-container__icon--error': isInValid }"
         @click="$emit('clickIcon')"
       >
@@ -99,6 +100,12 @@ export default {
     icon: {
       type: String,
       default: "",
+    },
+    styleIcon: {
+      type: Object,
+      default: () => {
+        return {};
+      },
     },
     isInValid: {
       type: Boolean,
