@@ -118,7 +118,7 @@ export default {
     const { categories } = await this.$store.dispatch(
       "blog/getCategoriesBlogs"
     );
-    this.categories.push(...categories);
+    this.categories.push(...categories.slice(0, 5));
     this.categoriesMobile.push(
       ...categories.map((item) => {
         return { value: item.name, key: item.slug };
