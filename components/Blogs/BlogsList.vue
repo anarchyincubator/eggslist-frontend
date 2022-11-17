@@ -70,7 +70,7 @@ export default {
     flex-wrap: nowrap;
   }
   &__item {
-    margin-right: 1.875rem;
+    margin-right: 1.8rem;
     margin-bottom: 3rem;
     @include layout-mobile() {
       margin: 0 0 mvw(48px);

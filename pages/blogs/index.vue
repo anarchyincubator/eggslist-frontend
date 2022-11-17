@@ -12,19 +12,55 @@
     </div>
     <div class="page__container">
       <div class="page__container__header">
-        <div class="page__container__filters">
+        <div v-if="!isMobile" class="page__container__filters">
           <BlogCategory
             key-tab="all"
+            class="page__container__filters__item"
             title="All"
-            :is-active="true"
+            :is-active="currentCategory && !currentCategory.key"
+            @click="handleChangeCategory(defaultAll)"
           ></BlogCategory>
+          <BlogCategory
+            v-for="(tab, index) in categories"
+            :key="index"
+            class="page__container__filters__item"
+            :key-tab="tab.slug"
+            :title="tab.name"
+            :is-active="currentCategory.key === tab.slug"
+            @click="handleChangeCategory(tab)"
+          />
         </div>
+        <CustomDropdown
+          v-else
+          v-model="currentCategory"
+          class="page__container__category"
+          :selects="categoriesMobile"
+          @input="handleChangeCategoryMobile"
+        ></CustomDropdown>
         <SearchCommon
           v-model="searchInput"
           class="page__container__search"
           placeholder="Search"
+          @input="loadDebounceQueryBlogs"
           @enter="loadQueryBlogs"
         ></SearchCommon>
+      </div>
+      <div
+        v-if="blogs.length === 0 && !loadingBlogs"
+        class="page__container__not"
+      >
+        <h3>No Results</h3>
+        <p class="body-1">
+          No one has posted any blogs that match your selection yet. To get more
+          results, try changing or removing some filters!
+        </p>
+        <CustomButton
+          class="page__container__not-button"
+          theme="primary"
+          @click="handleReset"
+        >
+          Reset Filters</CustomButton
+        >
       </div>
       <BlogsList
         :blogs="blogs"
@@ -37,6 +73,8 @@
 </template>
 
 <script>
+import CustomDropdown from "../../components/Common/CustomDropdown";
+import CustomButton from "../../components/Common/CustomButton";
 import { debounce } from "lodash";
 import searchIcon from "../../assets/images/icons/search.svg";
 import PatternTop from "../../components/Page/index/PatternTop";
@@ -48,33 +86,62 @@ export default {
   components: {
     BlogCategory,
     SearchCommon,
+    CustomButton,
     BlogsList,
     PatternTop,
+    CustomDropdown,
   },
   data() {
     return {
       blogs: [],
+      defaultAll: { key: null, value: "All" },
       loadingBlogs: true,
       completeLoader: false,
+      currentCategory: { key: null, value: "All" },
       searchInput: "",
       page: 1,
+      categories: [],
+      categoriesMobile: [{ value: "All", key: null }],
       searchIcon,
     };
   },
-  watch: {
-    searchInput(val) {
-      this.loadDebounceQueryBlogs();
+  computed: {
+    isMobile() {
+      return this.$store.getters["isMobile"];
     },
   },
-  mounted() {
-    this.$store
-      .dispatch("blog/getBlogs", { page: this.page })
-      .then(({ blogs }) => {
-        this.blogs.push(...blogs);
-        this.loadingBlogs = false;
-      });
+  async mounted() {
+    const { blogs } = await this.$store.dispatch("blog/getBlogs", {
+      page: this.page,
+    });
+    this.blogs.push(...blogs);
+    const { categories } = await this.$store.dispatch(
+      "blog/getCategoriesBlogs"
+    );
+    this.categories.push(...categories);
+    this.categoriesMobile.push(
+      ...categories.map((item) => {
+        return { value: item.name, key: item.slug };
+      })
+    );
+    this.loadingBlogs = false;
   },
   methods: {
+    handleReset() {
+      this.currentCategory = { ...this.defaultAll };
+      this.searchInput = "";
+      this.loadQueryBlogs();
+    },
+    handleChangeCategoryMobile(val) {
+      this.currentCategory = { ...val };
+      this.loadQueryBlogs();
+    },
+    handleChangeCategory(category) {
+      if (category.slug === this.currentCategory.key) return;
+
+      this.currentCategory = { key: category.slug, value: category.name };
+      this.loadQueryBlogs();
+    },
     loadQueryBlogs() {
       this.loadingBlogs = true;
       this.page = 1;
@@ -82,6 +149,7 @@ export default {
         .dispatch("blog/getBlogs", {
           page: this.page,
           search: this.searchInput.trim().toLowerCase(),
+          category: this.currentCategory && this.currentCategory.key,
         })
         .then(({ blogs }) => {
           this.blogs = [...blogs];
@@ -130,6 +198,7 @@ export default {
       display: flex;
       @include layout-mobile() {
         margin-bottom: mvw(64px);
+        flex-direction: column;
       }
     }
     &__search {
@@ -139,9 +208,47 @@ export default {
         width: 100%;
       }
     }
+    &__category {
+      margin-bottom: mvw(20px);
+    }
     &__filters {
+      display: flex;
+      &__item {
+        margin-right: 2rem;
+      }
       @include layout-mobile() {
         display: none;
+      }
+    }
+    &__not {
+      margin-top: 7.5rem;
+      display: flex;
+      width: 32.125rem;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      align-self: center;
+      @include layout-mobile() {
+        width: 100%;
+        margin-top: mvw(50px);
+      }
+      p {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        @include layout-mobile() {
+          margin-top: mvw(16px);
+          margin-bottom: mvw(32px);
+        }
+      }
+      &-button {
+        font-weight: 600;
+        height: 3.5rem;
+        padding: 0;
+        @include layout-mobile() {
+          height: mvw(56px);
+          width: mvw(270px);
+          margin-bottom: mvw(32px);
+        }
       }
     }
   }
