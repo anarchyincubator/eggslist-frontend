@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     handleChangeTab() {
-      this.$emit("handleChange", this.keyTab);
+      this.$emit("click");
     },
   },
 };
@@ -37,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .auth-profile__tabs--tab {
-  width: min-content;
+  width: max-content;
   height: 3rem;
   border: 1.5px solid $neutral-70;
   border-radius: 6.25rem;
@@ -50,7 +50,7 @@ export default {
   line-height: 1rem;
   box-sizing: border-box;
   cursor: pointer;
-  transition: 0.5s all;
+  transition: 0.2s all;
   @include layout-mobile() {
     width: max-content;
     font-size: mvw(14px);
@@ -60,6 +60,11 @@ export default {
     box-sizing: border-box;
     height: mvw(32px);
     padding: 0;
+  }
+  &:hover {
+    background-color: $primary-black;
+    color: $primary-cream;
+    border: 1.5px solid $primary-black;
   }
   &--active {
     background-color: $primary-black;

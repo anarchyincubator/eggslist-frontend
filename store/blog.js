@@ -8,6 +8,12 @@ export const actions = {
       return { blogs: response?.results.map(Blog) };
     } catch (e) {}
   },
+  async getCategoriesBlogs({ commit }) {
+    try {
+      const response = await this.$axios.$get("/blogs/categories");
+      return { categories: response };
+    } catch (e) {}
+  },
   async getBlogs({ commit }, params) {
     try {
       let query = "?";
