@@ -1,7 +1,15 @@
 import Blog from "@/utils/adapters/Blog";
+import BlogFull from "@/utils/adapters/BlogFull";
 export const state = () => ({});
 export const getters = {};
 export const actions = {
+  async getBlog({ commit }, slug) {
+    try {
+      const response = await this.$axios.$get(`/blogs/blogs/${slug}`);
+      console.log(response);
+      return { blog: BlogFull(response) };
+    } catch (e) {}
+  },
   async getFeaturedBlogs({ commit }) {
     try {
       const response = await this.$axios.$get("/blogs/blogs/featured");

@@ -38,6 +38,7 @@ export default {
     { src: "~/plugins/nuxtClientInit.js", mode: "client" },
     { src: "~/plugins/v-mask.js", mode: "client" },
     { src: "~/plugins/vueObserver.js", mode: "client" },
+    { src: "~/plugins/vue-editor.js", mode: "client" },
   ],
 
   components: true,
