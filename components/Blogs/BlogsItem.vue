@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-item">
+  <div class="blog-item" @click="handleToSlug">
     <div :style="backgroundStyle" class="blog-item__background" />
     <h6 class="blog-item__category" @click="handleCategory">
       {{ blog.category.name }}
@@ -32,11 +32,15 @@ export default {
     },
   },
   methods: {
-    handleCategory() {
+    handleToSlug() {
+      this.$router.push(`/blogs/blog?slug=${this.blog.slug}`);
+    },
+    handleCategory(e) {
+      e.stopPropagation();
       this.$router.push(`/blogs/filter?category=${this.blog.category?.slug}`);
     },
-    handleTitle() {
-      console.log(this.blog.author);
+    handleTitle(e) {
+      e.stopPropagation();
       this.$router.push(`/blogs/filter?user-id=${this.blog.author?.id}`);
     },
   },
@@ -49,6 +53,7 @@ export default {
   width: 25.625rem;
   height: 26.875rem;
   flex-direction: column;
+  cursor: pointer;
   @include layout-mobile() {
     width: 100%;
     height: auto;
