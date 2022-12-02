@@ -423,6 +423,7 @@ export default {
     &__not-allowed {
       color: $neutral-30;
       border-bottom: 2px solid $neutral-70;
+      cursor: inherit;
     }
     &__border {
       width: 100%;
