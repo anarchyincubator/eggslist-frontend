@@ -111,6 +111,7 @@ export default {
     CustomButton,
     SkeletonItem,
   },
+  middleware: ["auth"],
   data() {
     return {
       page: 1,
