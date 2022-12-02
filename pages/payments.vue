@@ -250,11 +250,12 @@ export default {
     &__item {
       font-size: 1rem;
       line-height: 1.5rem;
-      margin-top: 0.5rem;
+      margin-bottom: 1.625rem;
     }
     &__top {
       display: flex;
       align-items: center;
+      margin-bottom: 0.5rem;
       &--title {
         @include layout-mobile() {
           margin-right: auto;
