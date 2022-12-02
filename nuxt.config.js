@@ -37,6 +37,7 @@ export default {
     { src: "~/plugins/v-scroll-lock.js", mode: "client" },
     { src: "~/plugins/nuxtClientInit.js", mode: "client" },
     { src: "~/plugins/v-mask.js", mode: "client" },
+    { src: "~/plugins/vueObserver.js", mode: "client" },
   ],
 
   components: true,
