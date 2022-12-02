@@ -219,6 +219,7 @@ export default {
     },
     async getActualItems() {
       this.loading = true;
+
       if (this.isMyListings) {
         const { products, totalPage, count } = await this.$store.dispatch(
           "products/getMyProducts",
@@ -227,7 +228,7 @@ export default {
         this.loading = false;
         this.totalPage = totalPage;
         this.currentItems = [...products];
-        this.$refs.tabs.scrollTo(0, 0);
+        this.$refs.tabs?.scrollTo(0, 0);
         return;
       }
       if (this.isHidden) {
@@ -238,14 +239,14 @@ export default {
         this.loading = false;
         this.totalPage = totalPage;
         this.currentItems = [...products];
-        this.$refs.tabs.scrollTo(this.getOffset(50), 0);
+        this.$refs.tabs?.scrollTo(this.getOffset(50), 0);
         return;
       }
       if (this.isRecently) {
         const { products, totalPage, count } = await this.$store.dispatch(
           "products/getRecentProducts"
         );
-        this.$refs.tabs.scrollTo(this.getOffset(100), 0);
+        this.$refs.tabs?.scrollTo(this.getOffset(100), 0);
         this.currentItems = [...products];
         this.loading = false;
         return;

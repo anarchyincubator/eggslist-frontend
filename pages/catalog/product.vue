@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <ModalPurchase ref="purchase" :product="product" />
     <div class="product-page">
       <div class="product-page__header" @click="handleGoMarket">
         <div class="product-page__button">
@@ -157,7 +158,7 @@
       ></ProductList>
     </div>
     <PopupProfile
-      ref="modal"
+      ref="popup"
       :seller="product.seller || {}"
       @changeFavorite="handleChangeFavourite"
     />
@@ -173,8 +174,10 @@ import ProfileContact from "../../components/Page/catalog/ProfileContact";
 import PopupProfile from "../../components/Page/catalog/PopupProfile";
 import CustomButton from "../../components/Common/CustomButton";
 import SettingsProduct from "../../components/Common/SettingsListing";
+import ModalPurchase from "../../components/Page/product/ModalPurchase";
 export default {
   components: {
+    ModalPurchase,
     SettingsProduct,
     CustomButton,
     PopupProfile,
@@ -217,6 +220,10 @@ export default {
     );
     this.product = { ...product };
     this.loading = false;
+
+    if (this.$route.query["popup_purchase"]) {
+      this.$refs.purchase.show();
+    }
   },
   methods: {
     getImgDeliver(val) {
@@ -226,7 +233,7 @@ export default {
       this.$router.push(`/catalog?subcategory=${this.product.sub}`);
     },
     showModal() {
-      this.$refs.modal.show();
+      this.$refs.popup.show();
     },
     handleGoMarket() {
       this.$router.push("/catalog");

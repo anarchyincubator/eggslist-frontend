@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <div class="profile-header">
+    <div class="profile-header" @click="handleGoToProfile">
       <AvatarCard
         :avatar="author.avatar"
         :name="author.firstName"
@@ -24,6 +24,7 @@
       </div>
     </div>
     <CustomButton
+      v-if="!isStripe"
       class="profile__button"
       :is-large="true"
       theme="primary"
@@ -31,13 +32,30 @@
       @click="handleClickButton"
       >Contact</CustomButton
     >
-    <nuxt-link :to="`/profile?id=${author.id}`">View profile</nuxt-link>
+    <CustomButton
+      v-else
+      class="profile__button"
+      :is-large="true"
+      theme="primary"
+      :is-loading="loadingPurchase"
+      @click="handlePurchaseButton"
+    >
+      <div class="profile__button__content">
+        Purchase
+        <img
+          class="profile__button-img"
+          src="@/assets/images/icons/arrow-up-right.svg"
+        />
+      </div>
+    </CustomButton>
+    <a v-if="isStripe" @click="handleClickButton">Contact</a>
   </div>
 </template>
 
 <script>
 import CustomButton from "../../Common/CustomButton";
 import AvatarCard from "../../Common/AvatarCard";
+import author from "../../../utils/adapters/Author";
 export default {
   name: "ProfileContact",
   components: { AvatarCard, CustomButton },
@@ -55,9 +73,27 @@ export default {
   data() {
     return {
       loading: false,
+      loadingPurchase: false,
     };
   },
+  computed: {
+    isStripe() {
+      return this.author.isStripe;
+    },
+  },
   methods: {
+    handleGoToProfile() {
+      this.$router.push(`/profile?id=${this.author.id}`);
+    },
+    async handlePurchaseButton() {
+      this.loadingPurchase = true;
+      const resp = await this.$store.dispatch(
+        "products/getProductPurchase",
+        this.slug
+      );
+      this.loadingPurchase = false;
+      window.open(resp, "_self");
+    },
     async handleClickButton() {
       this.loading = true;
       try {
@@ -86,6 +122,13 @@ export default {
   }
   &-header {
     display: flex;
+    cursor: pointer;
+    &:hover {
+      h1,
+      h4 {
+        text-decoration: underline;
+      }
+    }
     &__avatar {
       width: 3.5rem;
       height: 3.5rem;
@@ -136,6 +179,14 @@ export default {
       margin-top: mvw(40px);
       margin-bottom: mvw(16px);
     }
+    &__content {
+      display: flex;
+      align-items: center;
+    }
+    &-img {
+      height: 1rem;
+      margin-left: 0.5rem;
+    }
   }
   a {
     border-bottom: 2px solid $primary-marigold;
@@ -143,6 +194,7 @@ export default {
     font-size: 1rem;
     line-height: 1.5rem;
     font-weight: 600;
+    cursor: pointer;
     margin: 0 auto;
     @include layout-mobile() {
       padding-bottom: mvw(2px);

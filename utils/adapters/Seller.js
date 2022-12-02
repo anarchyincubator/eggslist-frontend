@@ -4,6 +4,7 @@ export default function (seller) {
     lastName: seller.last_name,
     isFavourite: seller.is_favorite,
     isVerified: seller.is_verified_seller,
+    isStripe: seller.is_stripe_connected,
     phoneNumber: seller.phone_number,
     location: seller.location,
     avatar: seller.avatar,

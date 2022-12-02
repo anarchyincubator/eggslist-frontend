@@ -13,7 +13,10 @@
         <div class="modal-profile__header">
           <slot></slot>
         </div>
-        <span class="modal-profile__cancel button-1" @click="handleClose"
+        <span
+          v-if="isCancel"
+          class="modal-profile__cancel button-1"
+          @click="handleClose"
           >Cancel</span
         >
       </div>
@@ -30,6 +33,10 @@ export default {
     backColor: {
       default: "#FBECD5",
       type: String,
+    },
+    isCancel: {
+      default: true,
+      type: Boolean,
     },
   },
   data() {

@@ -43,9 +43,14 @@ export default {
       },
     },
   },
-  mounted() {
+  async mounted() {
     const id = this.$route.query.id;
+
     this.isAuth = !id || id === this.user?.id.toString();
+
+    if (this.isAuth) {
+      await this.$store.dispatch("user/getUserFullData");
+    }
     this.loading = false;
   },
 };

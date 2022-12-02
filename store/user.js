@@ -1,9 +1,12 @@
 import User from "@/utils/adapters/User";
+import FullUser from "@/utils/adapters/FullUser";
 export const state = () => ({
   user: null,
+  fullUser: null,
 });
 export const getters = {
   user: (state) => (state.user ? User(state.user) : null),
+  fullUser: (state) => (state.fullUser ? FullUser(state.fullUser) : null),
 };
 export const actions = {
   getUserData({ commit, dispatch }) {
@@ -12,6 +15,19 @@ export const actions = {
       try {
         response = await this.$axios.$get("/users/profile");
         commit("setUser", response);
+        resolve(response);
+      } catch (e) {
+        console.log(e);
+        reject(e.response.data.error);
+      }
+    });
+  },
+  getUserFullData({ commit, dispatch }) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        response = await this.$axios.$get("/users/profile-full");
+        commit("setFullUser", response);
         resolve(response);
       } catch (e) {
         console.log(e);
@@ -103,6 +119,9 @@ export const actions = {
 export const mutations = {
   setUser(state, user) {
     state.user = user;
+  },
+  setFullUser(state, user) {
+    state.fullUser = user;
   },
   clearUser(state) {
     state.user = {};
