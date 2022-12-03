@@ -27,7 +27,10 @@
             class="page-container__item"
           >
             <div class="page-container__top">
-              <h4 class="page-container__top--title">
+              <h4
+                class="page-container__top--title"
+                @click="handleToProduct(item.product.slug)"
+              >
                 {{ item.product.title }}
               </h4>
               <PaymentType
@@ -139,6 +142,9 @@ export default {
   methods: {
     handleView() {
       window.open("https://dashboard.stripe.com/", "_blank");
+    },
+    handleToProduct(slug) {
+      window.open(`/catalog/product?slug=${slug}`);
     },
     handleToProfile() {
       this.$router.push("/profile");
@@ -257,6 +263,7 @@ export default {
       align-items: center;
       margin-bottom: 0.5rem;
       &--title {
+        cursor: pointer;
         @include layout-mobile() {
           margin-right: auto;
           text-overflow: ellipsis;
