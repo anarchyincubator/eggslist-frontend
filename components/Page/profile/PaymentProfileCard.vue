@@ -19,10 +19,7 @@
         <h5>{{ item.product.title }}</h5>
         <h5 class="right">${{ Number(item.price) }}</h5>
       </div>
-      <a
-        v-if="!isLoading && recent.length > 0"
-        class="card__payment__edit button-1"
-        @click="handleClickPayment"
+      <a class="card__payment__edit button-1" @click="handleClickPayment"
         >View All</a
       >
     </div>
@@ -30,9 +27,6 @@
       <div class="card__list__item">
         <h5>No sales yet!</h5>
       </div>
-      <a class="card__payment__edit button-1" @click="handleClickPayment"
-        >View All</a
-      >
     </div>
     <div v-else class="card__list">
       <SkeletonItem
