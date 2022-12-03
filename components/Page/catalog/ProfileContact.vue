@@ -1,5 +1,6 @@
 <template>
   <div class="profile">
+    <ModalSameId ref="same" />
     <div class="profile-header" @click="handleGoToProfile">
       <AvatarCard
         :avatar="author.avatar"
@@ -56,9 +57,10 @@
 import CustomButton from "../../Common/CustomButton";
 import AvatarCard from "../../Common/AvatarCard";
 import author from "../../../utils/adapters/Author";
+import ModalSameId from "../product/ModalSameId";
 export default {
   name: "ProfileContact",
-  components: { AvatarCard, CustomButton },
+  components: { ModalSameId, AvatarCard, CustomButton },
   props: {
     author: {
       type: Object,
@@ -80,12 +82,21 @@ export default {
     isStripe() {
       return this.author.isStripe;
     },
+    user() {
+      return this.$store.getters["user/user"];
+    },
   },
   methods: {
     handleGoToProfile() {
       this.$router.push(`/profile?id=${this.author.id}`);
     },
     async handlePurchaseButton() {
+      this.isAuth = !this.author.id || this.author.id === this.user?.id;
+
+      if (this.isAuth) {
+        this.$refs.same.show();
+        return;
+      }
       this.loadingPurchase = true;
       const resp = await this.$store.dispatch(
         "products/getProductPurchase",
