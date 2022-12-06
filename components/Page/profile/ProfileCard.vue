@@ -40,6 +40,10 @@
         <p>phone number</p>
         <span>{{ phoneNumber }}</span>
       </div>
+      <div v-if="user.email" class="profile__main__bio">
+        <p>email</p>
+        <span>{{ user.email }}</span>
+      </div>
       <div v-if="user.bio" class="profile__main__bio">
         <p>bio</p>
         <span>{{ user.bio }}</span>

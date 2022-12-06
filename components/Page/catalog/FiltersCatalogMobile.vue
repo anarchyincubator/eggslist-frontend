@@ -232,6 +232,7 @@ export default {
       } else {
         this.$set(this.pickupSelects, 1, false);
       }
+      this.$emit("changeQuery", this.generateQuery());
     },
     generateQuery() {
       let query = "";
