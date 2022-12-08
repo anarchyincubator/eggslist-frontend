@@ -192,6 +192,7 @@ export default {
       if (this.query.allow_delivery) {
         this.$set(this.pickupSelects, 1, true);
       }
+      this.$emit("changeQuery", this.generateQuery());
     },
     generateQuery() {
       let query = "";
@@ -226,6 +227,7 @@ export default {
     handleApplyFilter() {
       this.$emit("apply", this.generateQuery());
     },
+
     resetFilters() {
       this.selects = this.categories.map((item) => []);
       this.searchInput = "";

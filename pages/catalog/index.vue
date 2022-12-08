@@ -12,6 +12,7 @@
         :query="startQuery"
         @reset="handleReset"
         @apply="handleApplyFilter"
+        @changeQuery="changeQuery"
         @showModal="handleClickLocation"
       ></FiltersCatalog>
       <FiltersCatalogMobile
@@ -20,6 +21,7 @@
         :categories="categories"
         :query="startQuery"
         @reset="handleReset"
+        @changeQuery="changeQuery"
         @apply="handleApplyFilter"
         @showModal="handleClickLocation"
       ></FiltersCatalogMobile>
@@ -173,6 +175,11 @@ export default {
       this.$router.push(`/catalog`);
       await this.getProducts();
     },
+    changeQuery(val) {
+      if (val === this.query) return;
+
+      this.query = val;
+    },
     async handleApplyFilter(val) {
       if (val === this.query) return;
 
@@ -190,6 +197,7 @@ export default {
       await this.getProducts();
     },
     async changeSort(val) {
+      console.log(this.actualQuery);
       await this.getProducts();
       this.$router.push(`/catalog?${this.actualQuery}`);
     },

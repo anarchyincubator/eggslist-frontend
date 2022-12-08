@@ -33,9 +33,11 @@
     "vue": "^2.6.14",
     "vue-awesome-swiper": "4.1.1",
     "vue-currency-input": "1.22.0",
+    "vue-observe-visibility": "^1.0.0",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "vue-the-mask": "^0.11.1",
+    "vueperslides": "^2.16.0",
     "webpack": "^4.46.0"
   },
   "devDependencies": {

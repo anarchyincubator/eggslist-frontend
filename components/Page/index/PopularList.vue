@@ -5,23 +5,21 @@
         <h2>Popular Near You</h2>
         <a tabindex="-1" @click="pushCatalog">View All Listings</a>
       </div>
-      <div v-show="!loading" class="list">
-        <div v-swiper:swiperInstance="swiperOptionsInner" class="fake">
-          <div v-swiper:swiperInstance="swiperOptionsInner" class="list-cards">
-            <div class="swiper-wrapper">
-              <CardItem
-                v-for="(product, index) in products"
-                :key="index"
-                class="swiper-slide list__slide"
-                :style="{ 'margin-right': marginRight }"
-                :title="product.title"
-                :slug="product.slug"
-                :price="product.price"
-                :out-stock="product.isOut"
-                :background="product.image"
-                :author-config="product.seller"
-              ></CardItem>
-            </div>
+      <div v-show="!loading" :style="cssVars" class="list">
+        <div v-swiper:swiperInstance="swiperOptionsInner" class="list-cards">
+          <div class="swiper-wrapper">
+            <CardItem
+              v-for="(product, index) in products"
+              :key="index"
+              class="swiper-slide list__slide"
+              :style="{ marginRight: marginRight }"
+              :title="product.title"
+              :slug="product.slug"
+              :price="product.price"
+              :out-stock="product.isOut"
+              :background="product.image"
+              :author-config="product.seller"
+            ></CardItem>
           </div>
         </div>
         <div class="list__buttons">
@@ -77,6 +75,7 @@ export default {
       swiperOptionsInner: {
         slidesPerView: 2,
         allowTouchMove: false,
+        spaceBetween: 20,
         breakpoints: {
           860: {
             slidesPerView: 4,
@@ -94,7 +93,16 @@ export default {
       return this.$store.state.windowWidth;
     },
     marginRight() {
-      return `${(30 * this.windowWidth) / 1680}px`;
+      let rig = this.isMobile
+        ? (20 * this.windowWidth) / 320
+        : this.convertRemToPixels(1.8);
+
+      return `${rig}px`;
+    },
+    cssVars() {
+      return {
+        "--margin": this.marginRight,
+      };
     },
   },
   watch: {
@@ -113,15 +121,19 @@ export default {
     }, 100);
   },
   methods: {
+    convertRemToPixels(rem) {
+      return (
+        rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+      );
+    },
     pushCatalog() {
-      window.scrollTo(0, 0);
       this.done = true;
       this.$router.push("/catalog");
     },
     reCalcWidth() {
       this.swiperInstance.params.spaceBetween = this.isMobile
         ? (20 * this.windowWidth) / 320
-        : (30 * this.windowWidth) / 1680;
+        : this.convertRemToPixels(1.8);
     },
     reCalcStyle() {
       this.isInButtonRight =
@@ -181,7 +193,7 @@ export default {
 .list-loading {
   display: flex;
   &__item {
-    margin-right: 1.875rem;
+    margin-right: 1.8rem;
     @include layout-mobile() {
       margin-right: mvw(20px);
     }
@@ -189,6 +201,13 @@ export default {
 }
 .list {
   position: relative;
+  &__slide {
+    margin-right: var(--margin);
+    @include layout-mobile() {
+      margin-right: mvw(20px);
+      width: mvw(130px);
+    }
+  }
   &__buttons {
     &__button {
       position: absolute;
@@ -235,7 +254,6 @@ export default {
           background: transparent;
         }
       }
-
       @include layout-mobile() {
         width: mvw(48px);
         height: mvw(48px);

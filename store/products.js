@@ -10,6 +10,14 @@ export const getters = {
     state.editProduct ? BigProduct(state.editProduct) : null,
 };
 export const actions = {
+  async getProductPurchase({ commit }, slug) {
+    try {
+      const response = await this.$axios.$post(
+        `/store/products/${slug}/purchase`
+      );
+      return response?.redirect_url;
+    } catch (e) {}
+  },
   async getProductsPopular({ commit }) {
     try {
       const response = await this.$axios.$get("/store/products/popular");

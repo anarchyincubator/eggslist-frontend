@@ -11,9 +11,11 @@
       <nuxt> </nuxt>
       <TheFooter v-if="!isMainPage" class="page-container__footer" />
     </section>
+    <AcceptCookies />
   </div>
 </template>
 <script>
+import AcceptCookies from "../components/Common/AcceptCookies";
 import TheNavbar from "~/components/Page/TheNavbar.vue";
 import MobileNavbar from "~/components/Page/MobileNavbar.vue";
 import TheFooter from "../components/Page/TheFooter";
@@ -26,6 +28,7 @@ export default {
     TheFooter,
     TheNavbar,
     MobileNavbar,
+    AcceptCookies,
   },
   transition: {
     mode: "fade-enter",

@@ -27,7 +27,9 @@
           {{ seller.location?.city }}, {{ seller.location?.state }}
         </div>
         <div class="modal-profile__phone">phone number</div>
-        <div class="modal-profile__phone-number">{{ phoneNumber }}</div>
+        <div class="modal-profile__city">{{ phoneNumber }}</div>
+        <div class="modal-profile__phone">email</div>
+        <div class="modal-profile__phone-number">{{ seller.email }}</div>
         <CustomButton
           class="modal-profile__button"
           theme="primary"

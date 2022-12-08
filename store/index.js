@@ -1,6 +1,6 @@
 import City from "@/utils/adapters/City";
 
-import { localStorageKeyCity, localStorageKeyAuth } from "../utils/data";
+import { localStorageCookies, localStorageKeyAuth } from "../utils/data";
 
 export const state = () => ({
   windowWidth: null,
@@ -9,11 +9,13 @@ export const state = () => ({
   cities: [],
   currentCity: null,
   currentRadius: null,
+  acceptCookies: false,
 });
 export const getters = {
   isMobile: (state) => state.windowWidth <= 860,
   cities: (state) => state.cities,
   currentCity: (state) => state.currentCity && City(state.currentCity),
+  acceptCookies: (state) => state.acceptCookies,
 };
 export const actions = {
   async getCities({ commit, state }) {
@@ -54,10 +56,11 @@ export const actions = {
       }
     });
   },
-  async nuxtClientInit({ dispatch, commit }, { app }) {
+  async nuxtClientInit({ dispatch, commit, state }, { app }) {
     dispatch("getCities");
     const token = localStorage.getItem(localStorageKeyAuth);
     await dispatch("getLocate");
+    commit("setCookies", Boolean(localStorage.getItem(localStorageCookies)));
     if (token) {
       try {
         await dispatch("auth/setToken", token);
@@ -68,11 +71,18 @@ export const actions = {
       }
     }
   },
+  setAcceptCookies({ commit, state }) {
+    localStorage.setItem(localStorageCookies, true);
+    commit("setCookies", true);
+  },
 };
 export const mutations = {
   changeWindowSize(state, { windowWidth, windowHeight }) {
     state.windowWidth = windowWidth;
     state.windowHeight = windowHeight;
+  },
+  setCookies(state, cookies) {
+    state.acceptCookies = cookies;
   },
   setCities(state, cities) {
     state.cities = [...cities];
