@@ -11,6 +11,11 @@
         <div class="header-container__left">
           <h5>{{ blog.category?.name }}</h5>
           <h1>{{ blog.title }}</h1>
+          <div class="header-container__sub">
+            <h5>By {{ blog.author?.firstName }} {{ blog.author?.lastName }}</h5>
+            <div class="header-container__line" />
+            <div class="body-2">11 // 22</div>
+          </div>
         </div>
         <img
           v-if="blog.image"
@@ -37,7 +42,9 @@ export default {
     this.getBlog();
   },
   methods: {
-    handleToBlogs() {},
+    handleToBlogs() {
+      this.$router.push("/blogs");
+    },
     async getBlog() {
       const slug = this.$route.query["slug"];
 
@@ -62,6 +69,30 @@ export default {
         height: 30.375rem !important;
         border-radius: 1.875rem;
         object-fit: cover;
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+      }
+      a {
+        color: $neutral-30;
+        text-decoration: underline;
+        &:hover {
+          color: $primary-marigold;
+        }
+      }
+      p {
+        font-weight: 400;
+        font-size: 1.25rem;
+        line-height: 2rem;
+        margin-top: 2rem;
+      }
+      h5 {
+        margin-top: 2rem;
+      }
+      h2 {
+        margin-top: 2rem;
+      }
+      br {
+        margin: 1rem 0;
       }
     }
   }
@@ -130,7 +161,7 @@ export default {
     box-sizing: border-box;
     margin-left: calc(0rem - $padding-with-width);
     margin-bottom: 3.125rem;
-    padding: 10.5625rem $padding-with-width 8rem;
+    padding: 10.5625rem $padding-with-width 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,6 +182,16 @@ export default {
           width: auto;
         }
       }
+    }
+    &__sub {
+      display: flex;
+      align-items: center;
+    }
+    &__line {
+      height: 1.5rem;
+      margin: 0 0.75rem;
+      width: 1px;
+      background-color: $primary-black;
     }
     h1 {
       color: $primary-black;
