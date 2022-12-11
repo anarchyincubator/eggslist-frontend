@@ -103,6 +103,7 @@ export default {
       totalPage: 1,
       sortOptions: [
         { name: "Relevance", key: "relevance" },
+        { name: "Proximity", key: "proximity" },
         { name: "Price up", key: "price" },
         { name: "Price down", key: "-price" },
         { name: "Date down", key: "-date_created" },
