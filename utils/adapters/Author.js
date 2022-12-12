@@ -3,5 +3,6 @@ export default function (author) {
     firstName: author.first_name,
     lastName: author.last_name,
     id: author.id,
+    location: author.location,
   };
 }

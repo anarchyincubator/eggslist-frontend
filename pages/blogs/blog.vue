@@ -26,20 +26,32 @@
     </div>
     <div class="blog__container">
       <div class="blog__container__body" v-html="blog.body"></div>
+      <SellerCard
+        v-if="!loading"
+        class="blog__container__card"
+        :seller="blog.author"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import SellerCard from "../../components/Blogs/SellerCard";
 export default {
   name: "BlogPage",
+  components: {
+    SellerCard,
+  },
   data() {
     return {
       blog: {},
+      loading: true,
     };
   },
-  mounted() {
-    this.getBlog();
+  async mounted() {
+    this.loading = true;
+    await this.getBlog();
+    this.loading = false;
   },
   methods: {
     handleToBlogs() {
@@ -54,6 +66,7 @@ export default {
 
       const { blog } = await this.$store.dispatch("blog/getBlog", slug);
       this.blog = { ...blog };
+      console.log(blog);
     },
   },
 };
@@ -107,6 +120,9 @@ export default {
     flex-direction: column;
     width: 53.125rem;
     margin: 0 auto;
+    &__card {
+      margin-top: 5rem;
+    }
   }
   &__header {
     display: flex;
