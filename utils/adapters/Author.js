@@ -4,5 +4,6 @@ export default function (author) {
     lastName: author.last_name,
     id: author.id,
     location: author.location,
+    phoneNumber: author.phone_number,
   };
 }

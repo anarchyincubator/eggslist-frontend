@@ -62,6 +62,7 @@ export default {
     width: 100%;
     border-radius: 1.875rem;
     height: 16.875rem;
+    background-color: $neutral-70;
     background-size: cover;
     @include layout-mobile() {
       width: 100%;

@@ -17,16 +17,14 @@
         <a class="button-1" @click="handleShow">Contact</a>
       </div>
     </div>
-    <PopupProfile ref="modal" :seller="seller || {}" />
   </div>
 </template>
 
 <script>
-import PopupProfile from "../Page/catalog/PopupProfile";
 import AvatarCard from "../Common/AvatarCard";
 export default {
   name: "SellerCard",
-  components: { AvatarCard, PopupProfile },
+  components: { AvatarCard },
   props: {
     seller: {
       type: Object,
@@ -40,7 +38,7 @@ export default {
   },
   methods: {
     handleShow() {
-      this.$refs.modal.show();
+      this.$emit("contact");
     },
   },
 };
@@ -50,12 +48,27 @@ export default {
 .seller-card {
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
+  @include layout-mobile() {
+    flex-direction: column;
+    justify-content: center;
+  }
   &__avatar {
     width: 13.75rem;
     height: 13.75rem;
     margin-right: 2rem;
+    @include layout-mobile() {
+      margin-right: 0;
+      width: mvw(80px);
+      height: mvw(80px);
+      margin-bottom: mvw(20px);
+    }
+  }
+  &__info {
+    @include layout-mobile() {
+      text-align: center;
+    }
   }
   h4 {
     margin-top: 1rem;
@@ -63,16 +76,25 @@ export default {
     img {
       width: 0.875rem;
       margin-right: 0.4375rem;
+      @include layout-mobile() {
+        width: mvw(10px);
+      }
     }
   }
   &__links {
     display: flex;
     a:first-child {
       margin-right: 1.5rem;
+      @include layout-mobile() {
+        margin-right: mvw(32px);
+      }
     }
     a {
       cursor: pointer;
       border-bottom: 2px solid $primary-marigold;
+      @include layout-mobile() {
+        border-bottom: mvw(2px) solid $primary-marigold;
+      }
     }
   }
 }

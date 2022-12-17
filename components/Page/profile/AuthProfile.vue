@@ -227,7 +227,7 @@ export default {
         this.loading = false;
         this.totalPage = totalPage;
         this.currentItems = [...products];
-        this.$refs.tabs.scrollTo(0, 0);
+        this.$refs.tabs?.scrollTo(0, 0);
         return;
       }
       if (this.isHidden) {
