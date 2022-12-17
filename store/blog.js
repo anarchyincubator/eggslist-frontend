@@ -6,7 +6,6 @@ export const actions = {
   async getBlog({ commit }, slug) {
     try {
       const response = await this.$axios.$get(`/blogs/blogs/${slug}`);
-      console.log(response);
       return { blog: BlogFull(response) };
     } catch (e) {}
   },

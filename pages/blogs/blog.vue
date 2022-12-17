@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <PopupProfile ref="modal" :seller="blog.author || {}" />
     <div class="header-container">
       <div class="page__header" @click="handleToBlogs">
         <div class="page__header__button">
@@ -8,13 +9,29 @@
         <span> All Stories</span>
       </div>
       <div class="header-container__body">
-        <div class="header-container__left">
+        <SkeletonItem
+          v-if="loading"
+          :height="8"
+          :height-mobile="88"
+          :width="45.625"
+          :width-mobile="280"
+          class="header-container__left header-container__left--alone"
+        ></SkeletonItem>
+        <div
+          v-else
+          :class="[
+            'header-container__left',
+            { 'header-container__left--alone': !blog.image },
+          ]"
+        >
           <h5>{{ blog.category?.name }}</h5>
           <h1>{{ blog.title }}</h1>
           <div class="header-container__sub">
             <h5>By {{ blog.author?.firstName }} {{ blog.author?.lastName }}</h5>
             <div class="header-container__line" />
-            <div class="body-2">11 // 22</div>
+            <div class="body-2">
+              {{ $dayjs(blog.dateCreated).format("MMMM DD, YYYY") }}
+            </div>
           </div>
         </div>
         <img
@@ -23,24 +40,58 @@
           :src="blog.image"
         />
       </div>
+      <PatternTop class="header-container__bottom" />
     </div>
-    <div class="blog__container">
+    <div v-if="!loading" class="blog__container">
       <div class="blog__container__body" v-html="blog.body"></div>
       <SellerCard
         v-if="!loading"
         class="blog__container__card"
         :seller="blog.author"
+        @contact="handleShowPopup"
+      />
+      <div class="blog__container__line" />
+      <ShareItems
+        v-if="!loading"
+        class="blog__container__share"
+        :title="blog.title"
+      />
+    </div>
+    <SkeletonItem
+      v-else
+      :height="25"
+      :height-mobile="168"
+      :width="45.625"
+      :width-mobile="280"
+      class="blog__container blog__container__loading"
+    ></SkeletonItem>
+    <div v-if="!loading" class="blog__bottom">
+      <BlogsRelated
+        :blogs="blog.similarBlogs"
+        title="Related Stories"
+        :link="linkToRelated"
+        :loading="loading"
       />
     </div>
   </div>
 </template>
 
 <script>
+import PatternTop from "../../components/Page/index/PatternTop";
+import BlogsRelated from "../../components/Blogs/BlogsRelated";
 import SellerCard from "../../components/Blogs/SellerCard";
+import PopupProfile from "../../components/Page/catalog/PopupProfile";
+import ShareItems from "../../components/Page/blog/ShareItems";
+import SkeletonItem from "../../components/Common/SkeletonItem";
 export default {
   name: "BlogPage",
   components: {
+    SkeletonItem,
     SellerCard,
+    BlogsRelated,
+    PopupProfile,
+    PatternTop,
+    ShareItems,
   },
   data() {
     return {
@@ -48,16 +99,35 @@ export default {
       loading: true,
     };
   },
-  async mounted() {
-    this.loading = true;
-    await this.getBlog();
-    this.loading = false;
+  computed: {
+    linkToRelated() {
+      const id = this.blog && this.blog.author?.id;
+      return `/profile?id=${id}`;
+    },
   },
+  watch: {
+    "$route.query": {
+      async handler(val) {
+        window.scrollTo(0, 0);
+        await this.getBlog();
+      },
+    },
+  },
+
+  async mounted() {
+    await this.getBlog();
+  },
+
   methods: {
     handleToBlogs() {
       this.$router.push("/blogs");
     },
+    handleShowPopup() {
+      this.$refs.modal.show();
+    },
     async getBlog() {
+      this.blog = {};
+      this.loading = true;
       const slug = this.$route.query["slug"];
 
       if (!slug) {
@@ -66,7 +136,7 @@ export default {
 
       const { blog } = await this.$store.dispatch("blog/getBlog", slug);
       this.blog = { ...blog };
-      console.log(blog);
+      this.loading = false;
     },
   },
 };
@@ -84,6 +154,12 @@ export default {
         object-fit: cover;
         margin-top: 3rem;
         margin-bottom: 3rem;
+        @include layout-mobile() {
+          width: 100% !important;
+          margin: mvw(0px) 0;
+          border-radius: mvw(30px);
+          height: mvw(210px) !important;
+        }
       }
       a {
         color: $neutral-30;
@@ -97,15 +173,29 @@ export default {
         font-size: 1.25rem;
         line-height: 2rem;
         margin-top: 2rem;
+        @include layout-mobile() {
+          font-size: mvw(16px);
+          margin-top: mvw(32px);
+          line-height: mvw(32px);
+        }
       }
       h5 {
         margin-top: 2rem;
+        @include layout-mobile() {
+          margin-top: mvw(32px);
+        }
       }
       h2 {
         margin-top: 2rem;
+        @include layout-mobile() {
+          margin-top: mvw(32px);
+        }
       }
       br {
         margin: 1rem 0;
+        @include layout-mobile() {
+          margin: mvw(16px) 0;
+        }
       }
     }
   }
@@ -113,15 +203,54 @@ export default {
 </style>
 <style lang="scss" scoped>
 .page {
-  padding-bottom: 7.5rem;
-
+  .blog__bottom {
+    background-color: $primary-white;
+    width: 100vw;
+    box-sizing: border-box;
+    margin-left: calc(0rem - $padding-with-width);
+    padding: 8rem $padding-with-width 8rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    @include layout-mobile() {
+      margin-left: -$padding-left-mobile;
+      padding: mvw(64px) $padding-left-mobile mvw(40px) $padding-left-mobile;
+    }
+  }
   .blog__container {
     display: flex;
     flex-direction: column;
     width: 53.125rem;
     margin: 0 auto;
+
+    @include layout-mobile() {
+      width: 100%;
+    }
+
+    &__loading {
+      margin-bottom: 4rem;
+    }
+
     &__card {
       margin-top: 5rem;
+    }
+    &__line {
+      height: 1px;
+      width: 100%;
+      background-color: $neutral-70;
+      margin-top: 5rem;
+      margin-bottom: 3rem;
+      @include layout-mobile() {
+        margin-top: mvw(64px);
+        margin-bottom: mvw(24px);
+        height: mvw(1px);
+      }
+    }
+    &__share {
+      margin-bottom: 9.375rem;
+      @include layout-mobile() {
+        margin-bottom: mvw(32px);
+      }
     }
   }
   &__header {
@@ -184,7 +313,7 @@ export default {
     position: relative;
     @include layout-mobile() {
       margin-left: -$padding-left-mobile;
-      padding: mvw(64px) $padding-left-mobile mvw(40px) $padding-left-mobile;
+      padding: mvw(84px) $padding-left-mobile mvw(0px) $padding-left-mobile;
     }
     &__body {
       display: flex;
@@ -202,22 +331,53 @@ export default {
     &__sub {
       display: flex;
       align-items: center;
+      @include layout-mobile() {
+        flex-direction: column;
+      }
+    }
+    &__bottom {
+      display: none;
+      @include layout-mobile() {
+        position: absolute;
+        display: block;
+        background-size: cover;
+        height: mvw(40px);
+        bottom: mvw(-20px);
+        width: 101%;
+        transform: scale(1);
+      }
     }
     &__line {
       height: 1.5rem;
       margin: 0 0.75rem;
       width: 1px;
       background-color: $primary-black;
+      @include layout-mobile() {
+        display: none;
+      }
+    }
+    &__left {
+      margin-bottom: 5rem;
+      &--alone {
+        margin-left: 13.75rem;
+        @include layout-mobile() {
+          margin-left: 0;
+        }
+      }
+      @include layout-mobile() {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
     }
     h1 {
       color: $primary-black;
       margin-bottom: 2rem;
       margin-top: 1.5rem;
       width: 39.375rem;
+      text-align: left;
       @include layout-mobile() {
         width: auto;
-        margin-top: mvw(64px);
-        margin-bottom: mvw(16px);
+        text-align: center;
       }
     }
   }
@@ -233,6 +393,12 @@ export default {
     object-fit: cover;
     margin-left: 8.625rem;
     margin-top: -5rem;
+    @include layout-mobile() {
+      margin-top: mvw(20px);
+      width: 100vw;
+      height: mvw(210px);
+      margin-left: -$padding-left-mobile;
+    }
   }
 }
 </style>
