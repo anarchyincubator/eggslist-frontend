@@ -15,7 +15,7 @@
       <nuxt-link class="ceil menu-1" to="/about" @click.native="handleClose">
         About
       </nuxt-link>
-      <nuxt-link class="ceil menu-1" to="/stories" @click.native="handleClose">
+      <nuxt-link class="ceil menu-1" to="/blogs" @click.native="handleClose">
         Our stories
       </nuxt-link>
       <div

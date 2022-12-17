@@ -19,7 +19,6 @@
       :products="products"
     ></PopularList>
     <StoriesList
-      v-if="false"
       :loading="loadingBlogs"
       class="page__stories"
       :stories="blogs"
@@ -89,10 +88,10 @@ export default {
     this.$store.dispatch("quotes/getQuotes").then(({ quotes }) => {
       this.quotes.push(...quotes);
     });
-    /* this.$store.dispatch("blog/getBlogs").then(({ blogs }) => {
+    this.$store.dispatch("blog/getFeaturedBlogs").then(({ blogs }) => {
       this.blogs.push(...blogs);
       this.loadingBlogs = false;
-    });*/
+    });
   },
   methods: {
     async refreshData() {
