@@ -136,7 +136,9 @@
         >We want to grow our virtual farmers market - tell us a little about
         what makes you special as a farm.</span
       >
-      <a class="profile__story__edit button-1">Write a story</a>
+      <a class="profile__story__edit button-1" @click="handleNewStory"
+        >Write a story</a
+      >
       <a
         v-if="user.hasPostedBlogs"
         class="profile__story__edit button-1"
@@ -207,6 +209,9 @@ export default {
     await this.$store.dispatch("seller/getRecentTransactions");
   },
   methods: {
+    handleNewStory() {
+      this.$router.push("/blogs/new");
+    },
     handleToStories() {
       this.$router.push(`/blogs/filter?user-id=${this.mainUser.id}`);
     },
