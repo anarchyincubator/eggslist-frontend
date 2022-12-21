@@ -169,6 +169,7 @@ export default {
         .dispatch("blog/getBlogs", {
           page: this.page,
           search: this.searchInput.trim().toLowerCase(),
+          category: this.currentCategory && this.currentCategory.key,
         })
         .then(({ blogs }) => {
           if (blogs?.length === 0) {
