@@ -7,6 +7,7 @@
         :is-edit="isEdit"
         class="blogs-list__item"
         :blog="blog"
+        @delete="handleDelete"
       ></BlogsItem>
     </div>
     <div v-else class="blogs-list">
@@ -51,6 +52,9 @@ export default {
     };
   },
   methods: {
+    handleDelete() {
+      this.$emit("delete");
+    },
     visibilityChanged(isVisible, entry) {
       this.isVisible = isVisible;
 

@@ -44,6 +44,17 @@ export const actions = {
       }
     });
   },
+  async deleteBlog({}, slug) {
+    return new Promise(async (resolve, reject) => {
+      let response;
+      try {
+        const response = await this.$axios.$delete(`/blogs/blogs/${slug}`);
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
   async saveBlog({ commit }, body) {
     return new Promise(async (resolve, reject) => {
       try {
