@@ -28,7 +28,11 @@
         to="/profile/edit"
         >Edit Profile</nuxt-link
       >
-      <nuxt-link v-if="false" to="" class="profile__main__stories">
+      <nuxt-link
+        v-else-if="user.hasPostedBlogs"
+        :to="`/blogs/filter?user-id${user.id}`"
+        class="profile__main__stories"
+      >
         <span class="button-1">My Stories</span>
         <p><img src="@/assets/images/icons/arrow-forward.svg" /></p>
       </nuxt-link>
@@ -125,14 +129,20 @@
     <PaymentProfileCard
       v-else-if="isAuth && user.isVerified && fullUser.isStriped"
     />
-    <div v-if="isAuth && false" class="profile__story">
+    <div v-if="isAuth && user.isVerified" class="profile__story">
       <div class="profile__story__border" />
       <h4>Tell the community about your farm!</h4>
-      <span class="body-2"
+      <span v-if="!user.hasPostedBlogs" class="body-2"
         >We want to grow our virtual farmers market - tell us a little about
         what makes you special as a farm.</span
       >
       <a class="profile__story__edit button-1">Write a story</a>
+      <a
+        v-if="user.hasPostedBlogs"
+        class="profile__story__edit button-1"
+        @click="handleToStories"
+        >My Stories</a
+      >
     </div>
   </div>
 </template>
@@ -197,6 +207,9 @@ export default {
     await this.$store.dispatch("seller/getRecentTransactions");
   },
   methods: {
+    handleToStories() {
+      this.$router.push(`/blogs/filter?user-id=${this.mainUser.id}`);
+    },
     async handleAddFavourite() {
       this.loadingButton = true;
       try {
@@ -439,6 +452,9 @@ export default {
         margin-bottom: mvw(24px);
       }
     }
+    a {
+      cursor: pointer;
+    }
     span {
       margin: 1rem 0;
     }
@@ -446,6 +462,14 @@ export default {
       margin: 0;
       background-color: transparent;
       padding: 0 mvw(32px) mvw(32px) mvw(32px);
+    }
+  }
+  &__story {
+    &__edit {
+      margin-top: 1rem;
+    }
+    span {
+      margin-bottom: 0;
     }
   }
 }

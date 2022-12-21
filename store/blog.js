@@ -1,11 +1,23 @@
 import Blog from "@/utils/adapters/Blog";
 import BlogFull from "@/utils/adapters/BlogFull";
-export const state = () => ({});
-export const getters = {};
+import BlogCategory from "../utils/adapters/BlogCategory";
+import BigProduct from "../utils/adapters/BigProduct";
+export const state = () => ({
+  categories: [],
+  editProduct: null,
+});
+export const getters = {
+  categories: (state) =>
+    (state.categories && state.categories?.map(BlogCategory)) || [],
+  editBlog: (state) => (state.editBlog ? BlogFull(state.editBlog) : null),
+};
 export const actions = {
-  async getBlog({ commit }, slug) {
+  async getBlog({ commit }, { slug, edit = false }) {
     try {
       const response = await this.$axios.$get(`/blogs/blogs/${slug}`);
+
+      if (edit) commit("setEditBlog", response);
+
       return { blog: BlogFull(response) };
     } catch (e) {}
   },
@@ -18,7 +30,45 @@ export const actions = {
   async getCategoriesBlogs({ commit }) {
     try {
       const response = await this.$axios.$get("/blogs/categories");
+      commit("setCategories", response);
       return { categories: response };
+    } catch (e) {}
+  },
+  async createBlog({ commit }, body) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.$axios.$post("/blogs/blogs/create", {
+          title: body.title,
+          image: body.image,
+          body: body.body,
+          category_slug: body.slug,
+        });
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
+  async saveBlog({ commit }, body) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.$axios.$patch(`/blogs/blogs/${body.id}`, {
+          title: body.title,
+          image: body.image,
+          body: body.body,
+          category_slug: body.slug,
+        });
+        await resolve(response);
+      } catch (e) {
+        reject(e.response);
+      }
+    });
+  },
+  async getCategories({ commit }) {
+    try {
+      const response = await this.$axios.$get("/blogs/categories");
+      commit("setCategories", response);
+      return { categories: response.map(BlogCategory) };
     } catch (e) {}
   },
   async getBlogs({ commit }, params) {
@@ -45,4 +95,11 @@ export const actions = {
     }
   },
 };
-export const mutations = {};
+export const mutations = {
+  setCategories(state, categories) {
+    state.categories = categories;
+  },
+  setEditBlog(state, blog) {
+    state.editBlog = blog;
+  },
+};

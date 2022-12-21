@@ -14,7 +14,15 @@
     "lint:style-fix": "npm run lint:style -- --fix"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^35.4.0",
     "@ckeditor/ckeditor5-build-classic": "^35.3.2",
+    "@ckeditor/ckeditor5-editor-classic": "^35.4.0",
+    "@ckeditor/ckeditor5-essentials": "^35.4.0",
+    "@ckeditor/ckeditor5-link": "^35.4.0",
+    "@ckeditor/ckeditor5-paragraph": "^35.4.0",
+    "@ckeditor/ckeditor5-theme-lark": "^35.4.0",
+    "@ckeditor/ckeditor5-upload": "^35.4.0",
+    "@ckeditor/ckeditor5-vue": "^4.0.1",
     "@ckeditor/ckeditor5-vue2": "^3.0.1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/dayjs": "^1.4.1",
