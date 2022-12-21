@@ -36,6 +36,7 @@
 <script>
 import CustomButton from "../../components/Common/CustomButton";
 import BlogForm from "../../components/Page/blog/BlogForm";
+import { generateFormDataBlog } from "../../utils/data";
 
 export default {
   name: "EditBlog",
@@ -121,15 +122,18 @@ export default {
 
       let data = {
         title: this.formData.blog.title,
-        slug: this.formData.blog.selectsCategory.slug,
+        slug: this.formData.blog.selectsCategory.key,
         body: this.formData.blog.body,
         id: this.editBlog.slug,
       };
 
       if (this.formData.blog.file) data.image = this.formData.blog.file;
-
+      let formData = generateFormDataBlog(data);
       try {
-        let response = await this.$store.dispatch("blog/saveBlog", data);
+        let response = await this.$store.dispatch("blog/saveBlog", {
+          params: formData,
+          id: data.id,
+        });
       } catch (e) {}
 
       this.loadingSave = false;
