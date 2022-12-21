@@ -87,11 +87,14 @@ export default {
     handleChangeCity: debounce(function (val) {
       let city = val.toLowerCase().replace("-", " ");
       let states = [];
-      this.resultCity = this.cities.filter((obj) => {
-        if (obj.state_full_name.toLowerCase().includes(city)) states.push(obj);
+      this.resultCity = [
+        ...this.cities.filter((obj) => {
+          if (obj.state_full_name.toLowerCase().includes(city))
+            states.push(obj);
 
-        return obj.name.toLowerCase().includes(city);
-      });
+          return obj.name.toLowerCase().includes(city);
+        }),
+      ];
 
       this.resultCity.push(...states);
       this.resultCity = this.resultCity.map((obj) => {
