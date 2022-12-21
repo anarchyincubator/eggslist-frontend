@@ -101,6 +101,7 @@ export default {
     },
     handleNewStory() {
       this.$router.push("/blogs/new");
+      this.handleClose();
     },
     handleGoMain() {
       this.$router.push("/");
