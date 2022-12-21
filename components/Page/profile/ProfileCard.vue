@@ -30,7 +30,7 @@
       >
       <nuxt-link
         v-else-if="user.hasPostedBlogs"
-        :to="`/blogs/filter?user-id${user.id}`"
+        :to="`/blogs/filter?user-id=${user.id}`"
         class="profile__main__stories"
       >
         <span class="button-1">My Stories</span>
