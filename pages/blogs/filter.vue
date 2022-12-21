@@ -64,7 +64,7 @@ export default {
   computed: {
     isUser() {
       const id = this.$route.query["user-id"];
-      if (!id) return false;
+      if (!id || !this.user) return false;
 
       return this.user.id === Number(id);
     },
