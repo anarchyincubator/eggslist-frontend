@@ -134,7 +134,7 @@ export default {
         return this.$nuxt.error({ statusCode: 404, message: "err message" });
       }
 
-      const { blog } = await this.$store.dispatch("blog/getBlog", slug);
+      const { blog } = await this.$store.dispatch("blog/getBlog", { slug });
       this.blog = { ...blog };
       this.loading = false;
     },

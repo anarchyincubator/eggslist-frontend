@@ -22,6 +22,7 @@
         :blogs="blogs"
         :loading="loadingBlogs"
         :is-complete="completeLoader"
+        :is-edit="isUser"
         @loadMore="loadMoreBlogs"
       ></BlogsList>
     </div>
@@ -58,6 +59,18 @@ export default {
         },
       },
     };
+  },
+  computed: {
+    isUser() {
+      const id = this.$route.query["user-id"];
+
+      if (!id) return false;
+
+      return this.user.id === id;
+    },
+    user() {
+      return this.$store.getters["user/user"];
+    },
   },
   watch: {
     "$route.query": {

@@ -4,6 +4,7 @@
       <BlogsItem
         v-for="(blog, index) in blogs"
         :key="index"
+        :is-edit="isEdit"
         class="blogs-list__item"
         :blog="blog"
       ></BlogsItem>
@@ -38,6 +39,10 @@ export default {
     isComplete: {
       type: Boolean,
       required: true,
+    },
+    isEdit: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

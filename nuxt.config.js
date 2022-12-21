@@ -1,3 +1,10 @@
+import path from "path";
+import webpack from "webpack";
+
+// added by thamie for ckeditor
+import CKEditorWebpackPlugin from "@ckeditor/ckeditor5-dev-webpack-plugin";
+import { styles } from "@ckeditor/ckeditor5-dev-utils";
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
