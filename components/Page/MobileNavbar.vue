@@ -51,7 +51,7 @@
         Post A Listing
       </CustomButton>
       <CustomButton
-        v-if="user.isVerified"
+        v-if="isAuthenticated && user.isVerified"
         theme="secondary"
         class="navbar-container__button--bottom button-2"
         @click="handleNewStory"
