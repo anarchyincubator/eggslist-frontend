@@ -45,15 +45,7 @@
 </template>
 
 <script>
-import SimpleUploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter";
-import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
-
-import EssentialsPlugin from "@ckeditor/ckeditor5-essentials/src/essentials";
-import BoldPlugin from "@ckeditor/ckeditor5-basic-styles/src/bold";
-import ItalicPlugin from "@ckeditor/ckeditor5-basic-styles/src/italic";
-import LinkPlugin from "@ckeditor/ckeditor5-link/src/link";
-import ParagraphPlugin from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-
+import Editor from "../../../plugins/ckeditor/build/ckeditor";
 import UploadPhoto from "../../Common/UploadPhoto";
 import CustomInput from "../../Common/CustomInput";
 import CustomDropdown from "../../Common/CustomDropdown";
@@ -73,20 +65,15 @@ export default {
   },
   data() {
     return {
-      editor: ClassicEditor,
+      editor: Editor,
       editorConfig: {
         simpleUpload: {
-          uploadUrl: `${process.env.BACKEND_URL}/blogs/blogs/ckeditor-upload`,
+          uploadUrl: `${this.$config.url}/blogs/blogs/ckeditor-upload`,
           withCredentials: true,
+          headers: {
+            Authorization: this.$axios.defaults.headers.common["Authorization"],
+          },
         },
-        plugins: [
-          SimpleUploadAdapter,
-          EssentialsPlugin,
-          BoldPlugin,
-          ItalicPlugin,
-          LinkPlugin,
-          ParagraphPlugin,
-        ],
         toolbar: ["heading", "|", "undo", "redo", "|", "link", "uploadImage"],
         heading: {
           options: [
