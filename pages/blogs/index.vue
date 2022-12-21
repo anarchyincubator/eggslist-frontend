@@ -243,6 +243,7 @@ export default {
       }
       &-button {
         font-weight: 600;
+        width: 10rem;
         height: 3.5rem;
         padding: 0;
         @include layout-mobile() {

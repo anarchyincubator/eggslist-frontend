@@ -8,7 +8,7 @@
     </div>
     <div class="page__content">
       <h1>Write A Blog Post</h1>
-      <BlogForm v-model="formData"></BlogForm>
+      <BlogForm ref="form" v-model="formData"></BlogForm>
       <div class="page__content__buttons">
         <CustomButton
           class="page__content__buttons--verified"
@@ -101,6 +101,14 @@ export default {
 
       if (!this.validate()) {
         this.loadingSave = false;
+        if (this.formData.errors.title) {
+          this.$refs.form.scrollToElem("title");
+          return;
+        }
+        if (this.formData.errors.category) {
+          this.$refs.form.scrollToElem("category");
+          return;
+        }
         return;
       }
 

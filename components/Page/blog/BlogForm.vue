@@ -9,6 +9,7 @@
     />
     <div class="form__content__row">
       <CustomInput
+        id="title"
         v-model="dataValue.blog.title"
         :is-in-valid="Boolean(dataValue.errors.title)"
         :error-text="dataValue.errors.title"
@@ -21,6 +22,7 @@
     </div>
     <div class="form__content__row">
       <CustomDropdown
+        id="category"
         v-model="dataValue.blog.selectsCategory"
         class="form__content__row--input"
         :is-in-valid="Boolean(dataValue.errors.category)"
@@ -118,6 +120,14 @@ export default {
       }));
     },
   },
+  methods: {
+    scrollToElem(refName) {
+      var element = document.getElementById(refName);
+      var top = element.offsetTop;
+
+      window.scrollTo({ top: top - 200, behavior: "smooth" });
+    },
+  },
 };
 </script>
 
@@ -129,6 +139,7 @@ export default {
 
 <style lang="scss" scoped>
 .form {
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   &__content {

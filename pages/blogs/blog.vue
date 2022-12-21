@@ -180,6 +180,9 @@ export default {
         }
       }
       h5 {
+        font-size: 1.75rem;
+        font-weight: 400;
+        line-height: 2.5rem;
         margin-top: 2rem;
         @include layout-mobile() {
           margin-top: mvw(32px);

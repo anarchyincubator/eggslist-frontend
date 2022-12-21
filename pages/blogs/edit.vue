@@ -8,7 +8,7 @@
     </div>
     <div class="page__content">
       <h1>Edit A Blog Post</h1>
-      <BlogForm v-model="formData"></BlogForm>
+      <BlogForm ref="form" v-model="formData"></BlogForm>
       <div class="page__content__buttons">
         <CustomButton
           class="page__content__buttons--verified"
@@ -75,7 +75,7 @@ export default {
   },
   async mounted() {
     this.formData.blog.title = this.editBlog.title;
-    this.formData.blog.file = this.editBlog.image;
+    this.formData.blog.preview = this.editBlog.image;
     this.formData.blog.body = this.editBlog.body;
     await this.$store.dispatch("blog/getCategoriesBlogs");
     this.setCategory();
@@ -117,6 +117,15 @@ export default {
 
       if (!this.validate()) {
         this.loadingSave = false;
+
+        if (this.formData.errors.title) {
+          this.$refs.form.scrollToElem("title");
+          return;
+        }
+        if (this.formData.errors.category) {
+          this.$refs.form.scrollToElem("category");
+          return;
+        }
         return;
       }
 
