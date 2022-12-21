@@ -51,9 +51,10 @@
         Post A Listing
       </CustomButton>
       <CustomButton
-        v-if="false"
+        v-if="user.isVerified"
         theme="secondary"
         class="navbar-container__button--bottom button-2"
+        @click="handleNewStory"
       >
         Write a Story
       </CustomButton>
@@ -97,6 +98,9 @@ export default {
     handleClickLogin() {
       this.$store.commit("setAuthComponent", true);
       this.opened = false;
+    },
+    handleNewStory() {
+      this.$router.push("/blogs/new");
     },
     handleGoMain() {
       this.$router.push("/");
