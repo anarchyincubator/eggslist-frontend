@@ -23,6 +23,7 @@
         :loading="loadingBlogs"
         :is-complete="completeLoader"
         :is-edit="isUser"
+        @delete="handleDelete"
         @loadMore="loadMoreBlogs"
       ></BlogsList>
     </div>
@@ -63,10 +64,9 @@ export default {
   computed: {
     isUser() {
       const id = this.$route.query["user-id"];
-
       if (!id) return false;
 
-      return this.user.id === id;
+      return this.user.id === Number(id);
     },
     user() {
       return this.$store.getters["user/user"];
@@ -88,7 +88,17 @@ export default {
   mounted() {
     this.initBlogs();
   },
+
   methods: {
+    handleDelete() {
+      window.scrollTo(0, 0);
+      this.loadingBlogs = true;
+      this.currentType = null;
+      this.page = 1;
+      this.blogs = [];
+      this.titleLoads = false;
+      this.initBlogs();
+    },
     async initBlogs() {
       if (this.$route.query["user-id"]) {
         this.currentType = "author";

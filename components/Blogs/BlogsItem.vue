@@ -2,7 +2,7 @@
   <div class="blog-item" @click="handleToSlug">
     <div :style="backgroundStyle" class="blog-item__background">
       <div
-        v-if="!isMobile && isEdit && isHover"
+        v-if="isEdit"
         :class="[
           'blog-item__background__edit',
           { 'blog-item__background__edit--active': isEditActive },
@@ -47,7 +47,6 @@ export default {
   },
   data() {
     return {
-      isHover: false,
       isEditActive: false,
     };
   },
@@ -68,8 +67,13 @@ export default {
     },
   },
   methods: {
-    handleEdit() {},
-    handleDelete() {},
+    handleEdit() {
+      this.$router.push(`/blogs/edit?slug=${this.blog.slug}`);
+    },
+    handleDelete() {
+      this.$store.dispatch("blog/deleteBlog", this.blog.slug);
+      this.$emit("delete");
+    },
     handleToSlug() {
       this.$router.push(`/blogs/blog?slug=${this.blog.slug}`);
     },
@@ -82,7 +86,8 @@ export default {
       this.$router.push(`/blogs/filter?user-id=${this.blog.author?.id}`);
     },
     handleClickEdit(e) {
-      this.isEditActive = true;
+      this.isEditActive = !this.isEditActive;
+      e.stopPropagation();
     },
   },
 };
@@ -105,6 +110,7 @@ export default {
     height: 16.875rem;
     background-color: $neutral-70;
     background-size: cover;
+    position: relative;
     &__edit {
       width: 4.875rem;
       height: 3rem;
@@ -143,16 +149,26 @@ export default {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         border-radius: 0.75rem;
         width: 12.125rem;
-        height: 7.9375rem;
-        bottom: calc(-8.3125rem);
+        height: 4.9375rem;
+        bottom: calc(-5.5rem);
         padding: 1rem;
         box-sizing: border-box;
         z-index: 10;
+        @include layout-mobile() {
+          width: mvw(120px);
+          height: mvw(65px);
+          bottom: calc(#{mvw(-70px)});
+        }
         p {
           margin-bottom: 0.75rem;
           cursor: pointer;
           font-size: 0.875rem;
           line-height: 1rem;
+          @include layout-mobile() {
+            line-height: mvw(14px);
+            font-size: mvw(14px);
+            margin-bottom: mvw(14px);
+          }
           &:hover {
             opacity: 0.8;
           }
@@ -160,8 +176,14 @@ export default {
         strong {
           cursor: pointer;
           color: #b00020;
+          font-size: 0.875rem;
+          line-height: 1rem;
           &:hover {
             opacity: 0.8;
+          }
+          @include layout-mobile() {
+            line-height: mvw(14px);
+            font-size: mvw(14px);
           }
         }
       }
