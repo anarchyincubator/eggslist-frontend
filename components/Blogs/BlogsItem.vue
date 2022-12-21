@@ -174,7 +174,7 @@ export default {
   }
   &__category {
     margin: 1rem 0;
-    width: min-content;
+    width: max-content;
     @include layout-mobile() {
       margin-top: mvw(16px);
       margin-bottom: mvw(8px);

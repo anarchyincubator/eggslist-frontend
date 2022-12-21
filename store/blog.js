@@ -37,12 +37,7 @@ export const actions = {
   async createBlog({ commit }, body) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await this.$axios.$post("/blogs/blogs/create", {
-          title: body.title,
-          image: body.image,
-          body: body.body,
-          category_slug: body.slug,
-        });
+        const response = await this.$axios.$post("/blogs/blogs/create", body);
         await resolve(response);
       } catch (e) {
         reject(e.response);
@@ -52,12 +47,10 @@ export const actions = {
   async saveBlog({ commit }, body) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await this.$axios.$patch(`/blogs/blogs/${body.id}`, {
-          title: body.title,
-          image: body.image,
-          body: body.body,
-          category_slug: body.slug,
-        });
+        const response = await this.$axios.$patch(
+          `/blogs/blogs/${body.id}`,
+          body.params
+        );
         await resolve(response);
       } catch (e) {
         reject(e.response);

@@ -37,6 +37,7 @@
 import { debounce } from "lodash";
 import CustomButton from "../../components/Common/CustomButton";
 import BlogForm from "../../components/Page/blog/BlogForm";
+import { generateFormDataBlog } from "../../utils/data";
 
 export default {
   name: "NewBlog",
@@ -110,9 +111,11 @@ export default {
       };
 
       if (this.formData.blog.file) data.image = this.formData.blog.file;
+      let formData = generateFormDataBlog(data);
       try {
-        let response = await this.$store.dispatch("blog/createBlog", data);
-        console.log(response);
+        let response = await this.$store.dispatch("blog/createBlog", formData);
+        await this.$store.dispatch("user/getUserData");
+        await this.$router.push(`/blogs/blog?slug=${response.slug}`);
       } catch (e) {}
 
       this.loadingSave = false;
