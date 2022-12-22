@@ -143,6 +143,7 @@ export default {
           params: formData,
           id: data.id,
         });
+        await this.$router.push(`/blogs/blog?slug=${this.editBlog.slug}`);
       } catch (e) {}
 
       this.loadingSave = false;
