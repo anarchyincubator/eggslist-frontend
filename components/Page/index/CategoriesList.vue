@@ -49,6 +49,7 @@ export default {
       val.subs.forEach(({ slug }) => {
         query += `subcategory=${slug}&`;
       });
+      query += "ordering=relevance";
       this.$router.push(`/catalog${query}`);
     },
   },

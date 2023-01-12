@@ -44,6 +44,10 @@
         <p>phone number</p>
         <span>{{ phoneNumber }}</span>
       </div>
+      <div v-if="user.email" class="profile__main__bio">
+        <p>email</p>
+        <span>{{ user.email }}</span>
+      </div>
       <div v-if="user.bio" class="profile__main__bio">
         <p>bio</p>
         <span>{{ user.bio }}</span>
@@ -98,7 +102,34 @@
         >Get verified</nuxt-link
       >
     </div>
-    <div v-if="isAuth && user.isVerified" class="profile__story">
+    <div v-if="isVerifiedLabel" class="profile__payment">
+      <div class="profile__story__border" />
+      <h4>Allow online Payments for your customers</h4>
+      <span class="body-2"
+        >You need to become a verified seller before you can start accepting
+        online payments.</span
+      >
+      <div class="profile__story__edit profile__story__not-allowed button-1">
+        Set Up Online Payments
+      </div>
+    </div>
+    <div
+      v-else-if="isAuth && user.isVerified && !fullUser.isStriped"
+      class="profile__payment"
+    >
+      <div class="profile__payment__border" />
+      <h4>Allow online Payments for your customers</h4>
+      <span class="body-2"
+        >Please complete the Stripe registration to start selling online.</span
+      >
+      <a class="profile__payment__edit button-1" @click="handleClickPayment"
+        >Set Up Online Payments</a
+      >
+    </div>
+    <PaymentProfileCard
+      v-else-if="isAuth && user.isVerified && fullUser.isStriped"
+    />
+   <div v-if="isAuth && user.isVerified" class="profile__story">
       <div class="profile__story__border" />
       <h4>Tell the community about your farm!</h4>
       <span v-if="!user.hasPostedBlogs" class="body-2"
@@ -119,12 +150,13 @@
 </template>
 
 <script>
+import PaymentProfileCard from "./PaymentProfileCard";
 import CustomButton from "../../Common/CustomButton";
 import SettingsProfile from "./SettingsProfile";
 import AvatarCard from "../../Common/AvatarCard";
 export default {
   name: "ProfileCard",
-  components: { AvatarCard, SettingsProfile, CustomButton },
+  components: { AvatarCard, SettingsProfile, PaymentProfileCard, CustomButton },
   props: {
     user: {
       type: Object,
@@ -142,6 +174,11 @@ export default {
     };
   },
   computed: {
+    fullUser() {
+      if (!this.isAuth) return {};
+
+      return this.$store.getters["user/fullUser"];
+    },
     phoneNumber() {
       let number = this.user.phone;
       return (
@@ -164,6 +201,13 @@ export default {
       return this.$store.getters["auth/isAuthenticated"];
     },
   },
+  async mounted() {
+    if (!this.isAuth) return;
+
+    if (!this.fullUser.isStriped) return;
+
+    await this.$store.dispatch("seller/getRecentTransactions");
+  },
   methods: {
     handleNewStory() {
       this.$router.push("/blogs/new");
@@ -178,6 +222,10 @@ export default {
         this.$emit("changeFavorite");
       } catch (e) {}
       this.loadingButton = false;
+    },
+    async handleClickPayment() {
+      const resp = await this.$store.dispatch("seller/getSpriteConnection");
+      window.open(resp, "_self");
     },
   },
 };
@@ -379,6 +427,7 @@ export default {
     }
   }
   &__verified,
+  &__payment,
   &__story {
     text-align: center;
     display: flex;
@@ -391,6 +440,12 @@ export default {
     &__edit {
       padding-bottom: 0.125rem;
       border-bottom: 2px solid $primary-marigold;
+      cursor: pointer;
+    }
+    &__not-allowed {
+      color: $neutral-30;
+      border-bottom: 2px solid $neutral-70;
+      cursor: inherit;
     }
     &__border {
       width: 100%;

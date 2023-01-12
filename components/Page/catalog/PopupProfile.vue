@@ -30,6 +30,8 @@
         <div v-if="phoneNumber" class="modal-profile__phone-number">
           {{ phoneNumber }}
         </div>
+        <div class="modal-profile__phone">email</div>
+        <div class="modal-profile__phone-number">{{ seller.email }}</div>
         <CustomButton
           class="modal-profile__button"
           theme="primary"

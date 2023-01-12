@@ -24,7 +24,6 @@
       <input
         v-else-if="!mask"
         ref="input"
-        v-model="inputData"
         :autocomplete="Boolean(name) ? 'on' : 'off'"
         :name="name"
         :type="type"
@@ -35,8 +34,10 @@
           'input-container__input--error': isInValid,
           'input-container__input--lock': isLock,
         }"
+        :value="inputData"
         :disabled="isLock"
         :placeholder="placeholder"
+        @input="inputData = $event.target.value"
         @focusout="$emit('focusout')"
         @focus="handleEmit"
         @keyup.enter="$emit('enter')"
