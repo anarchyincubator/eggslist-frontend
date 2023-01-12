@@ -2,18 +2,15 @@
   <div class="stories">
     <div class="stories__top">
       <h2>Featured Stories</h2>
-      <nuxt-link tabindex="-1" to="/">View All Stories</nuxt-link>
+      <nuxt-link tabindex="-1" to="/blogs">View All Stories</nuxt-link>
     </div>
     <div v-if="!loading" class="list">
-      <BlogItem
+      <BlogsItem
         v-for="(story, index) in stories"
         :key="index"
-        :title="story.title"
         class="list__item"
-        :category="story.category"
-        :background="story.image"
-        :author-config="story.author"
-      ></BlogItem>
+        :blog="story"
+      ></BlogsItem>
     </div>
     <div v-else class="list">
       <SkeletonBlogItem
@@ -26,11 +23,11 @@
 </template>
 
 <script>
-import BlogItem from "../../Common/BlogItem";
+import BlogsItem from "../../Blogs/BlogsItem";
 import SkeletonBlogItem from "../../Common/SkeletonBlogItem";
 export default {
   name: "StoriesList",
-  components: { SkeletonBlogItem, BlogItem },
+  components: { SkeletonBlogItem, BlogsItem },
   props: {
     stories: {
       type: Array,

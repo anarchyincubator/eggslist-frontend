@@ -24,6 +24,18 @@ export function generateFormDataProduct(data) {
   formData.append("allow_delivery", data.delivery);
 
   if (data.price) formData.append("price", data.price);
+  return formData;
+}
+export function generateFormDataBlog(data) {
+  const formData = new FormData();
+
+  if (data.image) formData.append("image", data.image);
+
+  formData.append("title", data.title);
+
+  if (data.body) formData.append("body", data.body);
+
+  if (data.slug) formData.append("category_slug", data.slug);
 
   return formData;
 }

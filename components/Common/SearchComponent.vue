@@ -131,6 +131,7 @@ export default {
   methods: {
     handleFocus() {
       this.isFocus = true;
+
       if (this.result?.length > 0) this.isOpened = true;
     },
     handleFocusOut() {

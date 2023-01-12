@@ -27,7 +27,7 @@
           <div class="footer__top-center--first">
             <nuxt-link to="/catalog">Market</nuxt-link>
             <nuxt-link to="/about">About</nuxt-link>
-            <nuxt-link v-if="false" to="">Our stories</nuxt-link>
+            <nuxt-link to="/blogs">Our stories</nuxt-link>
           </div>
           <div class="footer__top-center--second">
             <nuxt-link to="">Account</nuxt-link>
