@@ -175,6 +175,7 @@ export default {
       position: absolute;
       width: 10rem;
       right: -10rem;
+      pointer-events: none;
       bottom: -5rem;
       border-radius: 0.75rem;
       border: 1px solid $neutral-70;
@@ -193,6 +194,7 @@ export default {
     }
     .body-2:hover + .upload__preview {
       opacity: 1;
+      pointer-events: inherit;
     }
   }
 }

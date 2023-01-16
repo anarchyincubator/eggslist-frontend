@@ -26,8 +26,10 @@
         <div class="modal-profile__city">
           {{ seller.location?.city }}, {{ seller.location?.state }}
         </div>
-        <div class="modal-profile__phone">phone number</div>
-        <div class="modal-profile__city">{{ phoneNumber }}</div>
+        <div v-if="phoneNumber" class="modal-profile__phone">phone number</div>
+        <div v-if="phoneNumber" class="modal-profile__phone-number">
+          {{ phoneNumber }}
+        </div>
         <div class="modal-profile__phone">email</div>
         <div class="modal-profile__phone-number">{{ seller.email }}</div>
         <CustomButton
@@ -94,6 +96,8 @@ export default {
       return this.$store.getters["auth/isAuthenticated"];
     },
     phoneNumber() {
+      if (!this.seller.phoneNumber) return null;
+
       let number = this.seller.phoneNumber;
       return (
         "(" +
@@ -133,6 +137,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
+  left: 0;
   top: 0;
   z-index: 1000;
   &__background {

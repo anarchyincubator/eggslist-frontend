@@ -53,6 +53,17 @@ h4 {
     line-height: mvw(24px);
   }
 }
+h5 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+
+  @include layout-mobile() {
+    font-size: mvw(16px);
+    line-height: mvw(24px);
+  }
+}
 h6 {
   font-size: 0.875rem;
   line-height: 1rem;
@@ -173,16 +184,6 @@ a, a:hover, a:focus, a:active {
   opacity: 0;
 }
 
-.layout-enter-active {
-  transition: all 0.1s ease-out;
-}
-.layout-leave-active {
-  transition: all 0.3s;
-}
-.layout-enter-from,
-.layout-leave-to {
-  opacity: 0;
-}
 
 .fade-enter-active,
 .fade-leave-active {

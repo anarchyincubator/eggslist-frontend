@@ -7,6 +7,7 @@ export default function (user) {
     firstName: user.first_name,
     lastName: user.last_name,
     location: user.user_location,
+    hasPostedBlogs: user.has_posted_blogs,
     isEmail: user.is_email_verified,
     isFavourite: user.is_favorite,
     phone: user.phone_number,

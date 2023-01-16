@@ -1,7 +1,9 @@
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
+  publicRuntimeConfig: {
+    url: process.env.BACKEND_URL,
+  },
   head: {
-    title: "egglist",
+    title: "Eggslist - Find Farmers Near You",
     htmlAttrs: {
       lang: "en",
     },
@@ -12,8 +14,49 @@ export default {
         content:
           "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no",
       },
-      { hid: "description", name: "description", content: "" },
+      {
+        hid: "description",
+        name: "description",
+        content:
+          "Egglist is your virtual Farmer’s Market, where you can buy, sell, and connect with local farmers and gardeners to keep your food fresh and local!",
+      },
       { name: "format-detection", content: "telephone=no" },
+      {
+        hid: "og:type",
+        name: "og:type",
+        content: "website",
+      },
+      {
+        hid: "og:title",
+        name: "og:title",
+        content: "Eggslist - Find Farmers Near You",
+      },
+      {
+        hid: "og:description",
+        name: "og:description",
+        content:
+          "Egglist is your virtual Farmer’s Market, where you can buy, sell, and connect with local farmers and gardeners to keep your food fresh and local!",
+      },
+      {
+        hid: "og:image",
+        name: "og:image",
+        content: "https://eggslist-frontend.ferialabs.com/main.jpg",
+      },
+      {
+        hid: "og:image:width",
+        name: "og:image:width",
+        content: "1200",
+      },
+      {
+        hid: "og:image:height",
+        name: "og:image:height",
+        content: "630",
+      },
+      {
+        hid: "twitter:card",
+        name: "twitter:card",
+        content: "large",
+      },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
@@ -38,6 +81,7 @@ export default {
     { src: "~/plugins/nuxtClientInit.js", mode: "client" },
     { src: "~/plugins/v-mask.js", mode: "client" },
     { src: "~/plugins/vueObserver.js", mode: "client" },
+    { src: "~/plugins/vue-editor.js", mode: "client" },
   ],
 
   components: true,
