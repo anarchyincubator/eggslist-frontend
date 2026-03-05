@@ -3,6 +3,8 @@
     <div
       :class="{ 'category-container__header--select': isSelect }"
       class="category-container__header"
+      :style="!hasSubs ? { cursor: 'pointer' } : {}"
+      @click="!hasSubs ? handleToggleListing() : null"
     >
       <img
         v-if="isSelect"
@@ -11,6 +13,7 @@
       />
       <p>{{ category.name }}</p>
       <div
+        v-if="hasSubs"
         class="category-container__header--arrow"
         :class="{ 'category-container__header--arrow--down': !isOpened }"
         @click="handleClickButton"
@@ -18,7 +21,7 @@
         <img src="@/assets/images/icons/arrow-up.svg" />
       </div>
     </div>
-    <div v-if="isOpened" class="category-container__main">
+    <div v-if="hasSubs && isOpened" class="category-container__main">
       <CustomCheckbox
         v-for="(sub, index) in category.subs"
         :key="index"
@@ -58,6 +61,9 @@ export default {
     };
   },
   computed: {
+    hasSubs() {
+      return this.category.subs && this.category.subs.length > 0;
+    },
     isSelect() {
       return this.selectedData.filter((item) => item).length > 0;
     },
@@ -80,6 +86,10 @@ export default {
   methods: {
     handleClickButton() {
       this.isOpened = !this.isOpened;
+    },
+    handleToggleListing() {
+      const isCurrentlySelected = this.selectedData[0] === true;
+      this.$emit("input", [!isCurrentlySelected]);
     },
     handleChangeValue() {
       this.$emit("input", this.selectedData);

@@ -131,6 +131,7 @@ export default {
       return this.categories.map((item) => ({
         key: item.name,
         value: item.name,
+        slug: item.slug,
         obj: item.subs,
         isListing: item.isListing,
       }));

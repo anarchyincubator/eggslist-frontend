@@ -64,7 +64,7 @@
           :key="index"
           v-model="selects[index]"
           :category="category"
-          :open-start="Boolean(query.subcategory)"
+          :open-start="Boolean(query.subcategory || query.category)"
           class="filter-container__category"
           @input="handleChangeSelect($event, index)"
         ></TheCategory>
@@ -137,17 +137,24 @@ export default {
       return this.$store.getters["cities"];
     },
     selectedSlugs() {
-      const obj = {};
+      const result = [];
       this.categories.forEach((item, index) => {
-        if (this.selects[index].length === 0) return;
+        if (!this.selects[index] || this.selects[index].length === 0) return;
 
-        obj[item.name] = item.subs
-          .filter((it, ind) => this.selects[index][ind])
-          .map(({ slug }) => {
-            return slug;
-          });
+        const hasSubs = item.subs && item.subs.length > 0;
+        if (!hasSubs) {
+          if (this.selects[index][0]) {
+            result.push({ type: "category", slug: item.slug });
+          }
+        } else {
+          item.subs
+            .filter((it, ind) => this.selects[index][ind])
+            .forEach(({ slug }) => {
+              result.push({ type: "subcategory", slug });
+            });
+        }
       });
-      return obj;
+      return result;
     },
   },
   watch: {
@@ -204,6 +211,16 @@ export default {
             }
           });
         });
+      } else if (this.query.category) {
+        const categoryQuery = Array.isArray(this.query.category)
+          ? this.query.category
+          : [this.query.category];
+        this.categories.forEach((item, ind) => {
+          const hasSubs = item.subs && item.subs.length > 0;
+          if (!hasSubs && categoryQuery.includes(item.slug)) {
+            this.$set(this.selects[ind], 0, true);
+          }
+        });
       } else {
         this.selects = this.categories.map((item) => []);
       }
@@ -236,11 +253,9 @@ export default {
     },
     generateQuery() {
       let query = "";
-      Object.values(this.selectedSlugs).forEach((item, index) => {
-        item.forEach((key, index) => {
-          query +=
-            `subcategory=${key}` + (index !== item.length - 1 ? "&" : "");
-        });
+      this.selectedSlugs.forEach((item, index) => {
+        if (index > 0) query += "&";
+        query += `${item.type === "category" ? "category" : "subcategory"}=${item.slug}`;
       });
 
       if (this.searchInput) {

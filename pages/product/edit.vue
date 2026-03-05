@@ -109,6 +109,7 @@ export default {
               this.formData.product.selectsCategory = {
                 key: item.name,
                 value: item.name,
+                slug: item.slug,
                 obj: item.subs,
                 isListing: item.isListing,
               };
@@ -126,6 +127,7 @@ export default {
           this.formData.product.selectsCategory = {
             key: listingCat.name,
             value: listingCat.name,
+            slug: listingCat.slug,
             obj: listingCat.subs,
             isListing: true,
           };
@@ -188,7 +190,9 @@ export default {
         description: this.formData.product.description,
       };
 
-      if (!isListing) {
+      if (isListing) {
+        data.category = this.formData.product.selectsCategory.slug;
+      } else {
         data.price = this.formData.product.price;
         data.subcategory = this.formData.product.selectSub.key;
       }

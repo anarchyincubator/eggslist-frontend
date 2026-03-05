@@ -140,7 +140,9 @@ export default {
         description: this.formData.product.description,
       };
 
-      if (!isListing) {
+      if (isListing) {
+        data.category = this.formData.product.selectsCategory.slug;
+      } else {
         data.price = this.formData.product.price;
         data.subcategory = this.formData.product.selectSub.key;
       }
