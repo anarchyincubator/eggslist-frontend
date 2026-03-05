@@ -19,6 +19,8 @@ export function generateFormDataProduct(data) {
 
   if (data.subcategory) formData.append("subcategory_slug", data.subcategory);
 
+  if (data.category) formData.append("category_slug", data.category);
+
   formData.append("allow_pickup", data.pickup);
 
   formData.append("allow_delivery", data.delivery);
