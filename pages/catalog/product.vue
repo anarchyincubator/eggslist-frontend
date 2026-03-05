@@ -512,6 +512,7 @@ export default {
     }
     &--desc {
       margin-bottom: 1.5rem;
+      white-space: pre-line;
       @include layout-mobile() {
         margin-bottom: mvw(24px);
       }
