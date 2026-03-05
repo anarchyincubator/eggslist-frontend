@@ -89,7 +89,7 @@ export default {
     this.formData.product.preview = this.editProduct.image;
     this.formData.product.delivery = this.editProduct.allowDelivery;
     this.formData.product.pickup = this.editProduct.allowPickup;
-    this.formData.product.price = Number(this.editProduct.price);
+    this.formData.product.price = this.editProduct.price != null ? Number(this.editProduct.price) : null;
     this.formData.product.description = this.editProduct.description;
     await this.$store.dispatch("categories/getCategories");
     this.setCategory();
@@ -102,28 +102,43 @@ export default {
       this.$router.go(-1);
     },
     setCategory() {
-      let res = {};
-      this.categories.forEach((item) => {
-        item.subs.forEach((sub) => {
-          if (sub.slug === this.editProduct.sub) {
-            this.formData.product.selectsCategory = {
-              key: item.slug,
-              value: item.name,
-              obj: item.subs,
-            };
-            this.formData.product.selectSub = {
-              key: sub.slug,
-              value: sub.name,
-            };
-          }
+      if (this.editProduct.sub) {
+        this.categories.forEach((item) => {
+          item.subs.forEach((sub) => {
+            if (sub.slug === this.editProduct.sub) {
+              this.formData.product.selectsCategory = {
+                key: item.name,
+                value: item.name,
+                obj: item.subs,
+                isListing: item.isListing,
+              };
+              this.formData.product.selectSub = {
+                key: sub.slug,
+                value: sub.name,
+              };
+            }
+          });
         });
-      });
+      } else {
+        // Listing category product (no subcategory) — match by checking isListing
+        const listingCat = this.categories.find((c) => c.isListing);
+        if (listingCat) {
+          this.formData.product.selectsCategory = {
+            key: listingCat.name,
+            value: listingCat.name,
+            obj: listingCat.subs,
+            isListing: true,
+          };
+        }
+      }
     },
     validate() {
       Object.values(this.formData.errors).forEach((key) => {
         this.formData.errors[key] = null;
       });
       let val = true;
+      const isListing =
+        this.formData.product.selectsCategory?.isListing || false;
 
       if (!this.formData.product.description) {
         this.formData.errors.description =
@@ -136,7 +151,7 @@ export default {
         val &= false;
       }
 
-      if (!this.formData.product.price) {
+      if (!isListing && !this.formData.product.price) {
         this.formData.errors.price = "Please enter a price of the listing.";
         val &= false;
       }
@@ -147,7 +162,7 @@ export default {
         val &= false;
       }
 
-      if (!this.formData.product.selectSub) {
+      if (!isListing && !this.formData.product.selectSub) {
         this.formData.errors.sub =
           "Please select a subcategory of the listing.";
         val &= false;
@@ -163,14 +178,20 @@ export default {
         return;
       }
 
+      const isListing =
+        this.formData.product.selectsCategory?.isListing || false;
+
       let data = {
         title: this.formData.product.title,
         delivery: this.formData.product.delivery,
         pickup: this.formData.product.pickup,
-        price: this.formData.product.price,
         description: this.formData.product.description,
-        subcategory: this.formData.product.selectSub.key,
       };
+
+      if (!isListing) {
+        data.price = this.formData.product.price;
+        data.subcategory = this.formData.product.selectSub.key;
+      }
 
       if (this.formData.product.file) data.image = this.formData.product.file;
 

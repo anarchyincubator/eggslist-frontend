@@ -3,5 +3,6 @@ export default function (category) {
     name: category.name,
     image: category.image,
     subs: category.subcategories,
+    isListing: category.is_listing,
   };
 }
