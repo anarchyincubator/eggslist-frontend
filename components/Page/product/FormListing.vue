@@ -33,7 +33,7 @@
         </span></CustomDropdown
       >
     </div>
-    <div class="form__content__row">
+    <div v-if="!isListing" class="form__content__row">
       <CustomDropdown
         v-model="dataValue.product.selectSub"
         :is-in-valid="Boolean(dataValue.errors.sub)"
@@ -47,7 +47,7 @@
         </span></CustomDropdown
       >
     </div>
-    <div class="form__content__row">
+    <div v-if="!isListing" class="form__content__row">
       <CustomInput
         v-model="dataValue.product.price"
         type="number"
@@ -66,7 +66,7 @@
         class="form__content__row--input"
         :is-in-valid="Boolean(dataValue.errors.description)"
         :error-text="dataValue.errors.description"
-        placeholder="Details about your product."
+        :placeholder="isListing ? 'Tell us about your farm or business.' : 'Details about your product.'"
         @focus="dataValue.errors.description = null"
         ><span slot="label" class="form__content__row--label"
           >Description <strong>*</strong>
@@ -124,11 +124,15 @@ export default {
     categories() {
       return this.$store.getters["categories/categories"];
     },
+    isListing() {
+      return this.dataValue.product.selectsCategory?.isListing || false;
+    },
     selectsCategory() {
       return this.categories.map((item) => ({
         key: item.name,
         value: item.name,
         obj: item.subs,
+        isListing: item.isListing,
       }));
     },
     selectsSub() {
@@ -149,6 +153,9 @@ export default {
   methods: {
     handleChangeCategory() {
       this.dataValue.product.selectSub = null;
+      if (this.isListing) {
+        this.dataValue.product.price = null;
+      }
     },
   },
 };

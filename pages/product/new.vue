@@ -89,6 +89,8 @@ export default {
         this.formData.errors[key] = null;
       });
       let val = true;
+      const isListing =
+        this.formData.product.selectsCategory?.isListing || false;
 
       if (!this.formData.product.description) {
         this.formData.errors.description =
@@ -101,7 +103,7 @@ export default {
         val &= false;
       }
 
-      if (!this.formData.product.price) {
+      if (!isListing && !this.formData.product.price) {
         this.formData.errors.price = "Please enter a price of the listing.";
         val &= false;
       }
@@ -112,7 +114,7 @@ export default {
         val &= false;
       }
 
-      if (!this.formData.product.selectSub) {
+      if (!isListing && !this.formData.product.selectSub) {
         this.formData.errors.sub =
           "Please select a subcategory of the listing.";
         val &= false;
@@ -128,14 +130,20 @@ export default {
         return;
       }
 
+      const isListing =
+        this.formData.product.selectsCategory?.isListing || false;
+
       let data = {
         title: this.formData.product.title,
         delivery: this.formData.product.delivery,
         pickup: this.formData.product.pickup,
-        price: this.formData.product.price,
         description: this.formData.product.description,
-        subcategory: this.formData.product.selectSub.key,
       };
+
+      if (!isListing) {
+        data.price = this.formData.product.price;
+        data.subcategory = this.formData.product.selectSub.key;
+      }
 
       if (this.formData.product.file) data.image = this.formData.product.file;
       try {
