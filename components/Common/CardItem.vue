@@ -50,7 +50,7 @@
       </div>
     </div>
     <h4>{{ title }}</h4>
-    <div class="card__price body-1">${{ price }}</div>
+    <div v-if="price" class="card__price body-1">${{ price }}</div>
     <div v-if="authorConfig" class="card__author">
       <span>{{ authorConfig.firstName }}</span>
       <img
