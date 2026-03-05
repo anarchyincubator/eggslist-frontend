@@ -61,7 +61,7 @@
             {{ product.title }}
           </h2>
 
-          <h3 class="product-page__description--price">${{ product.price }}</h3>
+          <h3 v-if="product.price" class="product-page__description--price">${{ product.price }}</h3>
           <div class="product-page__description--desc body-2">
             {{ product.description }}
           </div>
